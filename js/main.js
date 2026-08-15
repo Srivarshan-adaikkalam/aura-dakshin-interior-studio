@@ -647,6 +647,45 @@ function initBentoTilts() {
 }
 
 /* ────────────────────────────────────────────────────────────
+   CARD B — HERO SHOWCASE SWITCHER TABS
+──────────────────────────────────────────────────────────── */
+function initHeroShowcase() {
+  const tabs = document.querySelectorAll('.sc-tab');
+  const imgEl = document.getElementById('hero-showcase-img');
+  const titleEl = document.getElementById('sc-cap-title');
+  const subEl = document.getElementById('sc-cap-sub');
+
+  if (!tabs.length || !imgEl) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.classList.contains('active')) return;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      initAudio(); playClick();
+
+      const newImg = tab.dataset.img;
+      const newTitle = tab.dataset.title;
+      const newStyle = tab.dataset.style;
+
+      // Crossfade background image
+      gsap.to(imgEl, {
+        opacity: 0.3,
+        duration: 0.25,
+        ease: 'power2.in',
+        onComplete: () => {
+          imgEl.style.backgroundImage = `url('${newImg}')`;
+          if (titleEl) titleEl.textContent = newTitle;
+          if (subEl) subEl.textContent = newStyle;
+          gsap.to(imgEl, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+        }
+      });
+    });
+  });
+}
+
+/* ────────────────────────────────────────────────────────────
    CHIP SELECTOR (consultation form)
 ──────────────────────────────────────────────────────────── */
 function initChips() {
@@ -934,6 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initChips();
   initChrono();
   initForm();
+  initHeroShowcase();
   initServiceTilts();
   initBentoTilts();
   initBooks();

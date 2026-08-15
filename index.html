@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AURA INTERIORS | Bespoke Interior Design Studio, Bengaluru</title>
-  <meta name="description" content="Award-winning luxury interior design studio crafting timeless living sanctuaries across India. 12+ years, 186+ projects, 28 design awards.">
+  <title>AURA INTERIORS | Bespoke Architectural & Interior Design Studio</title>
+  <meta name="description" content="Award-winning luxury interior design studio crafting timeless living sanctuaries across India. 12+ years, 186+ projects, 28 design awards. Featured on Architectural Digest India AD100.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
@@ -56,6 +56,7 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="#hero"         class="nl active" data-txt="Studio">Studio</a></li>
         <li><a href="#journey"      class="nl" data-txt="Journey">Our Journey</a></li>
+        <li><a href="#process"      class="nl" data-txt="Process">Process</a></li>
         <li><a href="#services"     class="nl" data-txt="Expertise">Expertise</a></li>
         <li><a href="#about"        class="nl" data-txt="About">About Us</a></li>
         <li><a href="#consultation" class="nl" data-txt="Book">Book a Consult</a></li>
@@ -76,7 +77,7 @@
   <main>
 
     <!-- ====================================================
-    HERO — BENTO GRID LAYOUT
+    HERO — ELEVATED BENTO GRID LAYOUT
     ==================================================== -->
     <section id="hero" class="hero-sec">
       <div class="hero-bento">
@@ -85,19 +86,29 @@
         <article class="bc card-a" data-reveal>
           <div class="card-tag">
             <span class="tag-dot"></span>
-            <span>Award-winning design studio · Est. 2012</span>
+            <span>Architectural Digest AD100 Studio · Est. 2012</span>
           </div>
+
           <h1 class="hero-h1">
             <span class="h1l"><span class="h1w">CRAFTING</span></span>
             <span class="h1l"><em class="h1em">TIMELESS</em></span>
             <span class="h1l"><span class="h1w">SANCTUARIES</span></span>
           </h1>
+
           <p class="hero-p">
-            We sculpt interiors with sensory depth, organic materiality, and bespoke craftsmanship — from private urban lofts to sprawling estate residences across India.
+            We sculpt interior spaces with sensory depth, organic materiality, and bespoke 3D craftsmanship — from private urban penthouses in Mumbai to sprawling biophilic estate villas in Bengaluru &amp; Goa.
           </p>
+
+          <!-- Studio Highlights Micro Badges -->
+          <div class="hero-highlights">
+            <span class="hl-chip"><i class="fa-solid fa-gem"></i> Bespoke Craftsmanship</span>
+            <span class="hl-chip"><i class="fa-solid fa-cube"></i> Photorealistic 8K Walkthroughs</span>
+            <span class="hl-chip"><i class="fa-solid fa-award"></i> AD100 &amp; Elle Decor Winner</span>
+          </div>
+
           <div class="hero-ctas">
             <a href="#journey" class="pill pill-gold mag" id="hero-cta">
-              <span>Explore Our Work</span>
+              <span>Explore Scrollytelling Journey</span>
               <span class="pill-wave"></span>
             </a>
             <a href="#consultation" class="pill-ghost mag">
@@ -107,18 +118,38 @@
           </div>
         </article>
 
-        <!-- B: Hero image card -->
+        <!-- B: Interactive Multi-State Showcase Card -->
         <article class="bc card-b" data-reveal>
+          <!-- Interactive Room Switcher Tabs -->
+          <div class="showcase-tabs">
+            <button type="button" class="sc-tab active" data-img="assets/hero.jpg" data-title="Woodland Sanctuary · Bengaluru" data-style="Japandi Biophilic Villa">
+              <i class="fa-solid fa-couch"></i> Living
+            </button>
+            <button type="button" class="sc-tab" data-img="assets/hero_bedroom.jpg" data-title="The Whitefield Suite · Bengaluru" data-style="Warm Silk &amp; Walnut Haven">
+              <i class="fa-solid fa-bed"></i> Bedroom
+            </button>
+            <button type="button" class="sc-tab" data-img="assets/hero_lounge.jpg" data-title="Observatory Penthouse · Mumbai" data-style="Art Deco Bronze Lounge">
+              <i class="fa-solid fa-wine-glass"></i> Lounge
+            </button>
+          </div>
+
           <div class="hero-img-wrap">
-            <div class="hero-img" style="background-image: url('assets/hero.jpg')" aria-label="Luxury interior by Aura Interiors"></div>
-            <div class="hero-img-badge">
-              <span class="hib-num">12+</span>
-              <span class="hib-lbl">Years of Mastery</span>
+            <div class="hero-img" id="hero-showcase-img" style="background-image: url('assets/hero.jpg')" aria-label="Luxury interior design showcase by Aura"></div>
+            
+            <div class="hero-img-overlay">
+              <div class="sc-badge">
+                <span class="sc-badge-num">12+</span>
+                <span class="sc-badge-lbl">Years of Mastery</span>
+              </div>
             </div>
           </div>
+
           <div class="hero-img-cap">
-            <span>Woodland Sanctuary · Bengaluru 2024</span>
-            <i class="fa-solid fa-arrow-up-right"></i>
+            <div>
+              <span class="sc-cap-title" id="sc-cap-title">Woodland Sanctuary · Bengaluru</span>
+              <span class="sc-cap-sub" id="sc-cap-sub">Japandi Biophilic Villa · 4,100 sq.ft</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right sc-cap-arr"></i>
           </div>
         </article>
 
@@ -144,7 +175,9 @@
 
         <!-- D: Testimonial / award card -->
         <article class="bc card-d" data-reveal>
-          <div class="award-star"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="award-star">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
           <blockquote class="award-q">
             "Aura transformed our 4,200 sq.ft villa into a living artwork. Every room is an experience."
           </blockquote>
@@ -152,7 +185,7 @@
             <div class="award-av">AK</div>
             <div>
               <div class="award-name">Ananya Krishnan</div>
-              <div class="award-role">Whitefield Residence · 2019</div>
+              <div class="award-role">Whitefield Residence · Bengaluru</div>
             </div>
           </div>
         </article>
@@ -161,14 +194,14 @@
         <article class="bc card-e" data-reveal>
           <div class="sp-label">Our Specialities</div>
           <div class="sp-tags">
-            <span class="sp-tag">Residential</span>
-            <span class="sp-tag">Commercial</span>
-            <span class="sp-tag">Hospitality</span>
-            <span class="sp-tag">3D Visualization</span>
-            <span class="sp-tag">Landscape</span>
-            <span class="sp-tag">Turnkey</span>
+            <span class="sp-tag">Residential Villas</span>
+            <span class="sp-tag">Luxury Penthouses</span>
+            <span class="sp-tag">Boutique Hospitality</span>
+            <span class="sp-tag">8K 3D Walkthroughs</span>
+            <span class="sp-tag">Landscape Fusion</span>
+            <span class="sp-tag">Turnkey Execution</span>
           </div>
-          <a href="#services" class="sp-more">View all services <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#services" class="sp-more">Explore our services <i class="fa-solid fa-arrow-right"></i></a>
         </article>
 
       </div>
@@ -187,9 +220,9 @@
 
       <!-- Section intro (outside sticky) -->
       <div class="journey-intro">
-        <span class="sec-tag">Our Journey</span>
-        <h2 class="sec-h2">A Decade of<br><em>Extraordinary Spaces</em></h2>
-        <p class="sec-p">Scroll to travel through our defining chapters</p>
+        <span class="sec-tag">Our Scrollytelling Journey</span>
+        <h2 class="sec-h2">Twelve Years of<br><em>Extraordinary Spaces</em></h2>
+        <p class="sec-p">Scroll to travel down the road and explore our travel diary books from each defining milestone year.</p>
       </div>
 
       <!-- Tall scroll container — the inner div becomes sticky -->
@@ -264,17 +297,12 @@
 
               <!-- THE CAR (top-down view SVG group) -->
               <g id="journey-car" class="journey-car" filter="url(#carGlow)">
-                <!-- Car body -->
                 <rect x="-22" y="-11" width="44" height="22" rx="8" fill="#C9A96E"/>
-                <!-- Windshield -->
                 <rect x="-6" y="-8" width="28" height="16" rx="4" fill="rgba(255,230,160,0.25)" stroke="rgba(255,220,120,0.4)" stroke-width="0.5"/>
-                <!-- Headlights -->
                 <ellipse cx="20" cy="-7" rx="4" ry="2.5" fill="#FFF5CC" opacity="0.95"/>
                 <ellipse cx="20" cy="7" rx="4" ry="2.5" fill="#FFF5CC" opacity="0.95"/>
-                <!-- Tail lights -->
                 <ellipse cx="-19" cy="-7" rx="3" ry="2" fill="#FF6644" opacity="0.8"/>
                 <ellipse cx="-19" cy="7" rx="3" ry="2" fill="#FF6644" opacity="0.8"/>
-                <!-- Headlight glow trail -->
                 <ellipse cx="30" cy="-7" rx="10" ry="3" fill="#FFF5CC" opacity="0.15"/>
                 <ellipse cx="30" cy="7" rx="10" ry="3" fill="#FFF5CC" opacity="0.15"/>
               </g>
@@ -290,7 +318,7 @@
             <!-- Active year label -->
             <div class="active-yr" id="active-yr">
               <span class="ayr-text" id="ayr-text">2019</span>
-              <span class="ayr-sub">Our Projects</span>
+              <span class="ayr-sub">Milestone Project Diary</span>
             </div>
 
             <!-- Book worlds stack (only one .active at a time) -->
@@ -308,12 +336,12 @@
                           <h3 class="pg-title">The Whitefield<br>Residence</h3>
                           <div class="pg-loc"><i class="fa-solid fa-location-dot"></i> Whitefield, Bengaluru</div>
                           <blockquote class="pg-quote">
-                            "Aura Studio didn't just design our home — they crafted our identity. Every corner tells our story."
+                            "Aura Studio didn't just design our home — they crafted our identity. Every corner tells our family's story."
                           </blockquote>
                           <div class="pg-client">
                             <div class="pg-av">AV</div>
                             <div>
-                              <div class="pg-cn">Mr. & Mrs. Venkataraman</div>
+                              <div class="pg-cn">Mr. &amp; Mrs. Venkataraman</div>
                               <div class="pg-cr">Homeowners · 2019</div>
                             </div>
                           </div>
@@ -579,7 +607,7 @@
                           <div class="pg-client">
                             <div class="pg-av">DK</div>
                             <div>
-                              <div class="pg-cn">Dr. & Mrs. Krishnamurthy</div>
+                              <div class="pg-cn">Dr. &amp; Mrs. Krishnamurthy</div>
                               <div class="pg-cr">Homeowners · 2024</div>
                             </div>
                           </div>
@@ -657,10 +685,59 @@
     </section>
 
     <!-- ====================================================
+    STUDIO PROCESS — 4-STEP BENTO WORKFLOW
+    ==================================================== -->
+    <section id="process" class="process-sec">
+      <div class="sec-hd text-center">
+        <span class="sec-tag">Our Studio Blueprint</span>
+        <h2 class="sec-h2">How We Sculpt Your <em>Sanctuary</em></h2>
+        <p class="sec-p mx-auto">A seamless 4-stage architectural journey from initial audit to white-glove handover.</p>
+      </div>
+
+      <div class="process-bento">
+        <div class="bc proc-card" data-reveal>
+          <div class="proc-step">STAGE 01</div>
+          <h3 class="proc-t">Spatial Audit &amp; Discovery</h3>
+          <p class="proc-p">We audit sunlight trajectory, ventilation ergonomics, acoustic flow, and your lifestyle routines to establish a functional spatial foundation.</p>
+          <div class="proc-pills">
+            <span>Spatial Mapping</span><span>Lighting Analysis</span><span>Ergonomic Audit</span>
+          </div>
+        </div>
+
+        <div class="bc proc-card" data-reveal>
+          <div class="proc-step">STAGE 02</div>
+          <h3 class="proc-t">8K Walkthrough &amp; Material Curation</h3>
+          <p class="proc-p">Explore photorealistic 3D renders of every room while reviewing physical swatches of teak, Italian marble, brass, and handloom silks.</p>
+          <div class="proc-pills">
+            <span>8K Renders</span><span>Material Boards</span><span>Custom Furniture CAD</span>
+          </div>
+        </div>
+
+        <div class="bc proc-card" data-reveal>
+          <div class="proc-step">STAGE 03</div>
+          <h3 class="proc-t">Precision Craftsmanship &amp; Procurement</h3>
+          <p class="proc-p">Our master carpenters, stone artisans, and electrical engineers bring the blueprint to life under dedicated site supervision.</p>
+          <div class="proc-pills">
+            <span>Artisan Woodwork</span><span>Turnkey Contracting</span><span>Quality Audits</span>
+          </div>
+        </div>
+
+        <div class="bc proc-card proc-highlight" data-reveal>
+          <div class="proc-step">STAGE 04</div>
+          <h3 class="proc-t">White-Glove Handover &amp; Styling</h3>
+          <p class="proc-p">Final art placement, ambient lighting calibration, and deep curation so you step into a fully realized, pristine sanctuary.</p>
+          <div class="proc-pills">
+            <span>Art Curation</span><span>Lighting Calibration</span><span>Pristine Handover</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
     SERVICES BENTO
     ==================================================== -->
     <section id="services" class="services-sec">
-      <div class="sec-hd">
+      <div class="sec-hd text-center">
         <span class="sec-tag">What We Do</span>
         <h2 class="sec-h2">Our Areas of<br><em>Mastery</em></h2>
       </div>
@@ -668,8 +745,8 @@
       <div class="srv-bento">
         <div class="bc srv-card srv-large" data-reveal>
           <div class="srv-n">01</div>
-          <h3 class="srv-t">Residential Design</h3>
-          <p class="srv-p">Full-spectrum interior architecture for homes — spatial planning, material curation, bespoke furniture commissioning, and lighting design.</p>
+          <h3 class="srv-t">Residential Interior Architecture</h3>
+          <p class="srv-p">Full-spectrum interior design for luxury villas, penthouses, and private estates — spatial planning, material curation, custom lighting CAD, and commissioned furniture.</p>
           <div class="srv-img srv-img-1"></div>
           <a href="#consultation" class="srv-cta">Start Your Project <i class="fa-solid fa-arrow-right"></i></a>
         </div>
@@ -677,21 +754,21 @@
         <div class="bc srv-card" data-reveal>
           <div class="srv-n">02</div>
           <h3 class="srv-t">Commercial &amp; Hospitality</h3>
-          <p class="srv-p">Branded environments for hotels, restaurants, and corporate spaces that command attention and drive brand equity.</p>
+          <p class="srv-p">Branded environments for luxury boutique hotels, fine dining restaurants, and corporate headquarters that command authority.</p>
           <div class="srv-img srv-img-2"></div>
         </div>
 
         <div class="bc srv-card" data-reveal>
           <div class="srv-n">03</div>
-          <h3 class="srv-t">3D Visualization</h3>
-          <p class="srv-p">Photorealistic renders and immersive virtual walkthroughs that bring your space to life before construction begins.</p>
+          <h3 class="srv-t">Photorealistic 3D Visualization</h3>
+          <p class="srv-p">Experience photorealistic 8K walkthroughs and dynamic lighting simulations before construction begins.</p>
           <div class="srv-img srv-img-3"></div>
         </div>
 
         <div class="bc srv-card srv-dark" data-reveal>
           <div class="srv-n">04</div>
-          <h3 class="srv-t">Turnkey Execution</h3>
-          <p class="srv-p">End-to-end project management — sourcing, procurement, contractor coordination, and site supervision — delivered precisely on time.</p>
+          <h3 class="srv-t">Turnkey Project Execution</h3>
+          <p class="srv-p">End-to-end project management — sourcing, procurement, contractor coordination, site supervision, and white-glove handover on schedule.</p>
           <a href="#consultation" class="srv-cta srv-cta-gold">Enquire Now <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
@@ -719,6 +796,12 @@
           <p class="about-p">
             Our philosophy: every space must be a sensory experience — a living dialogue between the inhabitants and their environment. We blend timeless design principles with contemporary material innovation.
           </p>
+          
+          <div class="about-awards-row">
+            <div class="ab-award-item"><i class="fa-solid fa-trophy"></i> <span>AD100 Most Influential Studio</span></div>
+            <div class="ab-award-item"><i class="fa-solid fa-crown"></i> <span>Elle Decor Design Excellence 2023</span></div>
+          </div>
+
           <div class="about-sig">
             <span class="sig-name">Meera Nair</span>
             <span class="sig-role">Founder &amp; Principal Designer</span>
@@ -739,7 +822,7 @@
         <div class="consult-hd">
           <span class="sec-tag">Begin Your Journey</span>
           <h2 class="sec-h2">Book a <em>Free Consultation</em></h2>
-          <p class="sec-p">Tell us about your dream space. We'll match you with the perfect designer.</p>
+          <p class="sec-p">Tell us about your dream space. We'll match you with the perfect lead designer from our studio team.</p>
         </div>
 
         <div class="bc consult-card">
@@ -761,19 +844,30 @@
                 <input class="fi" id="cf-phone" type="tel" placeholder="+91 98765 43210">
               </div>
               <div class="fg">
-                <label class="fl" for="cf-city">City</label>
-                <input class="fi" id="cf-city" type="text" placeholder="e.g. Bengaluru">
+                <label class="fl" for="cf-city">City / Project Location</label>
+                <input class="fi" id="cf-city" type="text" placeholder="e.g. Bengaluru / Goa / Mumbai">
               </div>
             </div>
 
             <div class="fr">
               <div class="fg">
                 <label class="fl">Project Type</label>
-                <div class="chip-group" id="chip-group">
-                  <button type="button" class="chip active" data-val="residential">Residential</button>
+                <div class="chip-group" id="chip-group-type">
+                  <button type="button" class="chip active" data-val="residential">Residential Villa</button>
+                  <button type="button" class="chip" data-val="penthouse">Penthouse</button>
                   <button type="button" class="chip" data-val="commercial">Commercial</button>
                   <button type="button" class="chip" data-val="hospitality">Hospitality</button>
-                  <button type="button" class="chip" data-val="office">Office Space</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr">
+              <div class="fg">
+                <label class="fl">Estimated Budget Tier</label>
+                <div class="chip-group" id="chip-group-budget">
+                  <button type="button" class="chip" data-val="25-50L">₹25L – ₹50L</button>
+                  <button type="button" class="chip active" data-val="50L-1Cr">₹50L – ₹1 Cr</button>
+                  <button type="button" class="chip" data-val="1Cr+">₹1 Cr+</button>
                 </div>
               </div>
             </div>
@@ -781,7 +875,7 @@
             <!-- CHRONO TELEMETRY DATE PICKER -->
             <div class="fr">
               <div class="fg">
-                <label class="fl">Preferred Consultation Date</label>
+                <label class="fl">Preferred Consultation Date &amp; Time</label>
                 <button type="button" class="chrono-trig" id="chrono-trig" aria-haspopup="true" aria-expanded="false">
                   <i class="fa-regular fa-calendar"></i>
                   <span class="chrono-disp" id="chrono-disp">Select a date &amp; time</span>
@@ -795,7 +889,7 @@
                   </div>
                   <div class="chrono-grid" id="chrono-grid"><!-- filled by JS --></div>
                   <div class="chrono-time">
-                    <div class="ct-lbl">Preferred Time</div>
+                    <div class="ct-lbl">Preferred Slot</div>
                     <div class="time-slots" id="time-slots">
                       <button type="button" class="ts" data-t="10:00">10:00 AM</button>
                       <button type="button" class="ts" data-t="11:30">11:30 AM</button>
@@ -814,13 +908,13 @@
             <div class="fr">
               <div class="fg">
                 <label class="fl" for="cf-msg">Tell Us About Your Project</label>
-                <textarea class="fi fi-ta" id="cf-msg" placeholder="Describe your space, style preferences, budget range, timeline..."></textarea>
+                <textarea class="fi fi-ta" id="cf-msg" placeholder="Describe your space, design style preferences (Japandi, Neo-Classical, Art Deco), carpet area, target timeline..."></textarea>
               </div>
             </div>
 
             <div class="fr form-foot">
               <button type="submit" class="pill pill-gold pill-lg mag" id="form-submit">
-                <span>Send Enquiry</span>
+                <span>Send Consultation Enquiry</span>
                 <i class="fa-solid fa-paper-plane"></i>
                 <span class="pill-wave"></span>
               </button>
@@ -853,16 +947,17 @@
         <div class="ft-col">
           <h4>Studio</h4>
           <a href="#hero">About</a>
+          <a href="#process">Process</a>
           <a href="#services">Services</a>
           <a href="#journey">Projects</a>
           <a href="#consultation">Contact</a>
         </div>
         <div class="ft-col">
           <h4>Services</h4>
-          <a href="#services">Residential</a>
-          <a href="#services">Commercial</a>
-          <a href="#services">3D Visualization</a>
-          <a href="#services">Turnkey</a>
+          <a href="#services">Residential Architecture</a>
+          <a href="#services">Commercial &amp; Hospitality</a>
+          <a href="#services">8K 3D Walkthroughs</a>
+          <a href="#services">Turnkey Execution</a>
         </div>
         <div class="ft-col">
           <h4>Contact</h4>
