@@ -1,647 +1,334 @@
-/* =============================================================
-   AURA INTERIORS — main.js v3.0
-   GSAP + Lenis + 3D Book Physics + Road Scrollytelling + Chrono
-   ============================================================= */
+/* ============================================================
+   AURA & DAKSHIN INTERIORS — Main Engine v4.0
+   Lenis + GSAP ScrollTrigger + 3D Travel Diary Physics + Full-Page Open Book Modal
+   ============================================================ */
 
-'use strict';
-
-/* ────────────────────────────────────────────────────────────
-   GLOBAL STATE
-──────────────────────────────────────────────────────────── */
+/* ── STATE MANAGEMENT ─────────────────────────────────────── */
 const state = {
-  mouseX: 0, mouseY: 0,
   currentYear: '2019',
-  openBook: null,
-  chronoDate: null,
-  chronoTime: null,
-  chronoViewYear: new Date().getFullYear(),
-  chronoViewMonth: new Date().getMonth(),
+  modalOpen: false,
+  activeModalYear: '2019',
+  audioCtx: null,
+  audioInit: false,
+};
+
+/* Project Data Store for Full-Page Book Spread Modal */
+const projectData = {
+  '2019': {
+    yrTag: '2019 MILESTONE PROJECT',
+    title: 'Boat Club Residence',
+    loc: 'RA Puram, Chennai',
+    quote: '"Aura & Dakshin preserved our family\'s heritage Tanjore bronzes while giving us an Italian marble open living space."',
+    clientAv: 'SR',
+    clientName: 'S. Ramaswamy',
+    clientRole: 'Homeowner · Boat Club, Chennai',
+    desc: 'A harmonious fusion of contemporary open-plan living with restored antique Chettinad joinery. Featuring hand-carved teakwood doorways, custom brass lighting fixtures, and seamless indoor-outdoor verandah flow.',
+    specArea: '5,400 sq.ft',
+    specStyle: 'Neo-Classical & Bronze',
+    specMaterial: 'Teak, Marble, Tanjore Brass',
+    specDuration: '14 months',
+    img1: 'assets/hero_chettinad.jpg',
+    tag1: 'Grand Foyer Entrance',
+    img2: 'assets/hero.jpg',
+    tag2: 'Italian Marble Living',
+    img3: 'assets/hero_bedroom.jpg',
+    tag3: 'Verandah Lounge',
+    nextYr: '2021',
+  },
+  '2021': {
+    yrTag: '2021 MILESTONE PROJECT',
+    title: 'Chettinad Courtyard Mansion',
+    loc: 'Karaikudi, Sivaganga',
+    quote: '"Hand-pressed Athangudi tiles underfoot and 100-year-old carved teak pillars illuminated by soft brass pendants — magical."',
+    clientAv: 'CT',
+    clientName: 'M. Chidambaram',
+    clientRole: 'Heritage Homeowner · Karaikudi',
+    desc: 'Complete restoration of a 1920s Chettinad ancestral mansion. Reclaiming carved teakwood columns, installing custom hand-pressed Athangudi geometric floor tiles, and engineering an open central Thinnai sky-courtyard.',
+    specArea: '7,200 sq.ft',
+    specStyle: 'Heritage Chettinad',
+    specMaterial: 'Athangudi Tiles, Teakwood, Brass',
+    specDuration: '20 months',
+    img1: 'assets/hero_chettinad.jpg',
+    tag1: 'Central Thinnai Courtyard',
+    img2: 'assets/about.jpg',
+    tag2: 'Artisan Wood Joinery',
+    img3: 'assets/hero_lounge.jpg',
+    tag3: 'Pillar Dining Hall',
+    nextYr: '2023',
+  },
+  '2023': {
+    yrTag: '2023 MILESTONE PROJECT',
+    title: 'Kovai Biophilic Sanctuary',
+    loc: 'Race Course, Coimbatore',
+    quote: '"Natural breeze corridors, indoor waterfall features, and warm oak & Erode silk drapes. Complete tranquility."',
+    clientAv: 'VK',
+    clientName: 'V. Krishnakumar',
+    clientRole: 'Industrialist · Coimbatore',
+    desc: 'An eco-luxury biophilic sanctuary designed around natural airflow corridors, living plant walls, and an indoor slate waterfall feature. Softened with Erode handloom silk upholstery and Japanese white oak woodwork.',
+    specArea: '6,800 sq.ft',
+    specStyle: 'Japandi Biophilic',
+    specMaterial: 'White Oak, Erode Silk, Slate',
+    specDuration: '16 months',
+    img1: 'assets/hero.jpg',
+    tag1: 'Indoor Waterfall Foyer',
+    img2: 'assets/hero_bedroom.jpg',
+    tag2: 'Erode Silk Suite',
+    img3: 'assets/about.jpg',
+    tag3: 'Tea Garden Pavilion',
+    nextYr: '2024',
+  },
+  '2024': {
+    yrTag: '2024 MILESTONE PROJECT',
+    title: 'Promenade Coastal Villa',
+    loc: 'White Town, Puducherry',
+    quote: '"French colonial archways, terracotta tiles, and brass-fitted rattan joinery overlooking the Bay of Bengal."',
+    clientAv: 'AD',
+    clientName: 'Ananya & David Dupont',
+    clientRole: 'Homeowners · Puducherry',
+    desc: 'A sun-drenched French colonial coastal sanctuary overlooking the sea. Featuring high-arched terracotta doorways, rattan cabinetry, brass fixtures, and a private courtyard plunge pool.',
+    specArea: '4,600 sq.ft',
+    specStyle: 'French Colonial Coastal',
+    specMaterial: 'Terracotta, Rattan, Marine Brass',
+    specDuration: '11 months',
+    img1: 'assets/hero_lounge.jpg',
+    tag1: 'Ocean View Salon',
+    img2: 'assets/hero_chettinad.jpg',
+    tag2: 'Terracotta Courtyard',
+    img3: 'assets/hero.jpg',
+    tag3: 'Plunge Pool Deck',
+    nextYr: '2019',
+  },
 };
 
 /* ────────────────────────────────────────────────────────────
-   WEB AUDIO ENGINE (subtle page-turn sounds)
+   AUDIO SYNTHESIZER (Web Audio API)
 ──────────────────────────────────────────────────────────── */
-let audioCtx = null;
 function initAudio() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-}
-function playPageTurn() {
-  if (!audioCtx) return;
+  if (state.audioInit) return;
   try {
-    const dur = 0.25;
-    const bufSize = audioCtx.sampleRate * dur;
-    const buf = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < bufSize; i++) {
-      d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.12));
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) {
+      state.audioCtx = new AudioCtx();
+      state.audioInit = true;
     }
-    const src = audioCtx.createBufferSource();
-    src.buffer = buf;
-    const filt = audioCtx.createBiquadFilter();
-    filt.type = 'bandpass';
-    filt.frequency.value = 4000;
-    filt.Q.value = 0.4;
-    const gain = audioCtx.createGain();
-    gain.gain.value = 0.035;
-    src.connect(filt); filt.connect(gain); gain.connect(audioCtx.destination);
-    src.start();
-  } catch(e) {}
+  } catch (e) {
+    console.log('Web Audio not supported');
+  }
 }
-function playClick() {
-  if (!audioCtx) return;
+
+function playPageTurn() {
+  if (!state.audioCtx) return;
   try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.value = 800;
-    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.08);
-  } catch(e) {}
+    const ctx = state.audioCtx;
+    if (ctx.state === 'suspended') ctx.resume();
+
+    const bufLen = ctx.sampleRate * 0.18;
+    const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufLen, 2.5);
+    }
+
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1200;
+    filter.Q.value = 1.2;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    src.start();
+  } catch (e) {}
+}
+
+function playClick() {
+  if (!state.audioCtx) return;
+  try {
+    const ctx = state.audioCtx;
+    if (ctx.state === 'suspended') ctx.resume();
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.05);
+
+    gain.gain.setValueAtTime(0.06, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+  } catch (e) {}
 }
 
 /* ────────────────────────────────────────────────────────────
    PRELOADER
 ──────────────────────────────────────────────────────────── */
-function runPreloader() {
+function initPreloader() {
   const preloader = document.getElementById('preloader');
-  const preBar = document.getElementById('pre-bar');
-  let prog = 0;
-  const interval = setInterval(() => {
-    prog += Math.random() * 18 + 4;
-    if (prog >= 100) {
-      prog = 100;
-      clearInterval(interval);
-      preBar.style.width = '100%';
+  const bar = document.getElementById('pre-bar');
+  if (!preloader || !bar) return;
+
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.floor(Math.random() * 15) + 8;
+    if (p > 100) p = 100;
+    bar.style.width = p + '%';
+
+    if (p >= 100) {
+      clearInterval(iv);
       setTimeout(() => {
         preloader.classList.add('gone');
         document.body.style.overflow = '';
-        initHeroAnimations();
-      }, 500);
+        triggerHeroAnimations();
+      }, 400);
     }
-    preBar.style.width = prog + '%';
-  }, 80);
+  }, 40);
 }
 
 /* ────────────────────────────────────────────────────────────
-   LENIS SMOOTH SCROLL
+   AMBIENT CANVAS PARTICLES
 ──────────────────────────────────────────────────────────── */
-let lenis;
-function initLenis() {
-  lenis = new Lenis({
-    duration: 1.3,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    smooth: true,
-    smoothTouch: false,
-    touchMultiplier: 2,
+function initParticles() {
+  const cvs = document.getElementById('ambient-canvas');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  let w = cvs.width = window.innerWidth;
+  let h = cvs.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    w = cvs.width = window.innerWidth;
+    h = cvs.height = window.innerHeight;
   });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
+
+  const parts = Array.from({ length: 28 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.8 + 0.6,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.2,
+    alpha: Math.random() * 0.35 + 0.1,
+  }));
+
+  function anim() {
+    ctx.clearRect(0, 0, w, h);
+    parts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201, 169, 110, ${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(anim);
+  }
+  anim();
 }
 
 /* ────────────────────────────────────────────────────────────
-   CUSTOM CURSOR
+   CUSTOM CURSOR & MAGNETIC PULL
 ──────────────────────────────────────────────────────────── */
 function initCursor() {
   const orbit = document.getElementById('c-orbit');
   const dot = document.getElementById('c-dot');
-  let ox = 0, oy = 0;
+  if (!orbit || !dot) return;
+
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let ox = mx, oy = my, dx = mx, dy = my;
 
   window.addEventListener('mousemove', (e) => {
-    state.mouseX = e.clientX;
-    state.mouseY = e.clientY;
-    gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.05, ease: 'none' });
-    gsap.to(orbit, { x: e.clientX, y: e.clientY, duration: 0.45, ease: 'power3.out' });
+    mx = e.clientX; my = e.clientY;
   });
 
-  // Magnetic hover targets
-  document.querySelectorAll('.mag').forEach(el => {
+  function render() {
+    ox += (mx - ox) * 0.15;
+    oy += (my - oy) * 0.15;
+    dx += (mx - dx) * 0.45;
+    dy += (my - dy) * 0.45;
+
+    orbit.style.left = ox + 'px';
+    orbit.style.top = oy + 'px';
+    dot.style.left = dx + 'px';
+    dot.style.top = dy + 'px';
+
+    requestAnimationFrame(render);
+  }
+  render();
+
+  // Hover states
+  document.querySelectorAll('a, button, .bc, .book-cover, .chip, .ts').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const dx = (e.clientX - cx) * 0.35;
-      const dy = (e.clientY - cy) * 0.35;
-      gsap.to(el, { x: dx, y: dy, duration: 0.4, ease: 'power2.out' });
-    });
-    el.addEventListener('mouseleave', () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
-    });
   });
 
   window.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
   window.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
-}
 
-/* ────────────────────────────────────────────────────────────
-   SCROLL PROGRESS BAR
-──────────────────────────────────────────────────────────── */
-function initScrollProgress() {
-  const bar = document.getElementById('scroll-prog');
-  ScrollTrigger.create({
-    start: 0,
-    end: 'max',
-    onUpdate: (self) => {
-      bar.style.width = (self.progress * 100) + '%';
-    }
-  });
-}
-
-/* ────────────────────────────────────────────────────────────
-   NAVBAR — scroll-based glass effect + active section
-──────────────────────────────────────────────────────────── */
-function initNavbar() {
-  const navbar = document.getElementById('navbar');
-  ScrollTrigger.create({
-    start: 80,
-    onEnter: () => navbar.classList.add('scrolled'),
-    onLeaveBack: () => navbar.classList.remove('scrolled'),
-  });
-
-  // Hamburger
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    navLinks.classList.toggle('mobile-open');
-    hamburger.setAttribute('aria-expanded', hamburger.classList.contains('open'));
-  });
-  navLinks.querySelectorAll('.nl').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('mobile-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
-  });
-}
-
-/* ────────────────────────────────────────────────────────────
-   AMBIENT PARTICLE CANVAS
-──────────────────────────────────────────────────────────── */
-function initParticles() {
-  const canvas = document.getElementById('ambient-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H;
-  const particles = [];
-  const N = 80;
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (let i = 0; i < N; i++) {
-    particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.2 + 0.3,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      alpha: Math.random() * 0.5 + 0.1,
-      gold: Math.random() > 0.7,
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach((p, i) => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.gold
-        ? `rgba(201,169,110,${p.alpha})`
-        : `rgba(240,232,216,${p.alpha * 0.4})`;
-      ctx.fill();
-
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
-
-      // Draw constellation lines to nearby particles
-      for (let j = i + 1; j < N; j++) {
-        const q = particles[j];
-        const dist = Math.hypot(p.x - q.x, p.y - q.y);
-        if (dist < 100) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(201,169,110,${(1 - dist / 100) * 0.06})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
-
-/* ────────────────────────────────────────────────────────────
-   HERO ENTRANCE ANIMATIONS
-──────────────────────────────────────────────────────────── */
-function initHeroAnimations() {
-  // Stagger the h1 word lines
-  gsap.fromTo('.h1l .h1w, .h1l .h1em', {
-    y: '110%', opacity: 0,
-  }, {
-    y: '0%', opacity: 1,
-    duration: 1.1, ease: 'power4.out',
-    stagger: 0.12, delay: 0.1,
-  });
-
-  // Subtitle and CTAs
-  gsap.fromTo('.hero-p, .hero-ctas', {
-    opacity: 0, y: 24,
-  }, {
-    opacity: 1, y: 0,
-    duration: 0.9, ease: 'power3.out',
-    stagger: 0.15, delay: 0.5,
-  });
-
-  // Counter animations
-  document.querySelectorAll('.counter').forEach(el => {
-    const target = parseInt(el.dataset.to);
-    gsap.fromTo(el, { innerText: 0 }, {
-      innerText: target,
-      duration: 2.5, delay: 0.8,
-      ease: 'power2.out',
-      snap: { innerText: 1 },
-      onUpdate: function() {
-        el.textContent = Math.round(parseFloat(el.textContent));
-      }
-    });
-  });
-
-  // Scroll-reveal for other cards
-  initScrollReveal();
-}
-
-/* ────────────────────────────────────────────────────────────
-   SCROLL REVEAL (for sections below hero)
-──────────────────────────────────────────────────────────── */
-function initScrollReveal() {
-  document.querySelectorAll('[data-reveal]').forEach((el, i) => {
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      onEnter: () => {
-        el.classList.add('revealed');
-      },
-      once: true,
-    });
-  });
-}
-
-/* ────────────────────────────────────────────────────────────
-   PILL BUTTON RIPPLE EFFECT
-──────────────────────────────────────────────────────────── */
-function initRipples() {
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const wave = btn.querySelector('.pill-wave');
-      if (!wave) return;
-      wave.style.left = (e.offsetX - 4) + 'px';
-      wave.style.top = (e.offsetY - 4) + 'px';
-      wave.classList.remove('animating');
-      requestAnimationFrame(() => wave.classList.add('animating'));
-    });
-  });
-}
-
-/* ────────────────────────────────────────────────────────────
-   ROAD SVG + CAR SCROLLYTELLING
-──────────────────────────────────────────────────────────── */
-let roadPath, roadPathLen;
-const waypointProgress = {
-  '2019': 0.18,
-  '2021': 0.42,
-  '2023': 0.67,
-  '2024': 0.88,
-};
-const yearThresholds = [
-  { yr: '2019', start: 0,    end: 0.28 },
-  { yr: '2021', start: 0.28, end: 0.52 },
-  { yr: '2023', start: 0.52, end: 0.78 },
-  { yr: '2024', start: 0.78, end: 1.01 },
-];
-
-function initRoad() {
-  roadPath = document.getElementById('road-path');
-  if (!roadPath) return;
-  roadPathLen = roadPath.getTotalLength();
-
-  const car = document.getElementById('journey-car');
-  const jrnyScroll = document.getElementById('jrny-scroll');
-  const jrnySticky = document.getElementById('jrny-sticky');
-  const activeYrText = document.getElementById('ayr-text');
-
-  // Initially position car at start
-  positionCar(0);
-
-  ScrollTrigger.create({
-    trigger: jrnyScroll,
-    start: 'top top',
-    end: 'bottom bottom',
-    pin: jrnySticky,
-    pinSpacing: false,
-    onUpdate: (self) => {
-      const prog = self.progress;
-      positionCar(prog);
-      updateActiveYear(prog);
-    },
-  });
-}
-
-function positionCar(progress) {
-  const car = document.getElementById('journey-car');
-  if (!car || !roadPath || !roadPathLen) return;
-
-  const targetLen = progress * roadPathLen;
-  const pt = roadPath.getPointAtLength(targetLen);
-  // Tangent: use 2 points close together
-  const ptA = roadPath.getPointAtLength(Math.max(0, targetLen - 3));
-  const ptB = roadPath.getPointAtLength(Math.min(roadPathLen, targetLen + 3));
-  const angle = Math.atan2(ptB.y - ptA.y, ptB.x - ptA.x) * 180 / Math.PI;
-
-  gsap.set(car, {
-    attr: { transform: `translate(${pt.x}, ${pt.y}) rotate(${angle})` },
-  });
-
-  // Glow waypoints near car
-  Object.entries(waypointProgress).forEach(([yr, wp]) => {
-    const dist = Math.abs(progress - wp);
-    const opBase = Math.max(0, 1 - dist * 12);
-    const wp2019 = document.getElementById(`wp-${yr}`);
-    if (wp2019) {
-      wp2019.style.opacity = 0.35 + opBase * 0.65;
-      wp2019.style.filter = opBase > 0.3 ? 'url(#wpGlow)' : '';
-      const r = 7 + opBase * 8;
-      wp2019.setAttribute('r', r);
-    }
-  });
-}
-
-function updateActiveYear(progress) {
-  let yr = '2019';
-  for (const t of yearThresholds) {
-    if (progress >= t.start && progress < t.end) {
-      yr = t.yr; break;
-    }
-  }
-  if (yr !== state.currentYear) {
-    transitionToYear(yr);
-    state.currentYear = yr;
-  }
-}
-
-function transitionToYear(yr) {
-  const oldWorld = document.getElementById(`bw-${state.currentYear}`);
-  const newWorld = document.getElementById(`bw-${yr}`);
-  const yrText = document.getElementById('ayr-text');
-
-  // Auto-close old book if open
-  if (state.openBook === state.currentYear) {
-    closeBook(state.currentYear, false);
-  }
-
-  if (oldWorld) {
-    gsap.to(oldWorld, {
-      opacity: 0, y: 30,
-      duration: 0.4, ease: 'power2.in',
-      onComplete: () => {
-        oldWorld.classList.remove('active');
-        if (newWorld) {
-          newWorld.classList.add('active');
-          gsap.fromTo(newWorld, { opacity: 0, y: -30 }, {
-            opacity: 1, y: 0,
-            duration: 0.55, ease: 'power3.out',
-          });
-        }
-      },
-    });
-  }
-
-  // Animate year number change
-  if (yrText) {
-    gsap.to(yrText, {
-      y: -20, opacity: 0, duration: 0.25,
-      onComplete: () => {
-        yrText.textContent = yr;
-        gsap.fromTo(yrText, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: 'power2.out' });
-      }
-    });
-  }
-}
-
-/* ────────────────────────────────────────────────────────────
-   3D BOOK PHYSICS
-   Hover "View Projects" → cover slightly opens
-   Click → cover fully opens (cover-open state)
-   Close button → cover closes
-──────────────────────────────────────────────────────────── */
-function initBooks() {
-  document.querySelectorAll('.book-world').forEach(world => {
-    const yr = world.dataset.yr;
-    const cover = document.getElementById(`cov-${yr}`);
-    const book = document.getElementById(`book-${yr}`);
-    const btn = world.querySelector('.view-btn');
-
-    if (!cover || !book) return;
-
-    // Trigger hover on book cover OR view button
-    const hoverElements = [cover, btn].filter(Boolean);
-
-    hoverElements.forEach(el => {
-      // HOVER IN — cover gently lifts open (~28 degrees with elastic overshoot)
-      el.addEventListener('mouseenter', () => {
-        if (state.openBook === yr) return;
-        gsap.killTweensOf(cover);
-        playPageTurn();
-        gsap.to(cover, {
-          rotateY: -28,
-          duration: 0.85,
-          ease: 'elastic.out(1, 0.45)',
-        });
-        // Subtle 3D tilt
-        gsap.to(book, {
-          rotateX: -4, rotateZ: 1.5, scale: 1.03,
-          duration: 0.6, ease: 'power2.out',
-        });
-      });
-
-      // HOVER OUT — cover snaps back to closed resting state
-      el.addEventListener('mouseleave', () => {
-        if (state.openBook === yr) return;
-        gsap.killTweensOf(cover);
-        gsap.to(cover, {
-          rotateY: 0,
-          duration: 0.7,
-          ease: 'power2.inOut',
-        });
-        gsap.to(book, {
-          rotateX: 0, rotateZ: 0, scale: 1,
-          duration: 0.5, ease: 'power2.out',
-        });
-      });
-    });
-
-    // CLICK — full open spread
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        initAudio(); playClick();
-        openBook(yr);
-      });
-    }
-
-    // Clicking front of cover also opens book
-    cover.addEventListener('click', () => {
-      if (state.openBook !== yr) {
-        initAudio(); playClick();
-        openBook(yr);
-      }
-    });
-  });
-
-  // Close buttons (inside open book)
-  document.querySelectorAll('.book-close-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const yr = btn.dataset.yr;
-      initAudio(); playClick();
-      closeBook(yr, true);
-    });
-  });
-}
-
-function openBook(yr) {
-  if (state.openBook === yr) return;
-  state.openBook = yr;
-
-  const cover = document.getElementById(`cov-${yr}`);
-  const book = document.getElementById(`book-${yr}`);
-  if (!cover || !book) return;
-
-  book.classList.add('is-open');
-  playPageTurn();
-
-  // Phase 1: quick snap open to ~-90deg (hinge creak)
-  gsap.to(cover, {
-    rotateY: -90,
-    duration: 0.45,
-    ease: 'power3.in',
-    onComplete: () => {
-      // Phase 2: smooth sweep to -178deg (natural deceleration)
-      gsap.to(cover, {
-        rotateY: -178,
-        duration: 0.85,
-        ease: 'power2.out',
-        onComplete: () => {
-          book.classList.add('cover-open');
-          book.classList.remove('is-open');
-        },
-      });
-    },
-  });
-
-  // Scale up open book slightly for an expansive, immersive reading view
-  gsap.to(book, {
-    rotateX: 0, rotateZ: 0, rotateY: 2, scale: 1.1,
-    duration: 1.2, ease: 'power3.out',
-  });
-}
-
-function closeBook(yr, animate = true) {
-  if (state.openBook !== yr && animate) return;
-  state.openBook = null;
-
-  const cover = document.getElementById(`cov-${yr}`);
-  const book = document.getElementById(`book-${yr}`);
-  if (!cover || !book) return;
-
-  book.classList.remove('cover-open');
-  playPageTurn();
-
-  if (animate) {
-    // Phase 1: swing back to ~-90 (fast)
-    gsap.to(cover, {
-      rotateY: -90,
-      duration: 0.45,
-      ease: 'power3.in',
-      onComplete: () => {
-        // Phase 2: snap closed with slight overshoot (spring)
-        gsap.to(cover, {
-          rotateY: 0,
-          duration: 0.75,
-          ease: 'elastic.out(1, 0.5)',
-        });
-      },
-    });
-    gsap.to(book, {
-      rotateX: 0, rotateZ: 0, rotateY: 0,
-      duration: 1.2, ease: 'power3.out',
-    });
-  } else {
-    gsap.set(cover, { rotateY: 0 });
-    gsap.set(book, { rotateX: 0, rotateZ: 0, rotateY: 0 });
-  }
-}
-
-/* ────────────────────────────────────────────────────────────
-   SERVICES SECTION — bento card hover tilt
-──────────────────────────────────────────────────────────── */
-function initServiceTilts() {
-  document.querySelectorAll('.srv-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
+  // Magnetic elements
+  document.querySelectorAll('.mag').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2;
-      const rx = ((e.clientY - cy) / (r.height / 2)) * -4;
-      const ry = ((e.clientX - cx) / (r.width / 2)) * 4;
-      gsap.to(card, {
-        rotateX: rx, rotateY: ry,
-        transformPerspective: 1200,
-        duration: 0.4, ease: 'power2.out',
-      });
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+      if (dist < 80) {
+        const tx = (e.clientX - cx) * 0.25;
+        const ty = (e.clientY - cy) * 0.25;
+        gsap.to(el, { x: tx, y: ty, duration: 0.3, ease: 'power2.out' });
+      }
     });
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        rotateX: 0, rotateY: 0,
-        duration: 0.6, ease: 'elastic.out(1, 0.5)',
-      });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
     });
   });
 }
 
 /* ────────────────────────────────────────────────────────────
-   HERO BENTO CARD TILT
+   LENIS SMOOTH SCROLLING
 ──────────────────────────────────────────────────────────── */
-function initBentoTilts() {
-  document.querySelectorAll('.bc').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      const rx = ((e.clientY - r.top) / r.height - 0.5) * -5;
-      const ry = ((e.clientX - r.left) / r.width - 0.5) * 5;
-      gsap.to(card, {
-        rotateX: rx, rotateY: ry,
-        transformPerspective: 1800,
-        duration: 0.35, ease: 'power2.out',
-      });
-    });
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        rotateX: 0, rotateY: 0,
-        duration: 0.7, ease: 'elastic.out(1, 0.4)',
-      });
+let lenis;
+function initLenis() {
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+
+  lenis.on('scroll', ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+  gsap.ticker.lagSmoothing(0);
+}
+
+/* ────────────────────────────────────────────────────────────
+   HERO ANIMATIONS
+──────────────────────────────────────────────────────────── */
+function triggerHeroAnimations() {
+  gsap.to('.hero-sec [data-reveal]', {
+    opacity: 1, y: 0, duration: 0.8,
+    stagger: 0.15, ease: 'power3.out',
+  });
+
+  // Animate counter stats
+  document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.to, 10) || 0;
+    gsap.to(el, {
+      innerText: target,
+      duration: 2.2,
+      ease: 'power2.out',
+      snap: { innerText: 1 },
     });
   });
 }
@@ -669,11 +356,8 @@ function initHeroShowcase() {
       const newTitle = tab.dataset.title;
       const newStyle = tab.dataset.style;
 
-      // Crossfade background image
       gsap.to(imgEl, {
-        opacity: 0.3,
-        duration: 0.25,
-        ease: 'power2.in',
+        opacity: 0.3, duration: 0.25, ease: 'power2.in',
         onComplete: () => {
           imgEl.style.backgroundImage = `url('${newImg}')`;
           if (titleEl) titleEl.textContent = newTitle;
@@ -683,6 +367,232 @@ function initHeroShowcase() {
       });
     });
   });
+}
+
+/* ────────────────────────────────────────────────────────────
+   ROAD SVG + CAR SCROLLYTELLING
+──────────────────────────────────────────────────────────── */
+let roadPath, roadPathLen;
+const yearThresholds = [
+  { yr: '2019', start: 0,    end: 0.28 },
+  { yr: '2021', start: 0.28, end: 0.52 },
+  { yr: '2023', start: 0.52, end: 0.78 },
+  { yr: '2024', start: 0.78, end: 1.01 },
+];
+
+function initRoad() {
+  roadPath = document.getElementById('road-path');
+  if (!roadPath) return;
+  roadPathLen = roadPath.getTotalLength();
+
+  const jrnyScroll = document.getElementById('jrny-scroll');
+  const jrnySticky = document.getElementById('jrny-sticky');
+
+  positionCar(0);
+
+  ScrollTrigger.create({
+    trigger: jrnyScroll,
+    start: 'top top',
+    end: 'bottom bottom',
+    pin: jrnySticky,
+    pinSpacing: false,
+    onUpdate: (self) => {
+      const prog = self.progress;
+      positionCar(prog);
+      updateActiveYear(prog);
+    },
+  });
+}
+
+function positionCar(progress) {
+  const car = document.getElementById('journey-car');
+  if (!car || !roadPath || !roadPathLen) return;
+
+  const targetLen = progress * roadPathLen;
+  const pt = roadPath.getPointAtLength(targetLen);
+  const pt2 = roadPath.getPointAtLength(Math.min(targetLen + 2, roadPathLen));
+  const angle = Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * (180 / Math.PI);
+
+  gsap.set(car, {
+    x: pt.x, y: pt.y, rotation: angle,
+    transformOrigin: 'center center',
+  });
+}
+
+function updateActiveYear(progress) {
+  let matched = yearThresholds[0].yr;
+  for (const t of yearThresholds) {
+    if (progress >= t.start && progress < t.end) {
+      matched = t.yr; break;
+    }
+  }
+
+  if (matched !== state.currentYear) {
+    switchActiveBookWorld(matched);
+  }
+}
+
+function switchActiveBookWorld(yr) {
+  state.currentYear = yr;
+  playPageTurn();
+
+  const oldWorld = document.querySelector('.book-world.active');
+  const newWorld = document.getElementById(`bw-${yr}`);
+  const yrText = document.getElementById('ayr-text');
+
+  if (oldWorld && oldWorld !== newWorld) {
+    gsap.to(oldWorld, {
+      opacity: 0, y: 30, duration: 0.4, ease: 'power2.in',
+      onComplete: () => {
+        oldWorld.classList.remove('active');
+        if (newWorld) {
+          newWorld.classList.add('active');
+          gsap.fromTo(newWorld, { opacity: 0, y: -30 }, {
+            opacity: 1, y: 0, duration: 0.55, ease: 'power3.out',
+          });
+        }
+      },
+    });
+  }
+
+  if (yrText) {
+    gsap.to(yrText, {
+      y: -20, opacity: 0, duration: 0.25,
+      onComplete: () => {
+        yrText.textContent = yr;
+        gsap.fromTo(yrText, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: 'power2.out' });
+      }
+    });
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   3D BOOK PHYSICS (HOVER COVER LIFT) & MODAL TRIGGER
+──────────────────────────────────────────────────────────── */
+function initBooks() {
+  document.querySelectorAll('.book-world').forEach(world => {
+    const yr = world.dataset.yr;
+    const cover = document.getElementById(`cov-${yr}`);
+    const book = document.getElementById(`book-${yr}`);
+    const btn = world.querySelector('.open-modal-btn');
+
+    if (!cover || !book) return;
+
+    const hoverElements = [cover, btn].filter(Boolean);
+
+    hoverElements.forEach(el => {
+      // HOVER IN — cover gently lifts open (~28 degrees with elastic overshoot)
+      el.addEventListener('mouseenter', () => {
+        if (state.modalOpen) return;
+        gsap.killTweensOf(cover);
+        playPageTurn();
+        gsap.to(cover, {
+          rotateY: -28, duration: 0.85, ease: 'elastic.out(1, 0.45)',
+        });
+        gsap.to(book, {
+          rotateX: -4, rotateZ: 1.5, scale: 1.03, duration: 0.6, ease: 'power2.out',
+        });
+      });
+
+      // HOVER OUT — cover snaps back to closed resting state
+      el.addEventListener('mouseleave', () => {
+        if (state.modalOpen) return;
+        gsap.killTweensOf(cover);
+        gsap.to(cover, {
+          rotateY: 0, duration: 0.7, ease: 'power2.inOut',
+        });
+        gsap.to(book, {
+          rotateX: 0, rotateZ: 0, scale: 1, duration: 0.5, ease: 'power2.out',
+        });
+      });
+    });
+
+    // CLICK — Open Full-Page Book Spread Overlay Modal
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        initAudio(); playClick();
+        openBookModal(yr);
+      });
+    }
+
+    cover.addEventListener('click', () => {
+      initAudio(); playClick();
+      openBookModal(yr);
+    });
+  });
+
+  // Modal Close Events
+  const closeBtn = document.getElementById('bm-close-btn');
+  const backdrop = document.getElementById('bm-backdrop');
+  const nextBtn = document.getElementById('bm-next-btn');
+
+  if (closeBtn) closeBtn.addEventListener('click', closeBookModal);
+  if (backdrop) backdrop.addEventListener('click', closeBookModal);
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const data = projectData[state.activeModalYear];
+      if (data && data.nextYr) {
+        initAudio(); playPageTurn();
+        openBookModal(data.nextYr);
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.modalOpen) closeBookModal();
+  });
+}
+
+/* Open Full-Page Book Spread Overlay Modal */
+function openBookModal(yr) {
+  const data = projectData[yr];
+  if (!data) return;
+
+  state.modalOpen = true;
+  state.activeModalYear = yr;
+
+  // Populate Left Page Data
+  document.getElementById('bm-yr-tag').textContent = data.yrTag;
+  document.getElementById('bm-title').textContent = data.title;
+  document.getElementById('bm-loc').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.loc}`;
+  document.getElementById('bm-quote').textContent = data.quote;
+  document.getElementById('bm-av').textContent = data.clientAv;
+  document.getElementById('bm-cn').textContent = data.clientName;
+  document.getElementById('bm-cr').textContent = data.clientRole;
+  document.getElementById('bm-desc').textContent = data.desc;
+  document.getElementById('bm-spec-area').textContent = data.specArea;
+  document.getElementById('bm-spec-style').textContent = data.specStyle;
+  document.getElementById('bm-spec-material').textContent = data.specMaterial;
+  document.getElementById('bm-spec-duration').textContent = data.specDuration;
+
+  // Populate Right Page Images
+  document.getElementById('bm-img-1').style.backgroundImage = `url('${data.img1}')`;
+  document.getElementById('bm-tag-1').textContent = data.tag1;
+  document.getElementById('bm-img-2').style.backgroundImage = `url('${data.img2}')`;
+  document.getElementById('bm-tag-2').textContent = data.tag2;
+  document.getElementById('bm-img-3').style.backgroundImage = `url('${data.img3}')`;
+  document.getElementById('bm-tag-3').textContent = data.tag3;
+
+  const modal = document.getElementById('book-modal-overlay');
+  if (!modal) return;
+
+  modal.classList.add('open');
+  playPageTurn();
+
+  if (lenis) lenis.stop();
+}
+
+function closeBookModal() {
+  const modal = document.getElementById('book-modal-overlay');
+  if (!modal) return;
+
+  modal.classList.remove('open');
+  state.modalOpen = false;
+  playPageTurn();
+
+  if (lenis) lenis.start();
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -701,258 +611,239 @@ function initChips() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CHRONO TELEMETRY DATE PICKER
+   CHRONO TELEMETRY POPOVER PICKER
 ──────────────────────────────────────────────────────────── */
 function initChrono() {
   const trig = document.getElementById('chrono-trig');
-  const pop  = document.getElementById('chrono-pop');
-  const prev = document.getElementById('chrono-prev');
-  const next = document.getElementById('chrono-next');
-  const grid = document.getElementById('chrono-grid');
-  const myEl = document.getElementById('chrono-my');
+  const pop = document.getElementById('chrono-pop');
   const disp = document.getElementById('chrono-disp');
-  const confirm = document.getElementById('chrono-confirm');
+  const grid = document.getElementById('chrono-grid');
+  const monthYr = document.getElementById('chrono-my');
+  const prevBtn = document.getElementById('chrono-prev');
+  const nextBtn = document.getElementById('chrono-next');
+  const confirmBtn = document.getElementById('chrono-confirm');
+  const slots = document.querySelectorAll('.ts');
 
-  if (!trig || !pop) return;
+  if (!trig || !pop || !grid) return;
+
+  let curDate = new Date();
+  let selDay = null;
+  let selSlot = '10:00 AM';
 
   function renderCalendar() {
-    const yr = state.chronoViewYear;
-    const mo = state.chronoViewMonth;
-    const now = new Date();
-
-    const monthNames = ['January','February','March','April','May','June',
-      'July','August','September','October','November','December'];
-    myEl.textContent = `${monthNames[mo]} ${yr}`;
-
-    // Clear and add day names
-    grid.innerHTML = '';
-    ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
-      const dn = document.createElement('div');
-      dn.className = 'chrono-dn'; dn.textContent = d;
-      grid.appendChild(dn);
-    });
+    const yr = curDate.getFullYear();
+    const mo = curDate.getMonth();
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    if (monthYr) monthYr.textContent = `${months[mo]} ${yr}`;
 
     const firstDay = new Date(yr, mo, 1).getDay();
-    const daysInMonth = new Date(yr, mo + 1, 0).getDate();
+    const daysInMo = new Date(yr, mo + 1, 0).getDate();
+    const today = new Date();
 
-    // Empty cells before first day
+    grid.innerHTML = '';
+
+    // Day names
+    ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'chrono-dn'; el.textContent = d;
+      grid.appendChild(el);
+    });
+
+    // Empty lead cells
     for (let i = 0; i < firstDay; i++) {
-      const em = document.createElement('div');
-      em.className = 'chrono-day empty';
-      grid.appendChild(em);
+      const el = document.createElement('div');
+      el.className = 'chrono-day empty';
+      grid.appendChild(el);
     }
 
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dayEl = document.createElement('div');
-      dayEl.className = 'chrono-day';
-      dayEl.textContent = d;
+    // Days
+    for (let d = 1; d <= daysInMo; d++) {
+      const el = document.createElement('div');
+      el.className = 'chrono-day';
+      el.textContent = d;
 
       const thisDate = new Date(yr, mo, d);
-      const isPast = thisDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const isToday = d === now.getDate() && mo === now.getMonth() && yr === now.getFullYear();
-
-      if (isPast) dayEl.classList.add('disabled');
-      if (isToday) dayEl.classList.add('today');
-      if (state.chronoDate &&
-          d === state.chronoDate.getDate() &&
-          mo === state.chronoDate.getMonth() &&
-          yr === state.chronoDate.getFullYear()) {
-        dayEl.classList.add('selected');
+      if (thisDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+        el.classList.add('disabled');
+      }
+      if (d === today.getDate() && mo === today.getMonth() && yr === today.getFullYear()) {
+        el.classList.add('today');
+      }
+      if (selDay === d) {
+        el.classList.add('selected');
       }
 
-      if (!isPast) {
-        dayEl.addEventListener('click', () => {
-          state.chronoDate = new Date(yr, mo, d);
-          renderCalendar();
-          updateChronoDisplay();
-          playClick();
-        });
-      }
-      grid.appendChild(dayEl);
+      el.addEventListener('click', () => {
+        if (el.classList.contains('disabled')) return;
+        grid.querySelectorAll('.chrono-day').forEach(cd => cd.classList.remove('selected'));
+        el.classList.add('selected');
+        selDay = d;
+        initAudio(); playClick();
+      });
+
+      grid.appendChild(el);
     }
   }
 
-  function updateChronoDisplay() {
-    if (state.chronoDate && state.chronoTime) {
-      const opts = { weekday:'short', month:'short', day:'numeric', year:'numeric' };
-      disp.textContent = `${state.chronoDate.toLocaleDateString('en-IN', opts)} · ${formatTime(state.chronoTime)}`;
-    } else if (state.chronoDate) {
-      disp.textContent = state.chronoDate.toLocaleDateString('en-IN', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
-    } else {
-      disp.textContent = 'Select a date & time';
-    }
-  }
-
-  function formatTime(t) {
-    const [h, m] = t.split(':').map(Number);
-    const period = h >= 12 ? 'PM' : 'AM';
-    const hh = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-    return `${hh}:${m.toString().padStart(2,'0')} ${period}`;
-  }
-
-  // Toggle popover
   trig.addEventListener('click', (e) => {
     e.stopPropagation();
-    initAudio();
     const isOpen = pop.classList.contains('open');
     if (isOpen) {
-      closeChrono();
+      pop.classList.remove('open');
+      trig.classList.remove('active');
     } else {
-      openChrono();
+      pop.classList.add('open');
+      trig.classList.add('active');
+      renderCalendar();
     }
   });
 
-  function openChrono() {
-    renderCalendar();
-    pop.classList.add('open');
-    pop.setAttribute('aria-hidden', 'false');
-    trig.classList.add('active');
-    trig.setAttribute('aria-expanded', 'true');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      curDate.setMonth(curDate.getMonth() - 1);
+      renderCalendar();
+      initAudio(); playClick();
+    });
   }
 
-  function closeChrono() {
-    pop.classList.remove('open');
-    pop.setAttribute('aria-hidden', 'true');
-    trig.classList.remove('active');
-    trig.setAttribute('aria-expanded', 'false');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      curDate.setMonth(curDate.getMonth() + 1);
+      renderCalendar();
+      initAudio(); playClick();
+    });
   }
 
-  prev.addEventListener('click', () => {
-    state.chronoViewMonth--;
-    if (state.chronoViewMonth < 0) { state.chronoViewMonth = 11; state.chronoViewYear--; }
-    renderCalendar();
-  });
-
-  next.addEventListener('click', () => {
-    state.chronoViewMonth++;
-    if (state.chronoViewMonth > 11) { state.chronoViewMonth = 0; state.chronoViewYear++; }
-    renderCalendar();
-  });
-
-  // Time slot selection
-  document.querySelectorAll('.ts').forEach(slot => {
-    slot.addEventListener('click', () => {
-      document.querySelectorAll('.ts').forEach(s => s.classList.remove('active'));
+  slots.forEach(slot => {
+    slot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slots.forEach(s => s.classList.remove('active'));
       slot.classList.add('active');
-      state.chronoTime = slot.dataset.t;
-      updateChronoDisplay();
-      playClick();
+      selSlot = slot.textContent;
+      initAudio(); playClick();
     });
   });
 
-  // Confirm
-  confirm.addEventListener('click', () => {
-    updateChronoDisplay();
-    closeChrono();
-    playClick();
-  });
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+      if (selDay) {
+        const moName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][curDate.getMonth()];
+        disp.textContent = `${moName} ${selDay}, ${curDate.getFullYear()} at ${selSlot}`;
+      } else {
+        disp.textContent = `Selected slot: ${selSlot}`;
+      }
+      pop.classList.remove('open');
+      trig.classList.remove('active');
+      initAudio(); playClick();
+    });
+  }
 
-  // Close on outside click
   document.addEventListener('click', (e) => {
-    if (!pop.contains(e.target) && e.target !== trig) {
-      closeChrono();
+    if (!pop.contains(e.target) && !trig.contains(e.target)) {
+      pop.classList.remove('open');
+      trig.classList.remove('active');
     }
   });
 }
 
 /* ────────────────────────────────────────────────────────────
-   FORM SUBMISSION (with validation)
+   CONSULTATION FORM SUBMISSION
 ──────────────────────────────────────────────────────────── */
 function initForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
-  if (!form) return;
+  if (!form || !submitBtn) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     initAudio(); playClick();
 
-    // Simple validation
-    const name = document.getElementById('cf-name').value.trim();
-    const email = document.getElementById('cf-email').value.trim();
-    if (!name || !email) {
-      gsap.to(submitBtn, {
-        x: [0, -8, 8, -6, 6, -4, 4, 0],
-        duration: 0.5, ease: 'none',
-      });
-      return;
+    const name = document.getElementById('cf-name').value;
+    if (!name) {
+      alert('Please enter your name'); return;
     }
 
-    // Simulate submission
-    const span = submitBtn.querySelector('span');
-    const icon = submitBtn.querySelector('i');
-    gsap.to(submitBtn, { scale: 0.95, duration: 0.1 });
-    setTimeout(() => {
-      span.textContent = 'Sending...';
-      gsap.to(submitBtn, { scale: 1, duration: 0.2 });
-      setTimeout(() => {
-        span.textContent = 'Enquiry Sent ✓';
-        if (icon) { icon.className = 'fa-solid fa-check'; }
-        submitBtn.style.background = 'linear-gradient(135deg, #2A5A3A, #4A9A64)';
-      }, 1200);
-    }, 100);
+    gsap.to(submitBtn, {
+      scale: 0.95, duration: 0.15,
+      onComplete: () => {
+        submitBtn.querySelector('span').textContent = 'Submitting Enquiry...';
+        gsap.to(submitBtn, { scale: 1, duration: 0.3 });
+        setTimeout(() => {
+          submitBtn.querySelector('span').textContent = '✓ Enquiry Sent Successfully!';
+          submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
+          submitBtn.style.color = '#fff';
+          form.reset();
+        }, 1200);
+      }
+    });
   });
 }
 
 /* ────────────────────────────────────────────────────────────
-   ACTIVE NAV LINK (scroll-based)
+   SCROLL REVEAL & PARALLAX
 ──────────────────────────────────────────────────────────── */
-function initActiveNav() {
-  const sections = ['hero', 'journey', 'services', 'about', 'consultation'];
-  const links = document.querySelectorAll('.nl');
-
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
+function initScrollReveal() {
+  document.querySelectorAll('[data-reveal]').forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
-      start: 'top 60%',
-      end: 'bottom 40%',
-      onToggle: (self) => {
-        if (self.isActive) {
-          links.forEach(l => l.classList.remove('active'));
-          const activeLink = document.querySelector(`.nl[href="#${id}"]`);
-          if (activeLink) activeLink.classList.add('active');
-        }
-      },
+      start: 'top 85%',
+      onEnter: () => el.classList.add('revealed'),
+      once: true,
     });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   SERVICES SECTION TEXT SCROLL ANIMATIONS
-──────────────────────────────────────────────────────────── */
-function initServiceAnimations() {
-  gsap.utils.toArray('.srv-card').forEach((card, i) => {
-    gsap.fromTo(card, { opacity: 0, y: 50 }, {
-      opacity: 1, y: 0,
-      duration: 0.8,
-      delay: i * 0.12,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 85%',
-        once: true,
-      },
+function initRipples() {
+  document.querySelectorAll('.pill').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const wave = btn.querySelector('.pill-wave');
+      if (!wave) return;
+      wave.style.left = (e.offsetX - 4) + 'px';
+      wave.style.top = (e.offsetY - 4) + 'px';
+      wave.classList.remove('animating');
+      requestAnimationFrame(() => wave.classList.add('animating'));
     });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   ABOUT SECTION PARALLAX
-──────────────────────────────────────────────────────────── */
-function initAboutParallax() {
-  const aboutImg = document.querySelector('.about-img');
-  if (!aboutImg) return;
-  gsap.to(aboutImg, {
-    yPercent: -8,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.about-sec',
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 1.5,
-    },
+function initServiceTilts() {
+  document.querySelectorAll('.srv-card, .bc').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top) / r.height - 0.5) * -4;
+      const ry = ((e.clientX - r.left) / r.width - 0.5) * 4;
+      gsap.to(card, {
+        rotateX: rx, rotateY: ry, transformPerspective: 1600,
+        duration: 0.35, ease: 'power2.out',
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, {
+        rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)',
+      });
+    });
+  });
+}
+
+function initNavbar() {
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+}
+
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-prog');
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const prog = (window.scrollY / total) * 100;
+    if (bar) bar.style.width = Math.min(100, Math.max(0, prog)) + '%';
   });
 }
 
@@ -960,13 +851,11 @@ function initAboutParallax() {
    MAIN INIT
 ──────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
 
-  // Prevent flash of unstyled content
   document.body.style.overflow = 'hidden';
 
-  // Boot sequence
+  initPreloader();
   initParticles();
   initCursor();
   initRipples();
@@ -975,22 +864,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   initHeroShowcase();
   initServiceTilts();
-  initBentoTilts();
   initBooks();
   initNavbar();
   initScrollProgress();
-  initActiveNav();
-
-  // Lenis smooth scroll (must come before ScrollTrigger usage in animations)
   initLenis();
-
-  // Road scrollytelling
   initRoad();
-
-  // Service section animations
-  initServiceAnimations();
-  initAboutParallax();
-
-  // Start preloader
-  runPreloader();
+  initScrollReveal();
 });

@@ -77,12 +77,12 @@
   <main>
 
     <!-- ====================================================
-    HERO — ELEVATED BENTO GRID LAYOUT
+    HERO — SYMMETRICAL BENTO GRID LAYOUT
     ==================================================== -->
     <section id="hero" class="hero-sec">
       <div class="hero-bento">
 
-        <!-- A: Main headline card -->
+        <!-- Card A: Main headline banner (Full Width) -->
         <article class="bc card-a" data-reveal>
           <div class="card-tag">
             <span class="tag-dot"></span>
@@ -99,7 +99,6 @@
             We synthesize international luxury minimalism with Tamil Nadu's rich architectural heritage — combining hand-pressed Athangudi tiles, reclaimed Chettinad teak pillars, and Tanjore bronze detailing with 8K 3D visualization.
           </p>
 
-          <!-- Studio Highlights Micro Badges -->
           <div class="hero-highlights">
             <span class="hl-chip"><i class="fa-solid fa-gem"></i> Athangudi &amp; Teak Joinery</span>
             <span class="hl-chip"><i class="fa-solid fa-feather"></i> Biophilic Thinnai Courtyards</span>
@@ -118,9 +117,8 @@
           </div>
         </article>
 
-        <!-- B: Interactive Multi-State Showcase Card -->
+        <!-- Card B: Interactive Room Showcase Card (Left Column) -->
         <article class="bc card-b" data-reveal>
-          <!-- Interactive Room Switcher Tabs -->
           <div class="showcase-tabs">
             <button type="button" class="sc-tab active" data-img="assets/hero_chettinad.jpg" data-title="Chettinad Heritage Villa · Karaikudi" data-style="Athangudi Tiles &amp; Teak Pillars">
               <i class="fa-solid fa-archway"></i> Courtyard
@@ -135,7 +133,6 @@
 
           <div class="hero-img-wrap">
             <div class="hero-img" id="hero-showcase-img" style="background-image: url('assets/hero_chettinad.jpg')" aria-label="Luxury Chettinad courtyard by Aura &amp; Dakshin"></div>
-            
             <div class="hero-img-overlay">
               <div class="sc-badge">
                 <span class="sc-badge-num">12+</span>
@@ -153,27 +150,29 @@
           </div>
         </article>
 
-        <!-- C: Stats card -->
+        <!-- Card C: Counter Stats Card (Right Column) -->
         <article class="bc card-c" data-reveal>
-          <div class="stats-row">
-            <div class="stat">
+          <div class="card-header-tag">Studio Recognition</div>
+          <div class="stats-grid">
+            <div class="stat-box">
               <span class="stat-n counter" data-to="186">0</span>
               <span class="stat-l">Estates Crafted</span>
             </div>
-            <div class="stat-sep"></div>
-            <div class="stat">
+            <div class="stat-box">
               <span class="stat-n counter" data-to="98">0</span><span class="stat-suf">%</span>
               <span class="stat-l">Client Retention</span>
             </div>
-            <div class="stat-sep"></div>
-            <div class="stat">
+            <div class="stat-box">
               <span class="stat-n counter" data-to="28">0</span>
               <span class="stat-l">Design Awards</span>
             </div>
           </div>
+          <div class="stat-footer-badge">
+            <i class="fa-solid fa-crown"></i> Architectural Digest India AD100 List
+          </div>
         </article>
 
-        <!-- D: Testimonial / award card -->
+        <!-- Card D: Featured Client Quote Card (Left Column) -->
         <article class="bc card-d" data-reveal>
           <div class="award-star">
             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
@@ -190,13 +189,13 @@
           </div>
         </article>
 
-        <!-- E: Specialities pill card -->
+        <!-- Card E: Specialities Tag Cloud (Right Column) -->
         <article class="bc card-e" data-reveal>
           <div class="sp-label">Our Specialities</div>
           <div class="sp-tags">
             <span class="sp-tag">Heritage Restoration</span>
             <span class="sp-tag">Athangudi Tile Craft</span>
-            <span class="sp-tag">Luxury Villas</span>
+            <span class="sp-tag">Luxury Estate Villas</span>
             <span class="sp-tag">Thinnai Courtyards</span>
             <span class="sp-tag">8K 3D Renders</span>
             <span class="sp-tag">Turnkey Execution</span>
@@ -214,18 +213,18 @@
     </section>
 
     <!-- ====================================================
-    SCROLLYTELLING JOURNEY — CAR + ROAD + BOOKS
+    SCROLLYTELLING JOURNEY — CAR + ROAD + 3D TRAVEL BOOKS
     ==================================================== -->
     <section id="journey" class="journey-sec">
 
-      <!-- Section intro (outside sticky) -->
+      <!-- Section intro -->
       <div class="journey-intro">
         <span class="sec-tag">Our Scrollytelling Journey</span>
         <h2 class="sec-h2">A Decade of South Indian<br><em>Architectural Milestones</em></h2>
-        <p class="sec-p">Scroll to travel down the road and open our travel diary books from key milestone projects across Tamil Nadu &amp; Puducherry.</p>
+        <p class="sec-p">Scroll to travel down the road. Hover on any travel diary book to lift its cover, or click to open the full-page project spread!</p>
       </div>
 
-      <!-- Tall scroll container — the inner div becomes sticky -->
+      <!-- Tall scroll container -->
       <div class="jrny-scroll" id="jrny-scroll">
         <div class="jrny-sticky" id="jrny-sticky">
 
@@ -247,17 +246,14 @@
                 </filter>
               </defs>
 
-              <!-- Road shadow/kerb -->
               <path class="road-kerb"
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
                 stroke-width="72" stroke="#221D30" fill="none"/>
 
-              <!-- Road surface -->
               <path id="road-path"
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
                 stroke-width="64" stroke="url(#roadFill)" fill="none"/>
 
-              <!-- Center dashes -->
               <path class="road-dash"
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
                 stroke-width="2" stroke="#C9A96E" fill="none" stroke-dasharray="22,28" opacity="0.35"/>
@@ -307,51 +303,7 @@
               <div class="book-world active" id="bw-2019" data-yr="2019">
                 <div class="book-scene">
                   <div class="book" id="book-2019">
-                    <div class="book-pages">
-                      <div class="book-spread">
-                        <div class="pg pg-left">
-                          <div class="pg-orn">❧</div>
-                          <h3 class="pg-title">Boat Club<br>Residence</h3>
-                          <div class="pg-loc"><i class="fa-solid fa-location-dot"></i> RA Puram, Chennai</div>
-                          <blockquote class="pg-quote">
-                            "Aura &amp; Dakshin preserved our family's heritage Tanjore bronzes while giving us an Italian marble open living space."
-                          </blockquote>
-                          <div class="pg-client">
-                            <div class="pg-av">SR</div>
-                            <div>
-                              <div class="pg-cn">S. Ramaswamy</div>
-                              <div class="pg-cr">Homeowner · 2019</div>
-                            </div>
-                          </div>
-                          <div class="pg-specs">
-                            <div class="spec"><span class="sk">Area</span><span class="sv">5,400 sq.ft</span></div>
-                            <div class="spec"><span class="sk">Style</span><span class="sv">Neo-Classical &amp; Bronze</span></div>
-                            <div class="spec"><span class="sk">Duration</span><span class="sv">14 months</span></div>
-                          </div>
-                        </div>
-                        <div class="pg pg-right">
-                          <div class="pg-imgs">
-                            <div class="pi pi-main" style="--bg: linear-gradient(145deg,#3D2B1F,#7A5C3A,#C9A96E)">
-                              <span class="pi-lbl">Grand Foyer</span>
-                            </div>
-                            <div class="pi-row">
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#2C1A0E,#6B4530)">
-                                <span class="pi-lbl">Master Suite</span>
-                              </div>
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#1E1208,#5C4020)">
-                                <span class="pi-lbl">Verandah</span>
-                              </div>
-                            </div>
-                          </div>
-                          <button class="pill pill-gold pill-sm book-close-btn" data-yr="2019">
-                            <i class="fa-solid fa-xmark"></i> Close Book
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
                     <div class="book-spine"></div>
-
                     <div class="book-cover" id="cov-2019">
                       <div class="cov-face cov-front" style="--cbg:#2C1F17">
                         <div class="cov-texture"></div>
@@ -362,23 +314,23 @@
                         </div>
                         <div class="polaroids">
                           <div class="pol" style="--r:-9deg;--tx:13%;--ty:14%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#6B4C34,#C9A96E)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Grand Foyer</div>
                           </div>
                           <div class="pol" style="--r:7deg;--tx:52%;--ty:9%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#3D2B1F,#8B5E3C)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Tanjore Bronze</div>
                           </div>
                           <div class="pol" style="--r:-4deg;--tx:30%;--ty:50%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#1A1205,#9B7A4E)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_bedroom.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Verandah</div>
                           </div>
                         </div>
                         <div class="cov-foot">
                           <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Chennai Heritage Reborn</span>
                         </div>
-                        <button class="view-btn mag" data-yr="2019" aria-label="View 2019 project">
-                          <span>View Projects</span>
+                        <button class="view-btn mag open-modal-btn" data-yr="2019" aria-label="Explore 2019 project">
+                          <span>Explore Projects</span>
                           <i class="fa-solid fa-chevron-right"></i>
                         </button>
                       </div>
@@ -395,48 +347,6 @@
               <div class="book-world" id="bw-2021" data-yr="2021">
                 <div class="book-scene">
                   <div class="book" id="book-2021">
-                    <div class="book-pages">
-                      <div class="book-spread">
-                        <div class="pg pg-left">
-                          <div class="pg-orn">❧</div>
-                          <h3 class="pg-title">Chettinad<br>Courtyard Mansion</h3>
-                          <div class="pg-loc"><i class="fa-solid fa-location-dot"></i> Karaikudi, Sivaganga</div>
-                          <blockquote class="pg-quote">
-                            "Hand-pressed Athangudi tiles underfoot and 100-year-old carved teak pillars illuminated by soft brass pendants — magical."
-                          </blockquote>
-                          <div class="pg-client">
-                            <div class="pg-av">CT</div>
-                            <div>
-                              <div class="pg-cn">M. Chidambaram</div>
-                              <div class="pg-cr">Heritage Homeowner · 2021</div>
-                            </div>
-                          </div>
-                          <div class="pg-specs">
-                            <div class="spec"><span class="sk">Area</span><span class="sv">7,200 sq.ft</span></div>
-                            <div class="spec"><span class="sk">Craft</span><span class="sv">Athangudi &amp; Teak</span></div>
-                            <div class="spec"><span class="sk">Duration</span><span class="sv">20 months</span></div>
-                          </div>
-                        </div>
-                        <div class="pg pg-right">
-                          <div class="pg-imgs">
-                            <div class="pi pi-main" style="--bg: linear-gradient(145deg,#1A2B1F,#3A5C40,#7A8C74)">
-                              <span class="pi-lbl">Central Courtyard</span>
-                            </div>
-                            <div class="pi-row">
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#0F1A14,#4A6B50)">
-                                <span class="pi-lbl">Thinnai Lounge</span>
-                              </div>
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#243020,#6B8C64)">
-                                <span class="pi-lbl">Artisan Kitchen</span>
-                              </div>
-                            </div>
-                          </div>
-                          <button class="pill pill-gold pill-sm book-close-btn" data-yr="2021">
-                            <i class="fa-solid fa-xmark"></i> Close Book
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                     <div class="book-spine"></div>
                     <div class="book-cover" id="cov-2021">
                       <div class="cov-face cov-front" style="--cbg:#1A2B1F">
@@ -448,23 +358,23 @@
                         </div>
                         <div class="polaroids">
                           <div class="pol" style="--r:-6deg;--tx:12%;--ty:16%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#3A5C40,#7A8C74)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Athangudi Floor</div>
                           </div>
                           <div class="pol" style="--r:9deg;--tx:55%;--ty:10%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#1A2B1F,#4A6B50)"></div>
+                            <div class="pol-img" style="background-image:url('assets/about.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Teak Pillars</div>
                           </div>
                           <div class="pol" style="--r:-3deg;--tx:33%;--ty:51%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#243020,#6B8C64)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_lounge.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Thinnai Verandah</div>
                           </div>
                         </div>
                         <div class="cov-foot">
                           <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Chettinad Craftsmanship</span>
                         </div>
-                        <button class="view-btn mag" data-yr="2021" aria-label="View 2021 project">
-                          <span>View Projects</span>
+                        <button class="view-btn mag open-modal-btn" data-yr="2021" aria-label="Explore 2021 project">
+                          <span>Explore Projects</span>
                           <i class="fa-solid fa-chevron-right"></i>
                         </button>
                       </div>
@@ -481,48 +391,6 @@
               <div class="book-world" id="bw-2023" data-yr="2023">
                 <div class="book-scene">
                   <div class="book" id="book-2023">
-                    <div class="book-pages">
-                      <div class="book-spread">
-                        <div class="pg pg-left">
-                          <div class="pg-orn">❧</div>
-                          <h3 class="pg-title">Kovai Biophilic<br>Sanctuary</h3>
-                          <div class="pg-loc"><i class="fa-solid fa-location-dot"></i> Race Course, Coimbatore</div>
-                          <blockquote class="pg-quote">
-                            "Natural breeze corridors, indoor waterfall features, and warm oak &amp; Erode silk drapes. Complete tranquility."
-                          </blockquote>
-                          <div class="pg-client">
-                            <div class="pg-av">VK</div>
-                            <div>
-                              <div class="pg-cn">V. Krishnakumar</div>
-                              <div class="pg-cr">Industrialist · 2023</div>
-                            </div>
-                          </div>
-                          <div class="pg-specs">
-                            <div class="spec"><span class="sk">Area</span><span class="sv">6,800 sq.ft</span></div>
-                            <div class="spec"><span class="sk">Style</span><span class="sv">Japandi Biophilic</span></div>
-                            <div class="spec"><span class="sk">Duration</span><span class="sv">16 months</span></div>
-                          </div>
-                        </div>
-                        <div class="pg pg-right">
-                          <div class="pg-imgs">
-                            <div class="pi pi-main" style="--bg: linear-gradient(145deg,#1F1A2B,#4A3F6B,#9B8EC4)">
-                              <span class="pi-lbl">Living Waterfall</span>
-                            </div>
-                            <div class="pi-row">
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#150E2A,#5A4A8A)">
-                                <span class="pi-lbl">Tea Pavilion</span>
-                              </div>
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#2A2040,#7A6CAA)">
-                                <span class="pi-lbl">Master Deck</span>
-                              </div>
-                            </div>
-                          </div>
-                          <button class="pill pill-gold pill-sm book-close-btn" data-yr="2023">
-                            <i class="fa-solid fa-xmark"></i> Close Book
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                     <div class="book-spine"></div>
                     <div class="book-cover" id="cov-2023">
                       <div class="cov-face cov-front" style="--cbg:#1F1A2B">
@@ -534,23 +402,23 @@
                         </div>
                         <div class="polaroids">
                           <div class="pol" style="--r:-10deg;--tx:11%;--ty:18%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#4A3F6B,#9B8EC4)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Kovai Greens</div>
                           </div>
                           <div class="pol" style="--r:7deg;--tx:54%;--ty:7%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#1F1A2B,#5A4A8A)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_bedroom.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Silk Drapes</div>
                           </div>
                           <div class="pol" style="--r:-2deg;--tx:32%;--ty:52%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#2A2040,#7A6CAA)"></div>
+                            <div class="pol-img" style="background-image:url('assets/about.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Waterfall Foyer</div>
                           </div>
                         </div>
                         <div class="cov-foot">
                           <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Biophilic Living</span>
                         </div>
-                        <button class="view-btn mag" data-yr="2023" aria-label="View 2023 project">
-                          <span>View Projects</span>
+                        <button class="view-btn mag open-modal-btn" data-yr="2023" aria-label="Explore 2023 project">
+                          <span>Explore Projects</span>
                           <i class="fa-solid fa-chevron-right"></i>
                         </button>
                       </div>
@@ -567,48 +435,6 @@
               <div class="book-world" id="bw-2024" data-yr="2024">
                 <div class="book-scene">
                   <div class="book" id="book-2024">
-                    <div class="book-pages">
-                      <div class="book-spread">
-                        <div class="pg pg-left">
-                          <div class="pg-orn">❧</div>
-                          <h3 class="pg-title">Promenade Villa<br>Puducherry</h3>
-                          <div class="pg-loc"><i class="fa-solid fa-location-dot"></i> White Town, Puducherry</div>
-                          <blockquote class="pg-quote">
-                            "French colonial archways, terracotta tiles, and brass-fitted rattan joinery overlooking the Bay of Bengal."
-                          </blockquote>
-                          <div class="pg-client">
-                            <div class="pg-av">AD</div>
-                            <div>
-                              <div class="pg-cn">Ananya &amp; David Dupont</div>
-                              <div class="pg-cr">Homeowners · 2024</div>
-                            </div>
-                          </div>
-                          <div class="pg-specs">
-                            <div class="spec"><span class="sk">Area</span><span class="sv">4,600 sq.ft</span></div>
-                            <div class="spec"><span class="sk">Style</span><span class="sv">French Colonial Luxury</span></div>
-                            <div class="spec"><span class="sk">Duration</span><span class="sv">11 months</span></div>
-                          </div>
-                        </div>
-                        <div class="pg pg-right">
-                          <div class="pg-imgs">
-                            <div class="pi pi-main" style="--bg: linear-gradient(145deg,#1B2320,#3A5040,#7A8C74)">
-                              <span class="pi-lbl">Ocean Deck</span>
-                            </div>
-                            <div class="pi-row">
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#101810,#4A6050)">
-                                <span class="pi-lbl">Colonial Salon</span>
-                              </div>
-                              <div class="pi pi-sm" style="--bg: linear-gradient(135deg,#1E2A20,#5C7060)">
-                                <span class="pi-lbl">Courtyard Pool</span>
-                              </div>
-                            </div>
-                          </div>
-                          <button class="pill pill-gold pill-sm book-close-btn" data-yr="2024">
-                            <i class="fa-solid fa-xmark"></i> Close Book
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                     <div class="book-spine"></div>
                     <div class="book-cover" id="cov-2024">
                       <div class="cov-face cov-front" style="--cbg:#1B2320">
@@ -620,23 +446,23 @@
                         </div>
                         <div class="polaroids">
                           <div class="pol" style="--r:-7deg;--tx:14%;--ty:15%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#3A5040,#7A8C74)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_lounge.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Puducherry Sea</div>
                           </div>
                           <div class="pol" style="--r:9deg;--tx:57%;--ty:8%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#1B2320,#4A6050)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Rattan Joinery</div>
                           </div>
                           <div class="pol" style="--r:-5deg;--tx:34%;--ty:50%">
-                            <div class="pol-img" style="--pbg:linear-gradient(135deg,#1E2A20,#5C7060)"></div>
+                            <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
                             <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Terracotta Arch</div>
                           </div>
                         </div>
                         <div class="cov-foot">
                           <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Coastal Colonial Elegance</span>
                         </div>
-                        <button class="view-btn mag" data-yr="2024" aria-label="View 2024 project">
-                          <span>View Projects</span>
+                        <button class="view-btn mag open-modal-btn" data-yr="2024" aria-label="Explore 2024 project">
+                          <span>Explore Projects</span>
                           <i class="fa-solid fa-chevron-right"></i>
                         </button>
                       </div>
@@ -898,6 +724,84 @@
     </section>
 
   </main>
+
+  <!-- ====================================================
+  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY
+  ==================================================== -->
+  <div class="book-modal-overlay" id="book-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project Travel Diary Spread">
+    <div class="bm-backdrop" id="bm-backdrop"></div>
+    <div class="bm-container">
+      <button type="button" class="bm-close-btn" id="bm-close-btn" aria-label="Close Project Book">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="bm-book-spread">
+        <!-- LEFT PAGE OF OPEN SPREAD: Client Note, Description, Specs & Nav -->
+        <div class="bm-pg bm-pg-left">
+          <div class="bm-orn">❧</div>
+          <div class="bm-yr-tag" id="bm-yr-tag">2019 MILESTONE</div>
+          <h2 class="bm-title" id="bm-title">Boat Club Residence</h2>
+          <div class="bm-loc" id="bm-loc"><i class="fa-solid fa-location-dot"></i> RA Puram, Chennai</div>
+          
+          <div class="bm-client-quote-box">
+            <blockquote class="bm-quote" id="bm-quote">
+              "Aura &amp; Dakshin preserved our family's heritage Tanjore bronzes while giving us an Italian marble open living space."
+            </blockquote>
+            <div class="bm-client-profile">
+              <div class="bm-av" id="bm-av">SR</div>
+              <div>
+                <div class="bm-cn" id="bm-cn">S. Ramaswamy</div>
+                <div class="bm-cr" id="bm-cr">Homeowner · Chennai</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="bm-desc" id="bm-desc">
+            A harmonious fusion of contemporary open-plan living with restored antique Chettinad joinery. Featuring hand-carved teakwood doorways, custom brass lighting fixtures, and seamless indoor-outdoor verandah flow.
+          </p>
+
+          <div class="bm-specs-grid" id="bm-specs">
+            <div class="bm-spec-item"><span class="bm-sk">Carpet Area</span><span class="bm-sv" id="bm-spec-area">5,400 sq.ft</span></div>
+            <div class="bm-spec-item"><span class="bm-sk">Design Style</span><span class="bm-sv" id="bm-spec-style">Neo-Classical &amp; Bronze</span></div>
+            <div class="bm-spec-item"><span class="bm-sk">Material Palette</span><span class="bm-sv" id="bm-spec-material">Teak, Marble, Tanjore Brass</span></div>
+            <div class="bm-spec-item"><span class="bm-sk">Execution Time</span><span class="bm-sv" id="bm-spec-duration">14 months</span></div>
+          </div>
+
+          <div class="bm-nav-row">
+            <button type="button" class="pill pill-gold pill-sm mag" id="bm-next-btn">
+              <span>Next Project</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT PAGE OF OPEN SPREAD: 3 Interior Project Images Grid -->
+        <div class="bm-pg bm-pg-right">
+          <div class="bm-gallery-header">
+            <span class="bm-gh-title">Project Gallery Spread</span>
+            <span class="bm-gh-count">3 High-Res Photography Views</span>
+          </div>
+
+          <div class="bm-gallery-grid">
+            <!-- 1 Large Hero Photo -->
+            <div class="bm-img-card bm-img-hero" id="bm-img-1" style="background-image:url('assets/hero_chettinad.jpg')">
+              <span class="bm-img-tag" id="bm-tag-1">Grand Entrance Foyer</span>
+            </div>
+            <!-- 2 Sub Photos -->
+            <div class="bm-img-sub-row">
+              <div class="bm-img-card bm-img-sub" id="bm-img-2" style="background-image:url('assets/hero.jpg')">
+                <span class="bm-img-tag" id="bm-tag-2">Central Courtyard</span>
+              </div>
+              <div class="bm-img-card bm-img-sub" id="bm-img-3" style="background-image:url('assets/hero_bedroom.jpg')">
+                <span class="bm-img-tag" id="bm-tag-3">Master Suite</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.bm-book-spread -->
+    </div><!-- /.bm-container -->
+  </div><!-- /.book-modal-overlay -->
 
   <!-- ====================================================
   FOOTER
