@@ -1,6 +1,6 @@
 /* ============================================================
-   AURA & DAKSHIN INTERIORS — Main Engine v6.0
-   Cinematic Transporter + Right-Side Bookshelf Flying Exchange + Realistic 3D Page Turn
+   AURA & DAKSHIN INTERIORS — Main Engine v7.0
+   Parallax Architecture Hero + Flying Bookshelf Engine + Crisp 3D Page Turn
    ============================================================ */
 
 /* ── STATE MANAGEMENT ─────────────────────────────────────── */
@@ -285,7 +285,7 @@ function initLenis() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CINEMATIC HERO ANIMATIONS
+   CINEMATIC HERO ANIMATIONS & PARALLAX BACKDROP
 ──────────────────────────────────────────────────────────── */
 function triggerHeroAnimations() {
   const tl = gsap.timeline();
@@ -295,6 +295,18 @@ function triggerHeroAnimations() {
   });
 
   tl.from('.cinematic-glow', { scale: 0.5, opacity: 0, duration: 1.5, ease: 'power2.out' }, 0.2);
+
+  // Parallax Scroll for Card A background image
+  gsap.to('#hero-bg-parallax', {
+    yPercent: 20,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
 
   document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.to, 10) || 0;
@@ -406,7 +418,6 @@ function executeRightBookshelfExchange(targetYr) {
 
   initAudio(); playBookFly();
 
-  // Update right bookshelf rack UI highlights
   document.querySelectorAll('.rack-shelf-item').forEach(item => {
     if (item.dataset.yr === targetYr) {
       item.classList.add('active');
@@ -426,7 +437,6 @@ function executeRightBookshelfExchange(targetYr) {
   const stageWrapper = document.getElementById('active-book-wrapper');
   if (!stageWrapper) return;
 
-  // Fly current book back to right shelf slot
   const currentBook = stageWrapper.firstElementChild;
   if (currentBook) {
     gsap.to(currentBook, {
@@ -440,7 +450,6 @@ function executeRightBookshelfExchange(targetYr) {
   }
 }
 
-/* Mount & Fly New Book from Right Shelf onto Central Reading Pedestal */
 function mountActiveBookOnStage(yr) {
   const stageWrapper = document.getElementById('active-book-wrapper');
   const data = projectData[yr];
@@ -494,7 +503,6 @@ function mountActiveBookOnStage(yr) {
   const book = document.getElementById(`book-${yr}`);
   const btn = stageWrapper.querySelector('.open-modal-btn');
 
-  // GSAP 3D Arc Swoop Landing Animation
   gsap.fromTo(newBookScene, 
     { x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0 },
     { x: 0, y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.65, ease: 'power3.out' }
@@ -657,7 +665,7 @@ function initChips() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   FIXED CHRONO POPOVER DIALOG (UNCLIPPED FULL-SCREEN OVERLAY)
+   FIXED CHRONO POPOVER DIALOG
 ──────────────────────────────────────────────────────────── */
 function initChrono() {
   const trig = document.getElementById('chrono-trig');
@@ -780,16 +788,15 @@ function initChrono() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   STICKMAN & PAPER PLANE FLIGHT SUBMISSION ANIMATION
+   STUDIO ENVELOPE SEAL SUBMISSION
 ──────────────────────────────────────────────────────────── */
 function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
   const btnText = document.getElementById('submit-btn-text');
-  const stickman = document.getElementById('stickman');
-  const plane = document.getElementById('paper-plane');
+  const sweep = document.getElementById('submit-progress-sweep');
 
-  if (!form || !submitBtn || !stickman || !plane) return;
+  if (!form || !submitBtn) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -798,20 +805,16 @@ function initFlightForm() {
     const name = document.getElementById('cf-name').value;
     if (!name) { alert('Please enter your name'); return; }
 
-    btnText.textContent = 'Preparing Flight...';
+    btnText.textContent = 'Sealing Consultation Envelope...';
 
-    const flightTl = gsap.timeline();
-
-    flightTl.to(stickman, { x: 130, duration: 1.2, ease: 'power1.inOut' });
-    flightTl.to(stickman, { y: -5, scale: 0.7, duration: 0.3, ease: 'back.out(2)' });
-    flightTl.to([plane, stickman], {
-      x: '+=250', y: '-=180', scale: 1.6, rotation: -25, duration: 1.4, ease: 'power2.in',
-      onStart: () => { btnText.textContent = '✈ Flying Enquiry to Studio...'; },
+    gsap.to(sweep, {
+      left: '100%', duration: 1.2, ease: 'power2.inOut',
       onComplete: () => {
         btnText.textContent = '✓ Consultation Enquiry Sent!';
         submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
         submitBtn.style.color = '#fff';
         form.reset();
+        gsap.set(sweep, { left: '-100%' });
       }
     });
   });

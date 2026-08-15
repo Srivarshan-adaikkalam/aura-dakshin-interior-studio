@@ -73,45 +73,49 @@
   <main>
 
     <!-- ====================================================
-    HERO — CINEMATIC BENTO GRID LAYOUT
+    HERO — CINEMATIC BENTO GRID WITH ARCHITECTURAL BACKDROP
     ==================================================== -->
     <section id="hero" class="hero-sec">
       <div class="hero-bento">
 
-        <!-- Card A: Cinematic Headline Banner (Full Width) -->
-        <article class="bc card-a cinematic-card" data-reveal>
+        <!-- Card A: Cinematic Headline Banner with Architecture Motion Backdrop -->
+        <article class="bc card-a cinematic-card" id="hero-card-a" data-reveal>
+          <div class="cinematic-bg-img" id="hero-bg-parallax" style="background-image: url('assets/hero_chettinad.jpg')" aria-hidden="true"></div>
+          <div class="cinematic-vignette" aria-hidden="true"></div>
           <div class="cinematic-glow" aria-hidden="true"></div>
           
-          <div class="card-tag">
-            <span class="tag-dot"></span>
-            <span>Architectural Digest AD100 Studio · Chennai | Coimbatore | Chettinad</span>
-          </div>
+          <div class="card-a-content">
+            <div class="card-tag">
+              <span class="tag-dot"></span>
+              <span>Architectural Digest AD100 Studio · Chennai | Coimbatore | Chettinad</span>
+            </div>
 
-          <h1 class="hero-h1 cinematic-h1">
-            <span class="h1l"><span class="h1w">CRAFTING</span></span>
-            <span class="h1l"><em class="h1em">SOUTH INDIAN</em></span>
-            <span class="h1l"><span class="h1w">SANCTUARIES</span></span>
-          </h1>
+            <h1 class="hero-h1 cinematic-h1">
+              <span class="h1l"><span class="h1w">CRAFTING</span></span>
+              <span class="h1l"><em class="h1em">SOUTH INDIAN</em></span>
+              <span class="h1l"><span class="h1w">SANCTUARIES</span></span>
+            </h1>
 
-          <p class="hero-p">
-            We synthesize international luxury minimalism with Tamil Nadu's rich architectural heritage — combining hand-pressed Athangudi tiles, reclaimed Chettinad teak pillars, and Tanjore bronze detailing with 8K 3D visualization.
-          </p>
+            <p class="hero-p">
+              We synthesize international luxury minimalism with Tamil Nadu's rich architectural heritage — combining hand-pressed Athangudi tiles, reclaimed Chettinad teak pillars, and Tanjore bronze detailing with 8K 3D visualization.
+            </p>
 
-          <div class="hero-highlights">
-            <span class="hl-chip"><i class="fa-solid fa-gem"></i> Athangudi &amp; Teak Joinery</span>
-            <span class="hl-chip"><i class="fa-solid fa-feather"></i> Biophilic Thinnai Courtyards</span>
-            <span class="hl-chip"><i class="fa-solid fa-award"></i> AD100 &amp; Tamil Nadu Heritage Award</span>
-          </div>
+            <div class="hero-highlights">
+              <span class="hl-chip"><i class="fa-solid fa-gem"></i> Athangudi &amp; Teak Joinery</span>
+              <span class="hl-chip"><i class="fa-solid fa-feather"></i> Biophilic Thinnai Courtyards</span>
+              <span class="hl-chip"><i class="fa-solid fa-award"></i> AD100 &amp; Tamil Nadu Heritage Award</span>
+            </div>
 
-          <div class="hero-ctas">
-            <a href="#journey" class="pill pill-gold" id="hero-cta">
-              <span>Explore Scrollytelling Journey</span>
-              <span class="pill-wave"></span>
-            </a>
-            <a href="#consultation" class="pill-ghost">
-              <i class="fa-regular fa-calendar"></i>
-              <span>Book Consultation</span>
-            </a>
+            <div class="hero-ctas">
+              <a href="#journey" class="pill pill-gold" id="hero-cta">
+                <span>Explore Scrollytelling Journey</span>
+                <span class="pill-wave"></span>
+              </a>
+              <a href="#consultation" class="pill-ghost">
+                <i class="fa-regular fa-calendar"></i>
+                <span>Book Consultation</span>
+              </a>
+            </div>
           </div>
         </article>
 
@@ -217,7 +221,7 @@
     </section>
 
     <!-- ====================================================
-    SCROLLYTELLING JOURNEY — CINEMATIC LUXURY CAR + RIGHT BOOKSHELF EXCHANGE
+    SCROLLYTELLING JOURNEY — FULL HIGHWAY VIEWPORT & DETAILED 3D BOOKSHELF
     ==================================================== -->
     <section id="journey" class="journey-sec">
 
@@ -225,24 +229,23 @@
       <div class="journey-intro">
         <span class="sec-tag">Our Scrollytelling Journey</span>
         <h2 class="sec-h2">A Decade of South Indian<br><em>Architectural Milestones</em></h2>
-        <p class="sec-p">Scroll to drive down the highway. As the luxury studio SUV arrives at each milestone, the corresponding diary book flies off the right bookshelf onto the reading stage!</p>
+        <p class="sec-p">Scroll down the highway. As the studio SUV arrives at each milestone, the corresponding leather diary flies off the mahogany bookshelf onto the reading pedestal!</p>
       </div>
 
       <!-- Tall scroll container -->
       <div class="jrny-scroll" id="jrny-scroll">
         <div class="jrny-sticky" id="jrny-sticky">
 
-          <!-- ROAD SCENE WITH HIGH-DETAIL LUXURY TRANSPORTER -->
+          <!-- HIGHWAY ROAD SCENE (FULL UNBROKEN VIEWPORT) -->
           <div class="road-scene" id="road-scene">
-            <svg id="road-svg" class="road-svg" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+            <svg id="road-svg" class="road-svg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="roadFill" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" style="stop-color:#2A2535"/>
-                  <stop offset="100%" style="stop-color:#1C1828"/>
+                  <stop offset="100%" style="stop-color:#16121D"/>
                 </linearGradient>
-                <!-- Headlight Cone Gradient -->
                 <linearGradient id="headlightBeam" x1="0%" y1="50%" x2="100%" y2="50%">
-                  <stop offset="0%" style="stop-color:rgba(255,245,210,0.85)"/>
+                  <stop offset="0%" style="stop-color:rgba(255,245,210,0.95)"/>
                   <stop offset="100%" style="stop-color:rgba(255,245,210,0)"/>
                 </linearGradient>
                 <filter id="carGlow" x="-100%" y="-100%" width="300%" height="300%">
@@ -251,60 +254,58 @@
                 </filter>
               </defs>
 
+              <!-- Highway Kerb & Road Path -->
               <path class="road-kerb"
-                d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
-                stroke-width="76" stroke="#221D30" fill="none"/>
+                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
+                stroke-width="84" stroke="#251E33" fill="none"/>
 
               <path id="road-path"
-                d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
-                stroke-width="64" stroke="url(#roadFill)" fill="none"/>
+                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
+                stroke-width="72" stroke="url(#roadFill)" fill="none"/>
 
               <path class="road-dash"
-                d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
-                stroke-width="2" stroke="#C9A96E" fill="none" stroke-dasharray="22,28" opacity="0.35"/>
+                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
+                stroke-width="3" stroke="#C9A96E" fill="none" stroke-dasharray="24,30" opacity="0.45"/>
 
-              <!-- Waypoint Nodes -->
+              <!-- High-Contrast Waypoint Markers -->
               <g class="wp-group" data-yr="2019">
-                <circle class="wp-dot" id="wp-2019" cx="210" cy="108" r="8" fill="#C9A96E"/>
-                <text x="210" y="76" text-anchor="middle" class="wp-yr">2019 · Chennai</text>
+                <circle class="wp-ring" cx="210" cy="118" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2019" cx="210" cy="118" r="8" fill="#C9A96E"/>
+                <text x="210" y="82" text-anchor="middle" class="wp-yr">2019 · Chennai</text>
               </g>
               <g class="wp-group" data-yr="2021">
-                <circle class="wp-dot" id="wp-2021" cx="430" cy="105" r="8" fill="#C9A96E"/>
-                <text x="430" y="73" text-anchor="middle" class="wp-yr">2021 · Karaikudi</text>
+                <circle class="wp-ring" cx="430" cy="115" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2021" cx="430" cy="115" r="8" fill="#C9A96E"/>
+                <text x="430" y="79" text-anchor="middle" class="wp-yr">2021 · Karaikudi</text>
               </g>
               <g class="wp-group" data-yr="2023">
-                <circle class="wp-dot" id="wp-2023" cx="660" cy="112" r="8" fill="#C9A96E"/>
-                <text x="660" y="80" text-anchor="middle" class="wp-yr">2023 · Kovai</text>
+                <circle class="wp-ring" cx="660" cy="122" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2023" cx="660" cy="122" r="8" fill="#C9A96E"/>
+                <text x="660" y="86" text-anchor="middle" class="wp-yr">2023 · Kovai</text>
               </g>
               <g class="wp-group" data-yr="2024">
-                <circle class="wp-dot" id="wp-2024" cx="870" cy="104" r="8" fill="#C9A96E"/>
-                <text x="870" y="72" text-anchor="middle" class="wp-yr">2024 · Puducherry</text>
+                <circle class="wp-ring" cx="870" cy="114" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2024" cx="870" cy="114" r="8" fill="#C9A96E"/>
+                <text x="870" y="78" text-anchor="middle" class="wp-yr">2024 · Puducherry</text>
               </g>
 
               <!-- HIGH-DETAIL LUXURY TRANSPORTER SUV CAR -->
               <g id="journey-car" class="journey-car" filter="url(#carGlow)">
-                <!-- Headlight Beams -->
-                <polygon points="20,-8 70,-22 70,22 20,8" fill="url(#headlightBeam)" opacity="0.75"/>
-                <!-- Car Shadow -->
-                <rect x="-26" y="-14" width="52" height="28" rx="10" fill="rgba(0,0,0,0.6)" filter="url(#carGlow)"/>
-                <!-- SUV Metallic Body -->
+                <polygon points="20,-8 75,-24 75,24 20,8" fill="url(#headlightBeam)" opacity="0.8"/>
+                <rect x="-26" y="-14" width="52" height="28" rx="10" fill="rgba(0,0,0,0.7)" filter="url(#carGlow)"/>
                 <rect x="-24" y="-12" width="48" height="24" rx="7" fill="#1C1820" stroke="#C9A96E" stroke-width="1.5"/>
-                <!-- Roof & Cabin Glass -->
                 <rect x="-10" y="-9" width="30" height="18" rx="4" fill="#09080A" stroke="#E5C896" stroke-width="0.8"/>
                 <path d="M 4,-8 L 18,-8 L 18,8 L 4,8 Z" fill="rgba(201,169,110,0.3)"/>
-                <!-- Front Grill & Bumper -->
                 <rect x="22" y="-9" width="3" height="18" rx="1.5" fill="#E5C896"/>
-                <!-- LED Headlights -->
                 <circle cx="23" cy="-7" r="2.5" fill="#FFF5CC"/>
                 <circle cx="23" cy="7" r="2.5" fill="#FFF5CC"/>
-                <!-- LED Taillights -->
                 <rect x="-25" y="-9" width="2" height="5" rx="1" fill="#FF4433"/>
                 <rect x="-25" y="4" width="2" height="5" rx="1" fill="#FF4433"/>
               </g>
             </svg>
           </div>
 
-          <!-- BOOK DISPLAY STAGE WITH RIGHT SIDE 3D BOOKSHELF RACK -->
+          <!-- BOOK DISPLAY STAGE WITH DETAILED MAHOGANY LIBRARY BOOKSHELF RACK -->
           <div class="book-display" id="book-display">
 
             <div class="active-yr" id="active-yr">
@@ -321,15 +322,16 @@
                 </div>
               </div>
 
-              <!-- RIGHT SIDE: Vertical 3D Studio Bookshelf Rack -->
+              <!-- RIGHT SIDE: Detailed Mahogany 3D Library Bookshelf Rack -->
               <aside class="right-bookshelf-rack" aria-label="Studio Heritage Library Shelf">
+                <div class="rack-top-molding"></div>
                 <div class="rack-header">
                   <i class="fa-solid fa-book-bookmark"></i>
-                  <span>STUDIO LIBRARY</span>
+                  <span>HERITAGE LIBRARY</span>
                 </div>
 
                 <div class="rack-shelves">
-                  <div class="rack-shelf-item" data-yr="2019" id="shelf-item-2019">
+                  <div class="rack-shelf-item active" data-yr="2019" id="shelf-item-2019">
                     <div class="mini-book-spine" style="--cbg:#2C1F17">
                       <span class="mbs-yr">2019</span>
                       <span class="mbs-title">Chennai</span>
@@ -419,7 +421,7 @@
     </section>
 
     <!-- ====================================================
-    SERVICES BENTO (01 -> 02 -> 03 -> 04 SEQUENTIAL GRID ORDER)
+    SERVICES BENTO (PERFECTLY PROPORTIONED CARD SIZING)
     ==================================================== -->
     <section id="services" class="services-sec">
       <div class="sec-hd text-center">
@@ -547,7 +549,7 @@
     </section>
 
     <!-- ====================================================
-    CONSULTATION / BOOKING (WITH STICKMAN & PAPER PLANE FLIGHT)
+    CONSULTATION / BOOKING (WITH PREMIUM ENVELOPE SEAL ANIMATION)
     ==================================================== -->
     <section id="consultation" class="consult-sec">
       <div class="consult-inner">
@@ -604,7 +606,7 @@
               </div>
             </div>
 
-            <!-- CHRONO TELEMETRY DATE PICKER (FIXED FULLY-VISIBLE POPOVER) -->
+            <!-- CHRONO TELEMETRY DATE PICKER -->
             <div class="fr">
               <div class="fg">
                 <label class="fl">Preferred Consultation Date &amp; Time</label>
@@ -624,25 +626,11 @@
             </div>
 
             <div class="fr form-foot">
-              <!-- Animated Flight Stage Button -->
-              <button type="submit" class="pill pill-gold pill-lg submit-flight-btn" id="form-submit">
+              <!-- Premium Studio Envelope Seal Submit Button -->
+              <button type="submit" class="pill pill-gold pill-lg submit-seal-btn" id="form-submit">
                 <span class="btn-text" id="submit-btn-text">Send Consultation Enquiry</span>
-                
-                <!-- Stickman & Paper Plane Flight Canvas Stage -->
-                <svg class="flight-svg" id="flight-svg" viewBox="0 0 160 40" preserveAspectRatio="none" aria-hidden="true">
-                  <g id="paper-plane" transform="translate(130, 20) scale(0.9)">
-                    <path d="M 0,-10 L 20,0 L 0,10 L 4,2 L 0,-10 Z" fill="#FFF5CC" stroke="#C9A96E" stroke-width="1"/>
-                    <path d="M 4,2 L 20,0 L 4,5 Z" fill="#C9A96E" opacity="0.6"/>
-                  </g>
-                  <g id="stickman" transform="translate(-20, 20)">
-                    <circle cx="0" cy="-12" r="4" fill="#09080A"/>
-                    <line x1="0" y1="-8" x2="0" y2="2" stroke="#09080A" stroke-width="2.5" stroke-linecap="round"/>
-                    <line x1="0" y1="-5" x2="-6" y2="-1" stroke="#09080A" stroke-width="2" stroke-linecap="round" id="arm-left"/>
-                    <line x1="0" y1="-5" x2="6" y2="-1" stroke="#09080A" stroke-width="2" stroke-linecap="round" id="arm-right"/>
-                    <line x1="0" y1="2" x2="-5" y2="12" stroke="#09080A" stroke-width="2" stroke-linecap="round" id="leg-left"/>
-                    <line x1="0" y1="2" x2="5" y2="12" stroke="#09080A" stroke-width="2" stroke-linecap="round" id="leg-right"/>
-                  </g>
-                </svg>
+                <span class="btn-seal-icon" id="btn-seal-icon"><i class="fa-solid fa-paper-plane"></i></span>
+                <div class="submit-progress-sweep" id="submit-progress-sweep"></div>
               </button>
               <p class="form-note">We typically respond within 24 hours.</p>
             </div>
@@ -681,7 +669,7 @@
   </div>
 
   <!-- ====================================================
-  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY (REALISTIC 3D PAGE TURN)
+  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY (HIGH-CONTRAST & CRISP 3D FLIP)
   ==================================================== -->
   <div class="book-modal-overlay" id="book-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project Travel Diary Spread">
     <div class="bm-backdrop" id="bm-backdrop"></div>
@@ -722,13 +710,14 @@
             <div class="bm-spec-item"><span class="bm-sk">Execution Time</span><span class="bm-sv" id="bm-spec-duration">14 months</span></div>
           </div>
 
+          <!-- CLEAN HIGH-CONTRAST BOOK NAVIGATION ROW -->
           <div class="bm-nav-row">
-            <button type="button" class="pill pill-ghost pill-sm" id="bm-prev-btn">
+            <button type="button" class="pill pill-dark-gold pill-sm" id="bm-prev-btn">
               <i class="fa-solid fa-arrow-left"></i>
               <span>Previous Chapter</span>
             </button>
             <button type="button" class="pill pill-gold pill-sm" id="bm-next-btn">
-              <span>Next Chapter Page</span>
+              <span>Next Chapter</span>
               <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
