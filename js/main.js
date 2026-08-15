@@ -1,6 +1,6 @@
 /* ============================================================
-   AURA & DAKSHIN INTERIORS — Main Engine v4.0
-   Lenis + GSAP ScrollTrigger + 3D Travel Diary Physics + Full-Page Open Book Modal
+   AURA & DAKSHIN INTERIORS — Main Engine v5.0
+   Cinematic Hero + Bookshelf Unsheathing + Dual 3D Page Flip + Stickman Flight Button
    ============================================================ */
 
 /* ── STATE MANAGEMENT ─────────────────────────────────────── */
@@ -12,10 +12,38 @@ const state = {
   audioInit: false,
 };
 
+/* Team Data Store */
+const teamData = {
+  meera: {
+    name: 'Meera Nair',
+    role: 'Co-Founder & Principal Interior Designer',
+    quote: '"Every space must be a living dialogue between the inhabitants and their environment."',
+    bio: 'Meera leads spatial aesthetics and biophilic curation, specializing in Neo-Classical fusion and Japandi minimalist estates across Chennai & Coimbatore.',
+    chips: ['✦ AD100 Winner', '✦ 14 Yrs Experience', '✦ Spatial Curation'],
+    img: 'assets/about.jpg'
+  },
+  sundaram: {
+    name: 'K. Sundaram',
+    role: 'Co-Founder & Lead Architect',
+    quote: '"Preserving structural heritage while engineering zero-energy biophilic airflow is our calling."',
+    bio: 'Sundaram oversees architectural joinery, Chettinad timber restoration, and climate-responsive courtyard engineering across Karaikudi & Puducherry.',
+    chips: ['✦ Heritage Architect', '✦ Teak Specialist', '✦ 18 Yrs Mastery'],
+    img: 'assets/hero_lounge.jpg'
+  },
+  anbarasan: {
+    name: 'S. Anbarasan',
+    role: 'Joinery Director & Master Craftsman',
+    quote: '"Athangudi tilemaking and hand-carved teak pillars carry the soul of ancient Tamil artisans."',
+    bio: 'Anbarasan manages our network of 40+ Chettinad master carpenters, stone carvers, and bronze artisans, ensuring museum-grade handcraft quality.',
+    chips: ['✦ Master Woodworker', '✦ Athangudi Craftsman', '✦ Turnkey Lead'],
+    img: 'assets/hero_chettinad.jpg'
+  }
+};
+
 /* Project Data Store for Full-Page Book Spread Modal */
 const projectData = {
   '2019': {
-    yrTag: '2019 MILESTONE PROJECT',
+    yrTag: '2019 MILESTONE CHAPTER',
     title: 'Boat Club Residence',
     loc: 'RA Puram, Chennai',
     quote: '"Aura & Dakshin preserved our family\'s heritage Tanjore bronzes while giving us an Italian marble open living space."',
@@ -34,9 +62,10 @@ const projectData = {
     img3: 'assets/hero_bedroom.jpg',
     tag3: 'Verandah Lounge',
     nextYr: '2021',
+    prevYr: '2024'
   },
   '2021': {
-    yrTag: '2021 MILESTONE PROJECT',
+    yrTag: '2021 MILESTONE CHAPTER',
     title: 'Chettinad Courtyard Mansion',
     loc: 'Karaikudi, Sivaganga',
     quote: '"Hand-pressed Athangudi tiles underfoot and 100-year-old carved teak pillars illuminated by soft brass pendants — magical."',
@@ -55,9 +84,10 @@ const projectData = {
     img3: 'assets/hero_lounge.jpg',
     tag3: 'Pillar Dining Hall',
     nextYr: '2023',
+    prevYr: '2019'
   },
   '2023': {
-    yrTag: '2023 MILESTONE PROJECT',
+    yrTag: '2023 MILESTONE CHAPTER',
     title: 'Kovai Biophilic Sanctuary',
     loc: 'Race Course, Coimbatore',
     quote: '"Natural breeze corridors, indoor waterfall features, and warm oak & Erode silk drapes. Complete tranquility."',
@@ -76,9 +106,10 @@ const projectData = {
     img3: 'assets/about.jpg',
     tag3: 'Tea Garden Pavilion',
     nextYr: '2024',
+    prevYr: '2021'
   },
   '2024': {
-    yrTag: '2024 MILESTONE PROJECT',
+    yrTag: '2024 MILESTONE CHAPTER',
     title: 'Promenade Coastal Villa',
     loc: 'White Town, Puducherry',
     quote: '"French colonial archways, terracotta tiles, and brass-fitted rattan joinery overlooking the Bay of Bengal."',
@@ -97,6 +128,7 @@ const projectData = {
     img3: 'assets/hero.jpg',
     tag3: 'Plunge Pool Deck',
     nextYr: '2019',
+    prevYr: '2023'
   },
 };
 
@@ -111,9 +143,7 @@ function initAudio() {
       state.audioCtx = new AudioCtx();
       state.audioInit = true;
     }
-  } catch (e) {
-    console.log('Web Audio not supported');
-  }
+  } catch (e) {}
 }
 
 function playPageTurn() {
@@ -236,64 +266,6 @@ function initParticles() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CUSTOM CURSOR & MAGNETIC PULL
-──────────────────────────────────────────────────────────── */
-function initCursor() {
-  const orbit = document.getElementById('c-orbit');
-  const dot = document.getElementById('c-dot');
-  if (!orbit || !dot) return;
-
-  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-  let ox = mx, oy = my, dx = mx, dy = my;
-
-  window.addEventListener('mousemove', (e) => {
-    mx = e.clientX; my = e.clientY;
-  });
-
-  function render() {
-    ox += (mx - ox) * 0.15;
-    oy += (my - oy) * 0.15;
-    dx += (mx - dx) * 0.45;
-    dy += (my - dy) * 0.45;
-
-    orbit.style.left = ox + 'px';
-    orbit.style.top = oy + 'px';
-    dot.style.left = dx + 'px';
-    dot.style.top = dy + 'px';
-
-    requestAnimationFrame(render);
-  }
-  render();
-
-  // Hover states
-  document.querySelectorAll('a, button, .bc, .book-cover, .chip, .ts').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-  });
-
-  window.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-  window.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
-
-  // Magnetic elements
-  document.querySelectorAll('.mag').forEach(el => {
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-      if (dist < 80) {
-        const tx = (e.clientX - cx) * 0.25;
-        const ty = (e.clientY - cy) * 0.25;
-        gsap.to(el, { x: tx, y: ty, duration: 0.3, ease: 'power2.out' });
-      }
-    });
-    el.addEventListener('mouseleave', () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
-    });
-  });
-}
-
-/* ────────────────────────────────────────────────────────────
    LENIS SMOOTH SCROLLING
 ──────────────────────────────────────────────────────────── */
 let lenis;
@@ -313,15 +285,21 @@ function initLenis() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   HERO ANIMATIONS
+   CINEMATIC HERO ANIMATIONS
 ──────────────────────────────────────────────────────────── */
 function triggerHeroAnimations() {
-  gsap.to('.hero-sec [data-reveal]', {
-    opacity: 1, y: 0, duration: 0.8,
+  const tl = gsap.timeline();
+
+  tl.to('.hero-sec [data-reveal]', {
+    opacity: 1, y: 0, duration: 0.9,
     stagger: 0.15, ease: 'power3.out',
   });
 
-  // Animate counter stats
+  tl.from('.cinematic-glow', {
+    scale: 0.5, opacity: 0, duration: 1.5, ease: 'power2.out'
+  }, 0.2);
+
+  // Counter stats animation
   document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.to, 10) || 0;
     gsap.to(el, {
@@ -370,7 +348,7 @@ function initHeroShowcase() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   ROAD SVG + CAR SCROLLYTELLING
+   ROAD SVG + CAR SCROLLYTELLING + BOOKSHELF ELEVATION
 ──────────────────────────────────────────────────────────── */
 let roadPath, roadPathLen;
 const yearThresholds = [
@@ -432,6 +410,7 @@ function updateActiveYear(progress) {
   }
 }
 
+/* Bookshelf Book Unsheathing Animation */
 function switchActiveBookWorld(yr) {
   state.currentYear = yr;
   playPageTurn();
@@ -442,14 +421,15 @@ function switchActiveBookWorld(yr) {
 
   if (oldWorld && oldWorld !== newWorld) {
     gsap.to(oldWorld, {
-      opacity: 0, y: 30, duration: 0.4, ease: 'power2.in',
+      opacity: 0, y: 40, scale: 0.92, duration: 0.45, ease: 'power2.in',
       onComplete: () => {
         oldWorld.classList.remove('active');
         if (newWorld) {
           newWorld.classList.add('active');
-          gsap.fromTo(newWorld, { opacity: 0, y: -30 }, {
-            opacity: 1, y: 0, duration: 0.55, ease: 'power3.out',
-          });
+          gsap.fromTo(newWorld, 
+            { opacity: 0, y: 40, scale: 0.92 }, 
+            { opacity: 1, y: -20, scale: 1.05, duration: 0.6, ease: 'power3.out' }
+          );
         }
       },
     });
@@ -467,7 +447,7 @@ function switchActiveBookWorld(yr) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   3D BOOK PHYSICS (HOVER COVER LIFT) & MODAL TRIGGER
+   3D BOOK PHYSICS & FULL-PAGE MODAL ENGINE
 ──────────────────────────────────────────────────────────── */
 function initBooks() {
   document.querySelectorAll('.book-world').forEach(world => {
@@ -481,51 +461,38 @@ function initBooks() {
     const hoverElements = [cover, btn].filter(Boolean);
 
     hoverElements.forEach(el => {
-      // HOVER IN — cover gently lifts open (~28 degrees with elastic overshoot)
       el.addEventListener('mouseenter', () => {
         if (state.modalOpen) return;
         gsap.killTweensOf(cover);
         playPageTurn();
-        gsap.to(cover, {
-          rotateY: -28, duration: 0.85, ease: 'elastic.out(1, 0.45)',
-        });
-        gsap.to(book, {
-          rotateX: -4, rotateZ: 1.5, scale: 1.03, duration: 0.6, ease: 'power2.out',
-        });
+        gsap.to(cover, { rotateY: -28, duration: 0.85, ease: 'elastic.out(1, 0.45)' });
+        gsap.to(book, { rotateX: -4, rotateZ: 1.5, scale: 1.08, duration: 0.6, ease: 'power2.out' });
       });
 
-      // HOVER OUT — cover snaps back to closed resting state
       el.addEventListener('mouseleave', () => {
         if (state.modalOpen) return;
         gsap.killTweensOf(cover);
-        gsap.to(cover, {
-          rotateY: 0, duration: 0.7, ease: 'power2.inOut',
-        });
-        gsap.to(book, {
-          rotateX: 0, rotateZ: 0, scale: 1, duration: 0.5, ease: 'power2.out',
-        });
+        gsap.to(cover, { rotateY: 0, duration: 0.7, ease: 'power2.inOut' });
+        gsap.to(book, { rotateX: 0, rotateZ: 0, scale: 1.05, duration: 0.5, ease: 'power2.out' });
       });
     });
 
-    // CLICK — Open Full-Page Book Spread Overlay Modal
     if (btn) {
       btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        initAudio(); playClick();
-        openBookModal(yr);
+        e.stopPropagation(); initAudio(); playClick(); openBookModal(yr);
       });
     }
 
     cover.addEventListener('click', () => {
-      initAudio(); playClick();
-      openBookModal(yr);
+      initAudio(); playClick(); openBookModal(yr);
     });
   });
 
-  // Modal Close Events
+  // Modal Close Events & Dual Page Flip Navigation
   const closeBtn = document.getElementById('bm-close-btn');
   const backdrop = document.getElementById('bm-backdrop');
   const nextBtn = document.getElementById('bm-next-btn');
+  const prevBtn = document.getElementById('bm-prev-btn');
 
   if (closeBtn) closeBtn.addEventListener('click', closeBookModal);
   if (backdrop) backdrop.addEventListener('click', closeBookModal);
@@ -534,14 +501,44 @@ function initBooks() {
     nextBtn.addEventListener('click', () => {
       const data = projectData[state.activeModalYear];
       if (data && data.nextYr) {
-        initAudio(); playPageTurn();
-        openBookModal(data.nextYr);
+        animatePageFlip(data.nextYr, true);
+      }
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const data = projectData[state.activeModalYear];
+      if (data && data.prevYr) {
+        animatePageFlip(data.prevYr, false);
       }
     });
   }
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.modalOpen) closeBookModal();
+  });
+}
+
+/* Dual 3D Page Flip Animation */
+function animatePageFlip(targetYr, isForward) {
+  const stage = document.getElementById('bm-spread-stage');
+  if (!stage) return;
+
+  playPageTurn();
+
+  gsap.to(stage, {
+    rotateY: isForward ? -20 : 20,
+    opacity: 0.3,
+    duration: 0.35,
+    ease: 'power2.in',
+    onComplete: () => {
+      openBookModal(targetYr);
+      gsap.fromTo(stage, 
+        { rotateY: isForward ? 20 : -20, opacity: 0.3 },
+        { rotateY: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
+      );
+    }
   });
 }
 
@@ -553,7 +550,6 @@ function openBookModal(yr) {
   state.modalOpen = true;
   state.activeModalYear = yr;
 
-  // Populate Left Page Data
   document.getElementById('bm-yr-tag').textContent = data.yrTag;
   document.getElementById('bm-title').textContent = data.title;
   document.getElementById('bm-loc').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.loc}`;
@@ -567,7 +563,6 @@ function openBookModal(yr) {
   document.getElementById('bm-spec-material').textContent = data.specMaterial;
   document.getElementById('bm-spec-duration').textContent = data.specDuration;
 
-  // Populate Right Page Images
   document.getElementById('bm-img-1').style.backgroundImage = `url('${data.img1}')`;
   document.getElementById('bm-tag-1').textContent = data.tag1;
   document.getElementById('bm-img-2').style.backgroundImage = `url('${data.img2}')`;
@@ -596,7 +591,47 @@ function closeBookModal() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CHIP SELECTOR (consultation form)
+   INTERACTIVE TEAM SHOWCASE TABS
+──────────────────────────────────────────────────────────── */
+function initTeamShowcase() {
+  const tabs = document.querySelectorAll('.team-tab');
+  const quoteEl = document.getElementById('td-quote');
+  const bioEl = document.getElementById('td-bio');
+  const chipsEl = document.getElementById('td-chips');
+  const imgEl = document.getElementById('team-img');
+
+  if (!tabs.length || !quoteEl) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.classList.contains('active')) return;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      initAudio(); playClick();
+
+      const member = teamData[tab.dataset.member];
+      if (!member) return;
+
+      gsap.to([quoteEl, bioEl, chipsEl, imgEl], {
+        opacity: 0, duration: 0.25, ease: 'power2.in',
+        onComplete: () => {
+          quoteEl.textContent = member.quote;
+          bioEl.textContent = member.bio;
+          chipsEl.innerHTML = member.chips.map(c => `<span>${c}</span>`).join('');
+          if (imgEl) imgEl.style.backgroundImage = `url('${member.img}')`;
+
+          gsap.to([quoteEl, bioEl, chipsEl, imgEl], {
+            opacity: 1, duration: 0.45, stagger: 0.08, ease: 'power2.out'
+          });
+        }
+      });
+    });
+  });
+}
+
+/* ────────────────────────────────────────────────────────────
+   CHIP SELECTOR
 ──────────────────────────────────────────────────────────── */
 function initChips() {
   document.querySelectorAll('.chip-group').forEach(group => {
@@ -642,21 +677,18 @@ function initChrono() {
 
     grid.innerHTML = '';
 
-    // Day names
     ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
       const el = document.createElement('div');
       el.className = 'chrono-dn'; el.textContent = d;
       grid.appendChild(el);
     });
 
-    // Empty lead cells
     for (let i = 0; i < firstDay; i++) {
       const el = document.createElement('div');
       el.className = 'chrono-day empty';
       grid.appendChild(el);
     }
 
-    // Days
     for (let d = 1; d <= daysInMo; d++) {
       const el = document.createElement('div');
       el.className = 'chrono-day';
@@ -749,12 +781,16 @@ function initChrono() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CONSULTATION FORM SUBMISSION
+   STICKMAN & PAPER PLANE FLIGHT SUBMISSION ANIMATION
 ──────────────────────────────────────────────────────────── */
-function initForm() {
+function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
-  if (!form || !submitBtn) return;
+  const btnText = document.getElementById('submit-btn-text');
+  const stickman = document.getElementById('stickman');
+  const plane = document.getElementById('paper-plane');
+
+  if (!form || !submitBtn || !stickman || !plane) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -765,17 +801,36 @@ function initForm() {
       alert('Please enter your name'); return;
     }
 
-    gsap.to(submitBtn, {
-      scale: 0.95, duration: 0.15,
+    btnText.textContent = 'Preparing Flight...';
+
+    // 1. Stickman runs from left to right towards paper plane
+    const flightTl = gsap.timeline();
+
+    flightTl.to(stickman, {
+      x: 130, duration: 1.2, ease: 'power1.inOut',
+    });
+
+    // 2. Stickman hops onto paper plane
+    flightTl.to(stickman, {
+      y: -5, scale: 0.7, duration: 0.3, ease: 'back.out(2)',
+    });
+
+    // 3. Paper plane & stickman take off and fly into clouds
+    flightTl.to([plane, stickman], {
+      x: '+=250',
+      y: '-=180',
+      scale: 1.6,
+      rotation: -25,
+      duration: 1.4,
+      ease: 'power2.in',
+      onStart: () => {
+        btnText.textContent = '✈ Flying Enquiry to Studio...';
+      },
       onComplete: () => {
-        submitBtn.querySelector('span').textContent = 'Submitting Enquiry...';
-        gsap.to(submitBtn, { scale: 1, duration: 0.3 });
-        setTimeout(() => {
-          submitBtn.querySelector('span').textContent = '✓ Enquiry Sent Successfully!';
-          submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
-          submitBtn.style.color = '#fff';
-          form.reset();
-        }, 1200);
+        btnText.textContent = '✓ Consultation Enquiry Sent!';
+        submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
+        submitBtn.style.color = '#fff';
+        form.reset();
       }
     });
   });
@@ -791,38 +846,6 @@ function initScrollReveal() {
       start: 'top 85%',
       onEnter: () => el.classList.add('revealed'),
       once: true,
-    });
-  });
-}
-
-function initRipples() {
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const wave = btn.querySelector('.pill-wave');
-      if (!wave) return;
-      wave.style.left = (e.offsetX - 4) + 'px';
-      wave.style.top = (e.offsetY - 4) + 'px';
-      wave.classList.remove('animating');
-      requestAnimationFrame(() => wave.classList.add('animating'));
-    });
-  });
-}
-
-function initServiceTilts() {
-  document.querySelectorAll('.srv-card, .bc').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      const rx = ((e.clientY - r.top) / r.height - 0.5) * -4;
-      const ry = ((e.clientX - r.left) / r.width - 0.5) * 4;
-      gsap.to(card, {
-        rotateX: rx, rotateY: ry, transformPerspective: 1600,
-        duration: 0.35, ease: 'power2.out',
-      });
-    });
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)',
-      });
     });
   });
 }
@@ -857,13 +880,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initPreloader();
   initParticles();
-  initCursor();
-  initRipples();
   initChips();
   initChrono();
-  initForm();
+  initFlightForm();
   initHeroShowcase();
-  initServiceTilts();
+  initTeamShowcase();
   initBooks();
   initNavbar();
   initScrollProgress();
