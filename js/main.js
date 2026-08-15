@@ -449,53 +449,73 @@ function transitionToYear(yr) {
    Close button → cover closes
 ──────────────────────────────────────────────────────────── */
 function initBooks() {
-  document.querySelectorAll('.view-btn').forEach(btn => {
-    const yr = btn.dataset.yr;
+  document.querySelectorAll('.book-world').forEach(world => {
+    const yr = world.dataset.yr;
     const cover = document.getElementById(`cov-${yr}`);
     const book = document.getElementById(`book-${yr}`);
+    const btn = world.querySelector('.view-btn');
 
-    // HOVER IN — cover gently lifts open (~25–30 degrees)
-    btn.addEventListener('mouseenter', () => {
-      if (state.openBook === yr) return;
-      gsap.killTweensOf(cover);
-      playPageTurn();
-      gsap.to(cover, {
-        rotateY: -28,
-        duration: 0.85,
-        ease: 'elastic.out(1, 0.45)',
+    if (!cover || !book) return;
+
+    // Trigger hover on book cover OR view button
+    const hoverElements = [cover, btn].filter(Boolean);
+
+    hoverElements.forEach(el => {
+      // HOVER IN — cover gently lifts open (~28 degrees with elastic overshoot)
+      el.addEventListener('mouseenter', () => {
+        if (state.openBook === yr) return;
+        gsap.killTweensOf(cover);
+        playPageTurn();
+        gsap.to(cover, {
+          rotateY: -28,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.45)',
+        });
+        // Subtle 3D tilt
+        gsap.to(book, {
+          rotateX: -4, rotateZ: 1.5, scale: 1.03,
+          duration: 0.6, ease: 'power2.out',
+        });
       });
-      // Subtle whole-book tilt
-      gsap.to(book, {
-        rotateX: -3, rotateZ: 1,
-        duration: 0.6, ease: 'power2.out',
+
+      // HOVER OUT — cover snaps back to closed resting state
+      el.addEventListener('mouseleave', () => {
+        if (state.openBook === yr) return;
+        gsap.killTweensOf(cover);
+        gsap.to(cover, {
+          rotateY: 0,
+          duration: 0.7,
+          ease: 'power2.inOut',
+        });
+        gsap.to(book, {
+          rotateX: 0, rotateZ: 0, scale: 1,
+          duration: 0.5, ease: 'power2.out',
+        });
       });
     });
 
-    // HOVER OUT — cover swings back
-    btn.addEventListener('mouseleave', () => {
-      if (state.openBook === yr) return;
-      gsap.killTweensOf(cover);
-      gsap.to(cover, {
-        rotateY: 0,
-        duration: 0.7,
-        ease: 'power2.inOut',
+    // CLICK — full open spread
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        initAudio(); playClick();
+        openBook(yr);
       });
-      gsap.to(book, {
-        rotateX: 0, rotateZ: 0,
-        duration: 0.5, ease: 'power2.out',
-      });
-    });
+    }
 
-    // CLICK — full open
-    btn.addEventListener('click', () => {
-      initAudio(); playClick();
-      openBook(yr);
+    // Clicking front of cover also opens book
+    cover.addEventListener('click', () => {
+      if (state.openBook !== yr) {
+        initAudio(); playClick();
+        openBook(yr);
+      }
     });
   });
 
   // Close buttons (inside open book)
   document.querySelectorAll('.book-close-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const yr = btn.dataset.yr;
       initAudio(); playClick();
       closeBook(yr, true);
@@ -514,10 +534,10 @@ function openBook(yr) {
   book.classList.add('is-open');
   playPageTurn();
 
-  // Phase 1: quick snap open to ~90deg (hinge creak)
+  // Phase 1: quick snap open to ~-90deg (hinge creak)
   gsap.to(cover, {
     rotateY: -90,
-    duration: 0.5,
+    duration: 0.45,
     ease: 'power3.in',
     onComplete: () => {
       // Phase 2: smooth sweep to -178deg (natural deceleration)
@@ -533,10 +553,10 @@ function openBook(yr) {
     },
   });
 
-  // Slight book body settle
+  // Scale up open book slightly for an expansive, immersive reading view
   gsap.to(book, {
-    rotateX: 0, rotateZ: 0, rotateY: 3,
-    duration: 1.4, ease: 'power3.out',
+    rotateX: 0, rotateZ: 0, rotateY: 2, scale: 1.1,
+    duration: 1.2, ease: 'power3.out',
   });
 }
 
