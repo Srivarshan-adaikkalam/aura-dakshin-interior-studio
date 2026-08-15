@@ -54,7 +54,7 @@
         <li><a href="#journey"      class="nl" data-txt="Journey">Heritage Journey</a></li>
         <li><a href="#process"      class="nl" data-txt="Process">Process</a></li>
         <li><a href="#services"     class="nl" data-txt="Expertise">Expertise</a></li>
-        <li><a href="#about"        class="nl" data-txt="Team">Leadership</a></li>
+        <li><a href="#team-showcase" class="nl" data-txt="Team">Team</a></li>
         <li><a href="#consultation" class="nl" data-txt="Book">Book Consultation</a></li>
       </ul>
 
@@ -217,7 +217,7 @@
     </section>
 
     <!-- ====================================================
-    SCROLLYTELLING JOURNEY — CAR + ROAD + BOOKSHELF ELEVATION
+    SCROLLYTELLING JOURNEY — CINEMATIC LUXURY CAR + RIGHT BOOKSHELF EXCHANGE
     ==================================================== -->
     <section id="journey" class="journey-sec">
 
@@ -225,14 +225,14 @@
       <div class="journey-intro">
         <span class="sec-tag">Our Scrollytelling Journey</span>
         <h2 class="sec-h2">A Decade of South Indian<br><em>Architectural Milestones</em></h2>
-        <p class="sec-p">As you scroll, the car drives down the road while books unsheathe from the studio bookshelf and open to reveal milestone chapters!</p>
+        <p class="sec-p">Scroll to drive down the highway. As the luxury studio SUV arrives at each milestone, the corresponding diary book flies off the right bookshelf onto the reading stage!</p>
       </div>
 
       <!-- Tall scroll container -->
       <div class="jrny-scroll" id="jrny-scroll">
         <div class="jrny-sticky" id="jrny-sticky">
 
-          <!-- ROAD SCENE -->
+          <!-- ROAD SCENE WITH HIGH-DETAIL LUXURY TRANSPORTER -->
           <div class="road-scene" id="road-scene">
             <svg id="road-svg" class="road-svg" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
               <defs>
@@ -240,19 +240,20 @@
                   <stop offset="0%" style="stop-color:#2A2535"/>
                   <stop offset="100%" style="stop-color:#1C1828"/>
                 </linearGradient>
-                <filter id="wpGlow" x="-100%" y="-100%" width="300%" height="300%">
-                  <feGaussianBlur stdDeviation="5" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
+                <!-- Headlight Cone Gradient -->
+                <linearGradient id="headlightBeam" x1="0%" y1="50%" x2="100%" y2="50%">
+                  <stop offset="0%" style="stop-color:rgba(255,245,210,0.85)"/>
+                  <stop offset="100%" style="stop-color:rgba(255,245,210,0)"/>
+                </linearGradient>
                 <filter id="carGlow" x="-100%" y="-100%" width="300%" height="300%">
-                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feGaussianBlur stdDeviation="6" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
 
               <path class="road-kerb"
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
-                stroke-width="72" stroke="#221D30" fill="none"/>
+                stroke-width="76" stroke="#221D30" fill="none"/>
 
               <path id="road-path"
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
@@ -262,229 +263,105 @@
                 d="M -20,110 C 100,105 180,115 280,108 S 450,100 560,110 S 720,118 850,105 S 960,100 1030,108"
                 stroke-width="2" stroke="#C9A96E" fill="none" stroke-dasharray="22,28" opacity="0.35"/>
 
-              <!-- Waypoints -->
-              <circle class="wp-ring" cx="210" cy="108" r="20" fill="none" stroke="#C9A96E" stroke-width="1.5" opacity="0" filter="url(#wpGlow)"/>
-              <circle class="wp-dot" id="wp-2019" cx="210" cy="108" r="7" fill="#C9A96E" opacity="0.4"/>
-              <text x="210" y="78" text-anchor="middle" class="wp-yr" fill="#C9A96E" opacity="0.7">2019 · Chennai</text>
+              <!-- Waypoint Nodes -->
+              <g class="wp-group" data-yr="2019">
+                <circle class="wp-dot" id="wp-2019" cx="210" cy="108" r="8" fill="#C9A96E"/>
+                <text x="210" y="76" text-anchor="middle" class="wp-yr">2019 · Chennai</text>
+              </g>
+              <g class="wp-group" data-yr="2021">
+                <circle class="wp-dot" id="wp-2021" cx="430" cy="105" r="8" fill="#C9A96E"/>
+                <text x="430" y="73" text-anchor="middle" class="wp-yr">2021 · Karaikudi</text>
+              </g>
+              <g class="wp-group" data-yr="2023">
+                <circle class="wp-dot" id="wp-2023" cx="660" cy="112" r="8" fill="#C9A96E"/>
+                <text x="660" y="80" text-anchor="middle" class="wp-yr">2023 · Kovai</text>
+              </g>
+              <g class="wp-group" data-yr="2024">
+                <circle class="wp-dot" id="wp-2024" cx="870" cy="104" r="8" fill="#C9A96E"/>
+                <text x="870" y="72" text-anchor="middle" class="wp-yr">2024 · Puducherry</text>
+              </g>
 
-              <circle class="wp-ring" cx="430" cy="105" r="20" fill="none" stroke="#C9A96E" stroke-width="1.5" opacity="0" filter="url(#wpGlow)"/>
-              <circle class="wp-dot" id="wp-2021" cx="430" cy="105" r="7" fill="#C9A96E" opacity="0.4"/>
-              <text x="430" y="75" text-anchor="middle" class="wp-yr" fill="#C9A96E" opacity="0.7">2021 · Karaikudi</text>
-
-              <circle class="wp-ring" cx="660" cy="112" r="20" fill="none" stroke="#C9A96E" stroke-width="1.5" opacity="0" filter="url(#wpGlow)"/>
-              <circle class="wp-dot" id="wp-2023" cx="660" cy="112" r="7" fill="#C9A96E" opacity="0.4"/>
-              <text x="660" y="82" text-anchor="middle" class="wp-yr" fill="#C9A96E" opacity="0.7">2023 · Kovai</text>
-
-              <circle class="wp-ring" cx="870" cy="104" r="20" fill="none" stroke="#C9A96E" stroke-width="1.5" opacity="0" filter="url(#wpGlow)"/>
-              <circle class="wp-dot" id="wp-2024" cx="870" cy="104" r="7" fill="#C9A96E" opacity="0.4"/>
-              <text x="870" y="74" text-anchor="middle" class="wp-yr" fill="#C9A96E" opacity="0.7">2024 · Puducherry</text>
-
-              <!-- THE CAR -->
+              <!-- HIGH-DETAIL LUXURY TRANSPORTER SUV CAR -->
               <g id="journey-car" class="journey-car" filter="url(#carGlow)">
-                <rect x="-22" y="-11" width="44" height="22" rx="8" fill="#C9A96E"/>
-                <rect x="-6" y="-8" width="28" height="16" rx="4" fill="rgba(255,230,160,0.25)" stroke="rgba(255,220,120,0.4)" stroke-width="0.5"/>
-                <ellipse cx="20" cy="-7" rx="4" ry="2.5" fill="#FFF5CC" opacity="0.95"/>
-                <ellipse cx="20" cy="7" rx="4" ry="2.5" fill="#FFF5CC" opacity="0.95"/>
-                <ellipse cx="-19" cy="-7" rx="3" ry="2" fill="#FF6644" opacity="0.8"/>
-                <ellipse cx="-19" cy="7" rx="3" ry="2" fill="#FF6644" opacity="0.8"/>
+                <!-- Headlight Beams -->
+                <polygon points="20,-8 70,-22 70,22 20,8" fill="url(#headlightBeam)" opacity="0.75"/>
+                <!-- Car Shadow -->
+                <rect x="-26" y="-14" width="52" height="28" rx="10" fill="rgba(0,0,0,0.6)" filter="url(#carGlow)"/>
+                <!-- SUV Metallic Body -->
+                <rect x="-24" y="-12" width="48" height="24" rx="7" fill="#1C1820" stroke="#C9A96E" stroke-width="1.5"/>
+                <!-- Roof & Cabin Glass -->
+                <rect x="-10" y="-9" width="30" height="18" rx="4" fill="#09080A" stroke="#E5C896" stroke-width="0.8"/>
+                <path d="M 4,-8 L 18,-8 L 18,8 L 4,8 Z" fill="rgba(201,169,110,0.3)"/>
+                <!-- Front Grill & Bumper -->
+                <rect x="22" y="-9" width="3" height="18" rx="1.5" fill="#E5C896"/>
+                <!-- LED Headlights -->
+                <circle cx="23" cy="-7" r="2.5" fill="#FFF5CC"/>
+                <circle cx="23" cy="7" r="2.5" fill="#FFF5CC"/>
+                <!-- LED Taillights -->
+                <rect x="-25" y="-9" width="2" height="5" rx="1" fill="#FF4433"/>
+                <rect x="-25" y="4" width="2" height="5" rx="1" fill="#FF4433"/>
               </g>
             </svg>
-
-            <div class="car-speed-lines" id="car-speed" aria-hidden="true"></div>
           </div>
 
-          <!-- BOOK DISPLAY AREA WITH BOOKSHELF -->
+          <!-- BOOK DISPLAY STAGE WITH RIGHT SIDE 3D BOOKSHELF RACK -->
           <div class="book-display" id="book-display">
 
             <div class="active-yr" id="active-yr">
               <span class="ayr-text" id="ayr-text">2019</span>
-              <span class="ayr-sub">Studio Library Book Unsheathed</span>
+              <span class="ayr-sub">Active Milestone Diary</span>
             </div>
 
-            <!-- BOOKSHELF DISPLAY -->
-            <div class="bookshelf-scene">
-              <div class="bookshelf-wood"></div>
+            <div class="stage-layout">
+              
+              <!-- LEFT / CENTER: Active Reading Stage -->
+              <div class="reading-stage" id="reading-stage">
+                <div class="active-book-wrapper" id="active-book-wrapper">
+                  <!-- Active book lands here dynamically via GSAP flight animation -->
+                </div>
+              </div>
 
-              <div class="book-worlds" id="book-worlds">
+              <!-- RIGHT SIDE: Vertical 3D Studio Bookshelf Rack -->
+              <aside class="right-bookshelf-rack" aria-label="Studio Heritage Library Shelf">
+                <div class="rack-header">
+                  <i class="fa-solid fa-book-bookmark"></i>
+                  <span>STUDIO LIBRARY</span>
+                </div>
 
-                <!-- ========= 2019 BOOK — CHENNAI ========= -->
-                <div class="book-world active" id="bw-2019" data-yr="2019">
-                  <div class="book-scene">
-                    <div class="book" id="book-2019">
-                      <div class="book-spine"></div>
-                      <div class="book-cover" id="cov-2019">
-                        <div class="cov-face cov-front" style="--cbg:#2C1F17">
-                          <div class="cov-texture"></div>
-                          <div class="cov-top">
-                            <span class="cov-studio">AURA &amp; DAKSHIN</span>
-                            <span class="cov-div">·</span>
-                            <span class="cov-yr">2019</span>
-                          </div>
-                          <div class="polaroids">
-                            <div class="pol" style="--r:-9deg;--tx:13%;--ty:14%">
-                              <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Grand Foyer</div>
-                            </div>
-                            <div class="pol" style="--r:7deg;--tx:52%;--ty:9%">
-                              <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Tanjore Bronze</div>
-                            </div>
-                            <div class="pol" style="--r:-4deg;--tx:30%;--ty:50%">
-                              <div class="pol-img" style="background-image:url('assets/hero_bedroom.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Verandah</div>
-                            </div>
-                          </div>
-                          <div class="cov-foot">
-                            <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Chennai Heritage Reborn</span>
-                          </div>
-                          <button class="view-btn open-modal-btn" data-yr="2019" aria-label="Explore 2019 project">
-                            <span>Explore Book Spread</span>
-                            <i class="fa-solid fa-chevron-right"></i>
-                          </button>
-                        </div>
-                        <div class="cov-face cov-back">
-                          <div class="cov-inner-pat"></div>
-                          <div class="cov-inner-logo">A</div>
-                        </div>
-                      </div>
+                <div class="rack-shelves">
+                  <div class="rack-shelf-item" data-yr="2019" id="shelf-item-2019">
+                    <div class="mini-book-spine" style="--cbg:#2C1F17">
+                      <span class="mbs-yr">2019</span>
+                      <span class="mbs-title">Chennai</span>
+                    </div>
+                  </div>
+
+                  <div class="rack-shelf-item" data-yr="2021" id="shelf-item-2021">
+                    <div class="mini-book-spine" style="--cbg:#1A2B1F">
+                      <span class="mbs-yr">2021</span>
+                      <span class="mbs-title">Karaikudi</span>
+                    </div>
+                  </div>
+
+                  <div class="rack-shelf-item" data-yr="2023" id="shelf-item-2023">
+                    <div class="mini-book-spine" style="--cbg:#1F1A2B">
+                      <span class="mbs-yr">2023</span>
+                      <span class="mbs-title">Coimbatore</span>
+                    </div>
+                  </div>
+
+                  <div class="rack-shelf-item" data-yr="2024" id="shelf-item-2024">
+                    <div class="mini-book-spine" style="--cbg:#1B2320">
+                      <span class="mbs-yr">2024</span>
+                      <span class="mbs-title">Puducherry</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- ========= 2021 BOOK — KARAIKUDI ========= -->
-                <div class="book-world" id="bw-2021" data-yr="2021">
-                  <div class="book-scene">
-                    <div class="book" id="book-2021">
-                      <div class="book-spine"></div>
-                      <div class="book-cover" id="cov-2021">
-                        <div class="cov-face cov-front" style="--cbg:#1A2B1F">
-                          <div class="cov-texture"></div>
-                          <div class="cov-top">
-                            <span class="cov-studio">AURA &amp; DAKSHIN</span>
-                            <span class="cov-div">·</span>
-                            <span class="cov-yr">2021</span>
-                          </div>
-                          <div class="polaroids">
-                            <div class="pol" style="--r:-6deg;--tx:12%;--ty:16%">
-                              <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Athangudi Floor</div>
-                            </div>
-                            <div class="pol" style="--r:9deg;--tx:55%;--ty:10%">
-                              <div class="pol-img" style="background-image:url('assets/about.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Teak Pillars</div>
-                            </div>
-                            <div class="pol" style="--r:-3deg;--tx:33%;--ty:51%">
-                              <div class="pol-img" style="background-image:url('assets/hero_lounge.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Thinnai Verandah</div>
-                            </div>
-                          </div>
-                          <div class="cov-foot">
-                            <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Chettinad Craftsmanship</span>
-                          </div>
-                          <button class="view-btn open-modal-btn" data-yr="2021" aria-label="Explore 2021 project">
-                            <span>Explore Book Spread</span>
-                            <i class="fa-solid fa-chevron-right"></i>
-                          </button>
-                        </div>
-                        <div class="cov-face cov-back">
-                          <div class="cov-inner-pat"></div>
-                          <div class="cov-inner-logo">A</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <div class="rack-wood-base"></div>
+              </aside>
 
-                <!-- ========= 2023 BOOK — COIMBATORE ========= -->
-                <div class="book-world" id="bw-2023" data-yr="2023">
-                  <div class="book-scene">
-                    <div class="book" id="book-2023">
-                      <div class="book-spine"></div>
-                      <div class="book-cover" id="cov-2023">
-                        <div class="cov-face cov-front" style="--cbg:#1F1A2B">
-                          <div class="cov-texture"></div>
-                          <div class="cov-top">
-                            <span class="cov-studio">AURA &amp; DAKSHIN</span>
-                            <span class="cov-div">·</span>
-                            <span class="cov-yr">2023</span>
-                          </div>
-                          <div class="polaroids">
-                            <div class="pol" style="--r:-10deg;--tx:11%;--ty:18%">
-                              <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Kovai Greens</div>
-                            </div>
-                            <div class="pol" style="--r:7deg;--tx:54%;--ty:7%">
-                              <div class="pol-img" style="background-image:url('assets/hero_bedroom.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Silk Drapes</div>
-                            </div>
-                            <div class="pol" style="--r:-2deg;--tx:32%;--ty:52%">
-                              <div class="pol-img" style="background-image:url('assets/about.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Waterfall Foyer</div>
-                            </div>
-                          </div>
-                          <div class="cov-foot">
-                            <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Biophilic Living</span>
-                          </div>
-                          <button class="view-btn open-modal-btn" data-yr="2023" aria-label="Explore 2023 project">
-                            <span>Explore Book Spread</span>
-                            <i class="fa-solid fa-chevron-right"></i>
-                          </button>
-                        </div>
-                        <div class="cov-face cov-back">
-                          <div class="cov-inner-pat"></div>
-                          <div class="cov-inner-logo">A</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ========= 2024 BOOK — PUDUCHERRY ========= -->
-                <div class="book-world" id="bw-2024" data-yr="2024">
-                  <div class="book-scene">
-                    <div class="book" id="book-2024">
-                      <div class="book-spine"></div>
-                      <div class="book-cover" id="cov-2024">
-                        <div class="cov-face cov-front" style="--cbg:#1B2320">
-                          <div class="cov-texture"></div>
-                          <div class="cov-top">
-                            <span class="cov-studio">AURA &amp; DAKSHIN</span>
-                            <span class="cov-div">·</span>
-                            <span class="cov-yr">2024</span>
-                          </div>
-                          <div class="polaroids">
-                            <div class="pol" style="--r:-7deg;--tx:14%;--ty:15%">
-                              <div class="pol-img" style="background-image:url('assets/hero_lounge.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Puducherry Sea</div>
-                            </div>
-                            <div class="pol" style="--r:9deg;--tx:57%;--ty:8%">
-                              <div class="pol-img" style="background-image:url('assets/hero_chettinad.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Rattan Joinery</div>
-                            </div>
-                            <div class="pol" style="--r:-5deg;--tx:34%;--ty:50%">
-                              <div class="pol-img" style="background-image:url('assets/hero.jpg')"></div>
-                              <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">Terracotta Arch</div>
-                            </div>
-                          </div>
-                          <div class="cov-foot">
-                            <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">Coastal Colonial Elegance</span>
-                          </div>
-                          <button class="view-btn open-modal-btn" data-yr="2024" aria-label="Explore 2024 project">
-                            <span>Explore Book Spread</span>
-                            <i class="fa-solid fa-chevron-right"></i>
-                          </button>
-                        </div>
-                        <div class="cov-face cov-back">
-                          <div class="cov-inner-pat"></div>
-                          <div class="cov-inner-logo">A</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div><!-- /.book-worlds -->
-            </div><!-- /.bookshelf-scene -->
+            </div><!-- /.stage-layout -->
 
           </div><!-- /.book-display -->
 
@@ -587,50 +464,85 @@
     </section>
 
     <!-- ====================================================
-    INTERACTIVE LEADERSHIP & TEAM SHOWCASE
+    DEDICATED INTERACTIVE TEAM SHOWCASE (BEFORE FORM SECTION)
     ==================================================== -->
-    <section id="about" class="about-sec">
-      <div class="about-inner">
-        <div class="about-copy" data-reveal>
-          <span class="sec-tag">Studio Leadership</span>
-          <h2 class="sec-h2">Spaces Born from<br><em>Pure Intention</em></h2>
-          <p class="about-p">
-            Founded in 2012, Aura &amp; Dakshin Studio brings together master interior architects, heritage craftsmen, and 3D visualization engineers across South India.
-          </p>
-          
-          <!-- Interactive Team Tabs -->
-          <div class="team-tabs">
-            <button type="button" class="team-tab active" data-member="meera">
-              <span class="tt-role">Principal Designer</span>
-              <span class="tt-name">Meera Nair</span>
-            </button>
-            <button type="button" class="team-tab" data-member="sundaram">
-              <span class="tt-role">Lead Architect</span>
-              <span class="tt-name">K. Sundaram</span>
-            </button>
-            <button type="button" class="team-tab" data-member="anbarasan">
-              <span class="tt-role">Joinery Director</span>
-              <span class="tt-name">S. Anbarasan</span>
-            </button>
-          </div>
+    <section id="team-showcase" class="team-showcase-sec">
+      <div class="sec-hd text-center">
+        <span class="sec-tag">Meet the Visionaries</span>
+        <h2 class="sec-h2">Architectural Minds &amp;<br><em>Master Craftsmen</em></h2>
+        <p class="sec-p mx-auto">Click or hover any principal to explore their design philosophy and signature project portfolio.</p>
+      </div>
 
-          <!-- Dynamic Team Member Details Card -->
-          <div class="team-details-card" id="team-details-card">
-            <div class="td-quote" id="td-quote">"Every space must be a living dialogue between the inhabitants and their environment."</div>
-            <div class="td-bio" id="td-bio">Meera leads spatial aesthetics and biophilic curation, specializing in Neo-Classical fusion and Japandi minimalist estates across Chennai &amp; Coimbatore.</div>
-            <div class="td-chips" id="td-chips">
-              <span>✦ AD100 Winner</span><span>✦ 14 Yrs Experience</span><span>✦ Spatial Curation</span>
+      <div class="team-stage-grid">
+        
+        <!-- Team Member 1 -->
+        <article class="bc team-card active" data-member="meera" data-reveal>
+          <div class="team-photo-frame">
+            <div class="team-photo" style="background-image:url('assets/about.jpg')"></div>
+            <div class="team-photo-overlay"></div>
+          </div>
+          <div class="team-info">
+            <span class="team-badge">Co-Founder</span>
+            <h3 class="team-name">Meera Nair</h3>
+            <span class="team-role">Principal Interior Designer</span>
+            <p class="team-quote">"Every space must be a living dialogue between inhabitants and environment."</p>
+            <div class="team-tags">
+              <span>Biophilic Curation</span><span>AD100 Winner</span><span>14 Yrs</span>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="about-img-wrap" data-reveal>
-          <div class="about-img" id="team-img" style="background-image:url('assets/about.jpg')" aria-label="Meera Nair &amp; K. Sundaram, Studio Principals"></div>
-          <div class="about-badge">
-            <span class="ab-yr">Est. 2012</span>
-            <span class="ab-city">Chennai &amp; Coimbatore</span>
+        <!-- Team Member 2 -->
+        <article class="bc team-card" data-member="sundaram" data-reveal>
+          <div class="team-photo-frame">
+            <div class="team-photo" style="background-image:url('assets/hero_lounge.jpg')"></div>
+            <div class="team-photo-overlay"></div>
           </div>
-        </div>
+          <div class="team-info">
+            <span class="team-badge">Co-Founder</span>
+            <h3 class="team-name">K. Sundaram</h3>
+            <span class="team-role">Lead Architect &amp; Timber Specialist</span>
+            <p class="team-quote">"Preserving structural heritage while engineering zero-energy airflow is our calling."</p>
+            <div class="team-tags">
+              <span>Chettinad Teak</span><span>Courtyard CAD</span><span>18 Yrs</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Team Member 3 -->
+        <article class="bc team-card" data-member="anbarasan" data-reveal>
+          <div class="team-photo-frame">
+            <div class="team-photo" style="background-image:url('assets/hero_chettinad.jpg')"></div>
+            <div class="team-photo-overlay"></div>
+          </div>
+          <div class="team-info">
+            <span class="team-badge">Joinery Director</span>
+            <h3 class="team-name">S. Anbarasan</h3>
+            <span class="team-role">Master Athangudi Craftsman</span>
+            <p class="team-quote">"Athangudi tilemaking and hand-carved pillars carry the soul of ancient artisans."</p>
+            <div class="team-tags">
+              <span>Athangudi Tiles</span><span>Karaikudi Wood</span><span>22 Yrs</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Team Member 4 -->
+        <article class="bc team-card" data-member="thenmozhi" data-reveal>
+          <div class="team-photo-frame">
+            <div class="team-photo" style="background-image:url('assets/hero.jpg')"></div>
+            <div class="team-photo-overlay"></div>
+          </div>
+          <div class="team-info">
+            <span class="team-badge">Lighting Lead</span>
+            <h3 class="team-name">R. Thenmozhi</h3>
+            <span class="team-role">8K Visualization Director</span>
+            <p class="team-quote">"Daylight simulation and Tanjore brass reflections bring 3D walkthroughs to life."</p>
+            <div class="team-tags">
+              <span>8K Renders</span><span>Brass Optics</span><span>10 Yrs</span>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
 
@@ -692,7 +604,7 @@
               </div>
             </div>
 
-            <!-- CHRONO TELEMETRY DATE PICKER -->
+            <!-- CHRONO TELEMETRY DATE PICKER (FIXED FULLY-VISIBLE POPOVER) -->
             <div class="fr">
               <div class="fg">
                 <label class="fl">Preferred Consultation Date &amp; Time</label>
@@ -701,27 +613,6 @@
                   <span class="chrono-disp" id="chrono-disp">Select a date &amp; time</span>
                   <i class="fa-solid fa-chevron-down chrono-arr"></i>
                 </button>
-                <div class="chrono-pop" id="chrono-pop" aria-hidden="true" role="dialog" aria-label="Date and time picker">
-                  <div class="chrono-hd">
-                    <button type="button" class="chrono-nav" id="chrono-prev" aria-label="Previous month">‹</button>
-                    <span class="chrono-my" id="chrono-my">Loading...</span>
-                    <button type="button" class="chrono-nav" id="chrono-next" aria-label="Next month">›</button>
-                  </div>
-                  <div class="chrono-grid" id="chrono-grid"><!-- filled by JS --></div>
-                  <div class="chrono-time">
-                    <div class="ct-lbl">Preferred Slot</div>
-                    <div class="time-slots" id="time-slots">
-                      <button type="button" class="ts" data-t="10:00">10:00 AM</button>
-                      <button type="button" class="ts" data-t="11:30">11:30 AM</button>
-                      <button type="button" class="ts" data-t="14:00">2:00 PM</button>
-                      <button type="button" class="ts" data-t="15:30">3:30 PM</button>
-                      <button type="button" class="ts" data-t="17:00">5:00 PM</button>
-                    </div>
-                  </div>
-                  <div class="chrono-ft">
-                    <button type="button" class="pill pill-gold pill-sm" id="chrono-confirm">Confirm Selection</button>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -739,12 +630,10 @@
                 
                 <!-- Stickman & Paper Plane Flight Canvas Stage -->
                 <svg class="flight-svg" id="flight-svg" viewBox="0 0 160 40" preserveAspectRatio="none" aria-hidden="true">
-                  <!-- Golden Paper Plane -->
                   <g id="paper-plane" transform="translate(130, 20) scale(0.9)">
                     <path d="M 0,-10 L 20,0 L 0,10 L 4,2 L 0,-10 Z" fill="#FFF5CC" stroke="#C9A96E" stroke-width="1"/>
                     <path d="M 4,2 L 20,0 L 4,5 Z" fill="#C9A96E" opacity="0.6"/>
                   </g>
-                  <!-- Stickman Character -->
                   <g id="stickman" transform="translate(-20, 20)">
                     <circle cx="0" cy="-12" r="4" fill="#09080A"/>
                     <line x1="0" y1="-8" x2="0" y2="2" stroke="#09080A" stroke-width="2.5" stroke-linecap="round"/>
@@ -765,7 +654,34 @@
   </main>
 
   <!-- ====================================================
-  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY (DUAL PAGE FLIP ENGINE)
+  FIXED POPOVER DIALOG FOR CHRONO CALENDAR (NEVER CLIPPED)
+  ==================================================== -->
+  <div class="chrono-modal-overlay" id="chrono-modal-overlay" aria-hidden="true">
+    <div class="chrono-pop-fixed" id="chrono-pop" role="dialog" aria-label="Date and time picker">
+      <div class="chrono-hd">
+        <button type="button" class="chrono-nav" id="chrono-prev" aria-label="Previous month">‹</button>
+        <span class="chrono-my" id="chrono-my">Loading...</span>
+        <button type="button" class="chrono-nav" id="chrono-next" aria-label="Next month">›</button>
+      </div>
+      <div class="chrono-grid" id="chrono-grid"><!-- filled by JS --></div>
+      <div class="chrono-time">
+        <div class="ct-lbl">Preferred Time Slot</div>
+        <div class="time-slots" id="time-slots">
+          <button type="button" class="ts" data-t="10:00">10:00 AM</button>
+          <button type="button" class="ts" data-t="11:30">11:30 AM</button>
+          <button type="button" class="ts" data-t="14:00">2:00 PM</button>
+          <button type="button" class="ts" data-t="15:30">3:30 PM</button>
+          <button type="button" class="ts" data-t="17:00">5:00 PM</button>
+        </div>
+      </div>
+      <div class="chrono-ft">
+        <button type="button" class="pill pill-gold pill-sm" id="chrono-confirm">Confirm Consultation Slot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================
+  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY (REALISTIC 3D PAGE TURN)
   ==================================================== -->
   <div class="book-modal-overlay" id="book-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project Travel Diary Spread">
     <div class="bm-backdrop" id="bm-backdrop"></div>
@@ -775,7 +691,7 @@
       </button>
 
       <div class="bm-book-spread" id="bm-spread-stage">
-        <!-- LEFT PAGE OF OPEN SPREAD: Client Note, Description, Specs & Page Flip Controls -->
+        <!-- LEFT PAGE OF OPEN SPREAD -->
         <div class="bm-pg bm-pg-left" id="bm-pg-left">
           <div class="bm-orn">❧</div>
           <div class="bm-yr-tag" id="bm-yr-tag">2019 MILESTONE</div>
@@ -818,7 +734,7 @@
           </div>
         </div>
 
-        <!-- RIGHT PAGE OF OPEN SPREAD: 3 Interior Project Images Grid -->
+        <!-- RIGHT PAGE OF OPEN SPREAD -->
         <div class="bm-pg bm-pg-right" id="bm-pg-right">
           <div class="bm-gallery-header">
             <span class="bm-gh-title">Project Gallery Spread</span>
@@ -839,6 +755,9 @@
             </div>
           </div>
         </div>
+
+        <!-- Dynamic 3D Paper Page Layer for realistic flipping -->
+        <div class="turning-page-mesh" id="turning-page-mesh"></div>
 
       </div><!-- /.bm-book-spread -->
     </div><!-- /.bm-container -->

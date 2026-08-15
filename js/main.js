@@ -1,6 +1,6 @@
 /* ============================================================
-   AURA & DAKSHIN INTERIORS — Main Engine v5.0
-   Cinematic Hero + Bookshelf Unsheathing + Dual 3D Page Flip + Stickman Flight Button
+   AURA & DAKSHIN INTERIORS — Main Engine v6.0
+   Cinematic Transporter + Right-Side Bookshelf Flying Exchange + Realistic 3D Page Turn
    ============================================================ */
 
 /* ── STATE MANAGEMENT ─────────────────────────────────────── */
@@ -10,34 +10,6 @@ const state = {
   activeModalYear: '2019',
   audioCtx: null,
   audioInit: false,
-};
-
-/* Team Data Store */
-const teamData = {
-  meera: {
-    name: 'Meera Nair',
-    role: 'Co-Founder & Principal Interior Designer',
-    quote: '"Every space must be a living dialogue between the inhabitants and their environment."',
-    bio: 'Meera leads spatial aesthetics and biophilic curation, specializing in Neo-Classical fusion and Japandi minimalist estates across Chennai & Coimbatore.',
-    chips: ['✦ AD100 Winner', '✦ 14 Yrs Experience', '✦ Spatial Curation'],
-    img: 'assets/about.jpg'
-  },
-  sundaram: {
-    name: 'K. Sundaram',
-    role: 'Co-Founder & Lead Architect',
-    quote: '"Preserving structural heritage while engineering zero-energy biophilic airflow is our calling."',
-    bio: 'Sundaram oversees architectural joinery, Chettinad timber restoration, and climate-responsive courtyard engineering across Karaikudi & Puducherry.',
-    chips: ['✦ Heritage Architect', '✦ Teak Specialist', '✦ 18 Yrs Mastery'],
-    img: 'assets/hero_lounge.jpg'
-  },
-  anbarasan: {
-    name: 'S. Anbarasan',
-    role: 'Joinery Director & Master Craftsman',
-    quote: '"Athangudi tilemaking and hand-carved teak pillars carry the soul of ancient Tamil artisans."',
-    bio: 'Anbarasan manages our network of 40+ Chettinad master carpenters, stone carvers, and bronze artisans, ensuring museum-grade handcraft quality.',
-    chips: ['✦ Master Woodworker', '✦ Athangudi Craftsman', '✦ Turnkey Lead'],
-    img: 'assets/hero_chettinad.jpg'
-  }
 };
 
 /* Project Data Store for Full-Page Book Spread Modal */
@@ -61,6 +33,8 @@ const projectData = {
     tag2: 'Italian Marble Living',
     img3: 'assets/hero_bedroom.jpg',
     tag3: 'Verandah Lounge',
+    cbg: '#2C1F17',
+    tagline: 'Chennai Heritage Reborn',
     nextYr: '2021',
     prevYr: '2024'
   },
@@ -83,6 +57,8 @@ const projectData = {
     tag2: 'Artisan Wood Joinery',
     img3: 'assets/hero_lounge.jpg',
     tag3: 'Pillar Dining Hall',
+    cbg: '#1A2B1F',
+    tagline: 'Chettinad Craftsmanship',
     nextYr: '2023',
     prevYr: '2019'
   },
@@ -105,6 +81,8 @@ const projectData = {
     tag2: 'Erode Silk Suite',
     img3: 'assets/about.jpg',
     tag3: 'Tea Garden Pavilion',
+    cbg: '#1F1A2B',
+    tagline: 'Biophilic Living',
     nextYr: '2024',
     prevYr: '2021'
   },
@@ -127,13 +105,15 @@ const projectData = {
     tag2: 'Terracotta Courtyard',
     img3: 'assets/hero.jpg',
     tag3: 'Plunge Pool Deck',
+    cbg: '#1B2320',
+    tagline: 'Coastal Colonial Elegance',
     nextYr: '2019',
     prevYr: '2023'
   },
 };
 
 /* ────────────────────────────────────────────────────────────
-   AUDIO SYNTHESIZER (Web Audio API)
+   ORGANIC WEB AUDIO SYNTHESIZER
 ──────────────────────────────────────────────────────────── */
 function initAudio() {
   if (state.audioInit) return;
@@ -152,28 +132,51 @@ function playPageTurn() {
     const ctx = state.audioCtx;
     if (ctx.state === 'suspended') ctx.resume();
 
-    const bufLen = ctx.sampleRate * 0.18;
+    const bufLen = ctx.sampleRate * 0.22;
     const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
     const data = buf.getChannelData(0);
     for (let i = 0; i < bufLen; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufLen, 2.5);
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufLen, 2.2);
     }
 
     const src = ctx.createBufferSource();
     src.buffer = buf;
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
-    filter.frequency.value = 1200;
-    filter.Q.value = 1.2;
+    filter.frequency.setValueAtTime(1400, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.22);
+    filter.Q.value = 1.4;
 
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.08, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+    gain.gain.setValueAtTime(0.09, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
 
     src.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
     src.start();
+  } catch (e) {}
+}
+
+function playBookFly() {
+  if (!state.audioCtx) return;
+  try {
+    const ctx = state.audioCtx;
+    if (ctx.state === 'suspended') ctx.resume();
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(220, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.35);
+
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.35);
   } catch (e) {}
 }
 
@@ -186,16 +189,16 @@ function playClick() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(800, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.05);
+    osc.frequency.setValueAtTime(750, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.04);
 
-    gain.gain.setValueAtTime(0.06, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.07, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.start();
-    osc.stop(ctx.currentTime + 0.05);
+    osc.stop(ctx.currentTime + 0.04);
   } catch (e) {}
 }
 
@@ -225,7 +228,7 @@ function initPreloader() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   AMBIENT CANVAS PARTICLES
+   AMBIENT PARTICLES
 ──────────────────────────────────────────────────────────── */
 function initParticles() {
   const cvs = document.getElementById('ambient-canvas');
@@ -277,10 +280,7 @@ function initLenis() {
   });
 
   lenis.on('scroll', ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
 }
 
@@ -291,28 +291,19 @@ function triggerHeroAnimations() {
   const tl = gsap.timeline();
 
   tl.to('.hero-sec [data-reveal]', {
-    opacity: 1, y: 0, duration: 0.9,
-    stagger: 0.15, ease: 'power3.out',
+    opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
   });
 
-  tl.from('.cinematic-glow', {
-    scale: 0.5, opacity: 0, duration: 1.5, ease: 'power2.out'
-  }, 0.2);
+  tl.from('.cinematic-glow', { scale: 0.5, opacity: 0, duration: 1.5, ease: 'power2.out' }, 0.2);
 
-  // Counter stats animation
   document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.to, 10) || 0;
-    gsap.to(el, {
-      innerText: target,
-      duration: 2.2,
-      ease: 'power2.out',
-      snap: { innerText: 1 },
-    });
+    gsap.to(el, { innerText: target, duration: 2.2, ease: 'power2.out', snap: { innerText: 1 } });
   });
 }
 
 /* ────────────────────────────────────────────────────────────
-   CARD B — HERO SHOWCASE SWITCHER TABS
+   HERO SHOWCASE TAB SWITCHER
 ──────────────────────────────────────────────────────────── */
 function initHeroShowcase() {
   const tabs = document.querySelectorAll('.sc-tab');
@@ -348,7 +339,7 @@ function initHeroShowcase() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   ROAD SVG + CAR SCROLLYTELLING + BOOKSHELF ELEVATION
+   ROAD SVG + TRANSPORTER + RIGHT BOOKSHELF EXCHANGE ENGINE
 ──────────────────────────────────────────────────────────── */
 let roadPath, roadPathLen;
 const yearThresholds = [
@@ -367,6 +358,7 @@ function initRoad() {
   const jrnySticky = document.getElementById('jrny-sticky');
 
   positionCar(0);
+  mountActiveBookOnStage('2019');
 
   ScrollTrigger.create({
     trigger: jrnyScroll,
@@ -391,10 +383,7 @@ function positionCar(progress) {
   const pt2 = roadPath.getPointAtLength(Math.min(targetLen + 2, roadPathLen));
   const angle = Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * (180 / Math.PI);
 
-  gsap.set(car, {
-    x: pt.x, y: pt.y, rotation: angle,
-    transformOrigin: 'center center',
-  });
+  gsap.set(car, { x: pt.x, y: pt.y, rotation: angle, transformOrigin: 'center center' });
 }
 
 function updateActiveYear(progress) {
@@ -406,74 +395,123 @@ function updateActiveYear(progress) {
   }
 
   if (matched !== state.currentYear) {
-    switchActiveBookWorld(matched);
+    executeRightBookshelfExchange(matched);
   }
 }
 
-/* Bookshelf Book Unsheathing Animation */
-function switchActiveBookWorld(yr) {
-  state.currentYear = yr;
-  playPageTurn();
+/* Right-Side Bookshelf Flying Exchange Mechanism */
+function executeRightBookshelfExchange(targetYr) {
+  const oldYr = state.currentYear;
+  state.currentYear = targetYr;
 
-  const oldWorld = document.querySelector('.book-world.active');
-  const newWorld = document.getElementById(`bw-${yr}`);
+  initAudio(); playBookFly();
+
+  // Update right bookshelf rack UI highlights
+  document.querySelectorAll('.rack-shelf-item').forEach(item => {
+    if (item.dataset.yr === targetYr) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+
   const yrText = document.getElementById('ayr-text');
-
-  if (oldWorld && oldWorld !== newWorld) {
-    gsap.to(oldWorld, {
-      opacity: 0, y: 40, scale: 0.92, duration: 0.45, ease: 'power2.in',
-      onComplete: () => {
-        oldWorld.classList.remove('active');
-        if (newWorld) {
-          newWorld.classList.add('active');
-          gsap.fromTo(newWorld, 
-            { opacity: 0, y: 40, scale: 0.92 }, 
-            { opacity: 1, y: -20, scale: 1.05, duration: 0.6, ease: 'power3.out' }
-          );
-        }
-      },
-    });
+  if (yrText) {
+    gsap.to(yrText, { y: -20, opacity: 0, duration: 0.2, onComplete: () => {
+      yrText.textContent = targetYr;
+      gsap.fromTo(yrText, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 });
+    }});
   }
 
-  if (yrText) {
-    gsap.to(yrText, {
-      y: -20, opacity: 0, duration: 0.25,
+  const stageWrapper = document.getElementById('active-book-wrapper');
+  if (!stageWrapper) return;
+
+  // Fly current book back to right shelf slot
+  const currentBook = stageWrapper.firstElementChild;
+  if (currentBook) {
+    gsap.to(currentBook, {
+      x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0, duration: 0.5, ease: 'power2.in',
       onComplete: () => {
-        yrText.textContent = yr;
-        gsap.fromTo(yrText, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: 'power2.out' });
+        mountActiveBookOnStage(targetYr);
       }
     });
+  } else {
+    mountActiveBookOnStage(targetYr);
   }
 }
 
-/* ────────────────────────────────────────────────────────────
-   3D BOOK PHYSICS & FULL-PAGE MODAL ENGINE
-──────────────────────────────────────────────────────────── */
-function initBooks() {
-  document.querySelectorAll('.book-world').forEach(world => {
-    const yr = world.dataset.yr;
-    const cover = document.getElementById(`cov-${yr}`);
-    const book = document.getElementById(`book-${yr}`);
-    const btn = world.querySelector('.open-modal-btn');
+/* Mount & Fly New Book from Right Shelf onto Central Reading Pedestal */
+function mountActiveBookOnStage(yr) {
+  const stageWrapper = document.getElementById('active-book-wrapper');
+  const data = projectData[yr];
+  if (!stageWrapper || !data) return;
 
-    if (!cover || !book) return;
+  stageWrapper.innerHTML = `
+    <div class="book-scene" id="bs-${yr}">
+      <div class="book" id="book-${yr}">
+        <div class="book-spine"></div>
+        <div class="book-cover" id="cov-${yr}">
+          <div class="cov-face cov-front" style="--cbg:${data.cbg}">
+            <div class="cov-texture"></div>
+            <div class="cov-top">
+              <span class="cov-studio">AURA &amp; DAKSHIN</span>
+              <span class="cov-div">·</span>
+              <span class="cov-yr">${yr}</span>
+            </div>
+            <div class="polaroids">
+              <div class="pol" style="--r:-8deg;--tx:12%;--ty:16%">
+                <div class="pol-img" style="background-image:url('${data.img1}')"></div>
+                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag1}</div>
+              </div>
+              <div class="pol" style="--r:7deg;--tx:54%;--ty:8%">
+                <div class="pol-img" style="background-image:url('${data.img2}')"></div>
+                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag2}</div>
+              </div>
+              <div class="pol" style="--r:-3deg;--tx:32%;--ty:50%">
+                <div class="pol-img" style="background-image:url('${data.img3}')"></div>
+                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag3}</div>
+              </div>
+            </div>
+            <div class="cov-foot">
+              <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">${data.tagline}</span>
+            </div>
+            <button class="view-btn open-modal-btn" data-yr="${yr}">
+              <span>Explore Book Spread</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="cov-face cov-back">
+            <div class="cov-inner-pat"></div>
+            <div class="cov-inner-logo">A</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 
-    const hoverElements = [cover, btn].filter(Boolean);
+  const newBookScene = stageWrapper.firstElementChild;
+  const cover = document.getElementById(`cov-${yr}`);
+  const book = document.getElementById(`book-${yr}`);
+  const btn = stageWrapper.querySelector('.open-modal-btn');
 
-    hoverElements.forEach(el => {
+  // GSAP 3D Arc Swoop Landing Animation
+  gsap.fromTo(newBookScene, 
+    { x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0 },
+    { x: 0, y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.65, ease: 'power3.out' }
+  );
+
+  if (cover && book) {
+    [cover, btn].filter(Boolean).forEach(el => {
       el.addEventListener('mouseenter', () => {
         if (state.modalOpen) return;
-        gsap.killTweensOf(cover);
         playPageTurn();
         gsap.to(cover, { rotateY: -28, duration: 0.85, ease: 'elastic.out(1, 0.45)' });
         gsap.to(book, { rotateX: -4, rotateZ: 1.5, scale: 1.08, duration: 0.6, ease: 'power2.out' });
       });
-
       el.addEventListener('mouseleave', () => {
         if (state.modalOpen) return;
-        gsap.killTweensOf(cover);
         gsap.to(cover, { rotateY: 0, duration: 0.7, ease: 'power2.inOut' });
-        gsap.to(book, { rotateX: 0, rotateZ: 0, scale: 1.05, duration: 0.5, ease: 'power2.out' });
+        gsap.to(book, { rotateX: 0, rotateZ: 0, scale: 1, duration: 0.5, ease: 'power2.out' });
       });
     });
 
@@ -482,13 +520,16 @@ function initBooks() {
         e.stopPropagation(); initAudio(); playClick(); openBookModal(yr);
       });
     }
-
     cover.addEventListener('click', () => {
       initAudio(); playClick(); openBookModal(yr);
     });
-  });
+  }
+}
 
-  // Modal Close Events & Dual Page Flip Navigation
+/* ────────────────────────────────────────────────────────────
+   REALISTIC 3D PAGE TURN & FULL-PAGE MODAL ENGINE
+──────────────────────────────────────────────────────────── */
+function initBookModalEvents() {
   const closeBtn = document.getElementById('bm-close-btn');
   const backdrop = document.getElementById('bm-backdrop');
   const nextBtn = document.getElementById('bm-next-btn');
@@ -500,18 +541,14 @@ function initBooks() {
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
       const data = projectData[state.activeModalYear];
-      if (data && data.nextYr) {
-        animatePageFlip(data.nextYr, true);
-      }
+      if (data && data.nextYr) animateRealisticPageFlip(data.nextYr, true);
     });
   }
 
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
       const data = projectData[state.activeModalYear];
-      if (data && data.prevYr) {
-        animatePageFlip(data.prevYr, false);
-      }
+      if (data && data.prevYr) animateRealisticPageFlip(data.prevYr, false);
     });
   }
 
@@ -520,29 +557,30 @@ function initBooks() {
   });
 }
 
-/* Dual 3D Page Flip Animation */
-function animatePageFlip(targetYr, isForward) {
-  const stage = document.getElementById('bm-spread-stage');
-  if (!stage) return;
+/* Realistic 3D Paper Page Turn Engine */
+function animateRealisticPageFlip(targetYr, isForward) {
+  const mesh = document.getElementById('turning-page-mesh');
+  if (!mesh) {
+    openBookModal(targetYr); return;
+  }
 
   playPageTurn();
 
-  gsap.to(stage, {
-    rotateY: isForward ? -20 : 20,
-    opacity: 0.3,
-    duration: 0.35,
-    ease: 'power2.in',
-    onComplete: () => {
-      openBookModal(targetYr);
-      gsap.fromTo(stage, 
-        { rotateY: isForward ? 20 : -20, opacity: 0.3 },
-        { rotateY: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
-      );
+  gsap.killTweensOf(mesh);
+  gsap.fromTo(mesh,
+    { opacity: 1, rotateY: isForward ? 0 : -180 },
+    {
+      rotateY: isForward ? -180 : 0,
+      duration: 0.8,
+      ease: 'power3.inOut',
+      onComplete: () => {
+        openBookModal(targetYr);
+        gsap.set(mesh, { opacity: 0, rotateY: 0 });
+      }
     }
-  });
+  );
 }
 
-/* Open Full-Page Book Spread Overlay Modal */
 function openBookModal(yr) {
   const data = projectData[yr];
   if (!data) return;
@@ -591,41 +629,14 @@ function closeBookModal() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   INTERACTIVE TEAM SHOWCASE TABS
+   DEDICATED TEAM SHOWCASE CARDS
 ──────────────────────────────────────────────────────────── */
-function initTeamShowcase() {
-  const tabs = document.querySelectorAll('.team-tab');
-  const quoteEl = document.getElementById('td-quote');
-  const bioEl = document.getElementById('td-bio');
-  const chipsEl = document.getElementById('td-chips');
-  const imgEl = document.getElementById('team-img');
-
-  if (!tabs.length || !quoteEl) return;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      if (tab.classList.contains('active')) return;
-
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+function initTeamCards() {
+  document.querySelectorAll('.team-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
       initAudio(); playClick();
-
-      const member = teamData[tab.dataset.member];
-      if (!member) return;
-
-      gsap.to([quoteEl, bioEl, chipsEl, imgEl], {
-        opacity: 0, duration: 0.25, ease: 'power2.in',
-        onComplete: () => {
-          quoteEl.textContent = member.quote;
-          bioEl.textContent = member.bio;
-          chipsEl.innerHTML = member.chips.map(c => `<span>${c}</span>`).join('');
-          if (imgEl) imgEl.style.backgroundImage = `url('${member.img}')`;
-
-          gsap.to([quoteEl, bioEl, chipsEl, imgEl], {
-            opacity: 1, duration: 0.45, stagger: 0.08, ease: 'power2.out'
-          });
-        }
-      });
     });
   });
 }
@@ -646,11 +657,11 @@ function initChips() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   CHRONO TELEMETRY POPOVER PICKER
+   FIXED CHRONO POPOVER DIALOG (UNCLIPPED FULL-SCREEN OVERLAY)
 ──────────────────────────────────────────────────────────── */
 function initChrono() {
   const trig = document.getElementById('chrono-trig');
-  const pop = document.getElementById('chrono-pop');
+  const overlay = document.getElementById('chrono-modal-overlay');
   const disp = document.getElementById('chrono-disp');
   const grid = document.getElementById('chrono-grid');
   const monthYr = document.getElementById('chrono-my');
@@ -659,7 +670,7 @@ function initChrono() {
   const confirmBtn = document.getElementById('chrono-confirm');
   const slots = document.querySelectorAll('.ts');
 
-  if (!trig || !pop || !grid) return;
+  if (!trig || !overlay || !grid) return;
 
   let curDate = new Date();
   let selDay = null;
@@ -719,23 +730,16 @@ function initChrono() {
 
   trig.addEventListener('click', (e) => {
     e.stopPropagation();
-    const isOpen = pop.classList.contains('open');
-    if (isOpen) {
-      pop.classList.remove('open');
-      trig.classList.remove('active');
-    } else {
-      pop.classList.add('open');
-      trig.classList.add('active');
-      renderCalendar();
-    }
+    initAudio(); playClick();
+    overlay.classList.add('open');
+    renderCalendar();
   });
 
   if (prevBtn) {
     prevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       curDate.setMonth(curDate.getMonth() - 1);
-      renderCalendar();
-      initAudio(); playClick();
+      renderCalendar(); initAudio(); playClick();
     });
   }
 
@@ -743,8 +747,7 @@ function initChrono() {
     nextBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       curDate.setMonth(curDate.getMonth() + 1);
-      renderCalendar();
-      initAudio(); playClick();
+      renderCalendar(); initAudio(); playClick();
     });
   }
 
@@ -766,17 +769,13 @@ function initChrono() {
       } else {
         disp.textContent = `Selected slot: ${selSlot}`;
       }
-      pop.classList.remove('open');
-      trig.classList.remove('active');
+      overlay.classList.remove('open');
       initAudio(); playClick();
     });
   }
 
-  document.addEventListener('click', (e) => {
-    if (!pop.contains(e.target) && !trig.contains(e.target)) {
-      pop.classList.remove('open');
-      trig.classList.remove('active');
-    }
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('open');
   });
 }
 
@@ -797,35 +796,17 @@ function initFlightForm() {
     initAudio(); playClick();
 
     const name = document.getElementById('cf-name').value;
-    if (!name) {
-      alert('Please enter your name'); return;
-    }
+    if (!name) { alert('Please enter your name'); return; }
 
     btnText.textContent = 'Preparing Flight...';
 
-    // 1. Stickman runs from left to right towards paper plane
     const flightTl = gsap.timeline();
 
-    flightTl.to(stickman, {
-      x: 130, duration: 1.2, ease: 'power1.inOut',
-    });
-
-    // 2. Stickman hops onto paper plane
-    flightTl.to(stickman, {
-      y: -5, scale: 0.7, duration: 0.3, ease: 'back.out(2)',
-    });
-
-    // 3. Paper plane & stickman take off and fly into clouds
+    flightTl.to(stickman, { x: 130, duration: 1.2, ease: 'power1.inOut' });
+    flightTl.to(stickman, { y: -5, scale: 0.7, duration: 0.3, ease: 'back.out(2)' });
     flightTl.to([plane, stickman], {
-      x: '+=250',
-      y: '-=180',
-      scale: 1.6,
-      rotation: -25,
-      duration: 1.4,
-      ease: 'power2.in',
-      onStart: () => {
-        btnText.textContent = '✈ Flying Enquiry to Studio...';
-      },
+      x: '+=250', y: '-=180', scale: 1.6, rotation: -25, duration: 1.4, ease: 'power2.in',
+      onStart: () => { btnText.textContent = '✈ Flying Enquiry to Studio...'; },
       onComplete: () => {
         btnText.textContent = '✓ Consultation Enquiry Sent!';
         submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
@@ -842,10 +823,8 @@ function initFlightForm() {
 function initScrollReveal() {
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      onEnter: () => el.classList.add('revealed'),
-      once: true,
+      trigger: el, start: 'top 85%',
+      onEnter: () => el.classList.add('revealed'), once: true,
     });
   });
 }
@@ -853,11 +832,8 @@ function initScrollReveal() {
 function initNavbar() {
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+    if (window.scrollY > 50) { nav.classList.add('scrolled'); }
+    else { nav.classList.remove('scrolled'); }
   });
 }
 
@@ -884,8 +860,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initChrono();
   initFlightForm();
   initHeroShowcase();
-  initTeamShowcase();
-  initBooks();
+  initTeamCards();
+  initBookModalEvents();
   initNavbar();
   initScrollProgress();
   initLenis();
