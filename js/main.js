@@ -484,27 +484,51 @@ function initBookModalEvents() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.modalOpen) closeBookModal();
   });
+
+  /* ── FIX: Wire native wheel scroll to left page so Lenis doesn't block it ── */
+  const leftPage = document.getElementById('bm-pg-left');
+  if (leftPage) {
+    leftPage.addEventListener('wheel', (e) => {
+      if (!state.modalOpen) return;
+      e.stopPropagation();
+      leftPage.scrollTop += e.deltaY;
+    }, { passive: true });
+  }
 }
 
 function animateRealisticPageFlip(targetYr, isForward) {
   const mesh = document.getElementById('turning-page-mesh');
-  if (!mesh) {
-    openBookModal(targetYr); return;
-  }
+  const spread = document.getElementById('bm-spread-stage');
+  if (!mesh || !spread) { openBookModal(targetYr); return; }
 
   gsap.killTweensOf(mesh);
-  gsap.fromTo(mesh,
-    { opacity: 1, rotateY: isForward ? 0 : -180 },
-    {
-      rotateY: isForward ? -180 : 0,
-      duration: 0.75,
-      ease: 'power3.inOut',
-      onComplete: () => {
-        openBookModal(targetYr);
-        gsap.set(mesh, { opacity: 0, rotateY: 0 });
-      }
-    }
-  );
+
+  const tl = gsap.timeline();
+
+  // Phase 1: Page sweeps across with real 3D arc
+  tl.set(mesh, {
+    opacity: 1,
+    rotateY: isForward ? 0 : -180,
+    transformOrigin: 'left center',
+    boxShadow: '-8px 0 24px rgba(0,0,0,0.35)'
+  })
+  .to(mesh, {
+    rotateY: isForward ? -90 : -90,
+    duration: 0.32,
+    ease: 'power2.in'
+  })
+  // Phase 2: Snap new content in at 90° (hidden backface)
+  .add(() => openBookModal(targetYr))
+  // Phase 3: Page completes its arc to flat
+  .to(mesh, {
+    rotateY: isForward ? -180 : 0,
+    duration: 0.34,
+    ease: 'power2.out'
+  })
+  .to(mesh, {
+    opacity: 0, duration: 0.18, ease: 'power1.in'
+  }, '-=0.1')
+  .set(mesh, { rotateY: 0 });
 }
 
 function openBookModal(yr) {
@@ -534,21 +558,53 @@ function openBookModal(yr) {
   document.getElementById('bm-img-3').style.backgroundImage = `url('${data.img3}')`;
   document.getElementById('bm-tag-3').textContent = data.tag3;
 
+  // Update chapter nav data-yr attributes dynamically
+  const nextBtn = document.getElementById('bm-next-btn');
+  const prevBtn = document.getElementById('bm-prev-btn');
+  if (nextBtn) nextBtn.dataset.targetYr = data.nextYr || '';
+  if (prevBtn) prevBtn.dataset.targetYr = data.prevYr || '';
+
   const modal = document.getElementById('book-modal-overlay');
   if (!modal) return;
 
-  modal.classList.add('open');
-  if (lenis) lenis.stop();
+  // Reset left page scroll to top on new chapter
+  const leftPage = document.getElementById('bm-pg-left');
+  if (leftPage) leftPage.scrollTop = 0;
+
+  if (!modal.classList.contains('open')) {
+    modal.classList.add('open');
+    if (lenis) lenis.stop();
+    /* Animate book spread opening with 3D perspective expand */
+    const spread = document.getElementById('bm-spread-stage');
+    if (spread) {
+      gsap.fromTo(spread,
+        { rotateX: 12, scale: 0.88, opacity: 0 },
+        { rotateX: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' }
+      );
+    }
+  }
 }
 
 function closeBookModal() {
   const modal = document.getElementById('book-modal-overlay');
   if (!modal) return;
 
-  modal.classList.remove('open');
-  state.modalOpen = false;
-
-  if (lenis) lenis.start();
+  const spread = document.getElementById('bm-spread-stage');
+  if (spread) {
+    gsap.to(spread, {
+      rotateX: 10, scale: 0.88, opacity: 0, duration: 0.3, ease: 'power2.in',
+      onComplete: () => {
+        modal.classList.remove('open');
+        state.modalOpen = false;
+        if (lenis) lenis.start();
+        gsap.set(spread, { rotateX: 0, scale: 1, opacity: 1 });
+      }
+    });
+  } else {
+    modal.classList.remove('open');
+    state.modalOpen = false;
+    if (lenis) lenis.start();
+  }
 }
 
 /* ── GALLERY FILTER CONTROLLER ── */
@@ -715,84 +771,103 @@ function initChrono() {
   });
 }
 
-/* ── FORM DISPATCH ANIMATION (PLANE MORPH -> PACKAGE BOUNCE -> POSTMAN PICKUP & WALK OUT) ── */
+/* ── FORM DISPATCH ANIMATION v2 (PLANE → BOX MORPH → BOUNCE → CONVEYOR BELT → SUCCESS) ── */
 function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
   const btnText = document.getElementById('submit-btn-text');
   const planeIcon = document.getElementById('btn-plane-icon');
   const boxIcon = document.getElementById('btn-box-icon');
-  const postmanIcon = document.getElementById('btn-postman-icon');
+  const conveyorEl = document.getElementById('btn-conveyor-track');
   const sweep = document.getElementById('submit-progress-sweep');
 
   if (!form || !submitBtn) return;
 
+  function resetBtn() {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('sealed-success', 'anim-running');
+    gsap.set([btnText, planeIcon, boxIcon, sweep], { clearProps: 'all' });
+    if (conveyorEl) gsap.set(conveyorEl, { clearProps: 'all' });
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('cf-name').value;
+    const name = document.getElementById('cf-name').value.trim();
     if (!name) {
-      alert('Please enter your name');
+      document.getElementById('cf-name').focus();
       return;
     }
 
-    if (submitBtn.disabled) return;
+    if (submitBtn.disabled || submitBtn.classList.contains('anim-running')) return;
     submitBtn.disabled = true;
+    submitBtn.classList.add('anim-running');
 
-    // Reset initial positions
-    gsap.set(sweep, { left: '-100%' });
+    // ─── Reset all actors to start positions ───
+    const btnW = submitBtn.offsetWidth;
+    const half = btnW / 2;
+
+    gsap.set(sweep, { scaleX: 0, transformOrigin: 'left center', opacity: 1 });
     gsap.set(btnText, { opacity: 1, x: 0 });
-    gsap.set(planeIcon, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0 });
-    gsap.set(boxIcon, { opacity: 0, scale: 0, y: -16, x: 0 });
-    gsap.set(postmanIcon, { opacity: 0, scale: 0.9, x: -140, y: 0, rotation: 0 });
+    // Plane starts right of center
+    gsap.set(planeIcon, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0, xPercent: 0, yPercent: 0 });
+    // Box hidden at center
+    gsap.set(boxIcon, { opacity: 0, scale: 0, x: 0, y: -10, xPercent: -50, yPercent: -50 });
+    // Conveyor hidden
+    if (conveyorEl) gsap.set(conveyorEl, { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
 
-    const tl = gsap.timeline();
-
-    // 1. Text fades out; Plane flies up & across to center
-    tl.to(btnText, { opacity: 0, x: -15, duration: 0.2 })
-      .to(planeIcon, {
-        x: -125, y: -16, rotation: -28, scale: 1.3, duration: 0.45, ease: 'power2.out'
-      }, '-=0.1')
-
-    // 2. Plane morphs into Courier Box Package at center height
-    .to(planeIcon, {
-      scale: 0, rotation: 180, opacity: 0, duration: 0.22, ease: 'power2.in'
-    })
-    .to(boxIcon, {
-      scale: 1.2, opacity: 1, duration: 0.22, ease: 'back.out(1.7)'
-    }, '-=0.18')
-
-    // 3. Courier Box Drops down with Elastic Impact Bounce
-    .to(boxIcon, {
-      y: 8, duration: 0.35, ease: 'bounce.out'
-    })
-
-    // 4. Postman walks in from left to the package
-    .fromTo(postmanIcon,
-      { x: -140, opacity: 0 },
-      { x: -38, opacity: 1, duration: 0.5, ease: 'power1.out' }
-    )
-
-    // 5. Postman stoops & picks up package (box lifts into postman's hands)
-    .to(postmanIcon, {
-      rotation: 8, duration: 0.15, ease: 'power1.in'
-    })
-    .to([postmanIcon, boxIcon], {
-      y: -6, rotation: 0, duration: 0.2, ease: 'back.out(2)'
-    })
-
-    // 6. Postman carries package walking out off the right edge of button bar
-    .to([postmanIcon, boxIcon], {
-      x: '+=190', opacity: 0, duration: 0.65, ease: 'power2.in'
-    })
-
-    // 7. Progress sweep highlight & reveal sealed success badge
-    .to(sweep, {
-      left: '100%', duration: 0.35, ease: 'power1.inOut',
+    const tl = gsap.timeline({
       onComplete: () => {
         submitBtn.classList.add('sealed-success');
         form.reset();
+        // Re-enable after 3s so user can submit again
+        setTimeout(resetBtn, 3200);
       }
+    });
+
+    // ── 1. Text slides out left ──
+    tl.to(btnText, { opacity: 0, x: -18, duration: 0.28, ease: 'power2.in' })
+
+    // ── 2. Paper plane soars across the full button width ──
+    .to(planeIcon, {
+      x: -(half - 18),  // flies to button center-left
+      y: -14,
+      rotation: -22,
+      scale: 1.3,
+      duration: 0.55,
+      ease: 'power2.out'
+    }, '-=0.10')
+
+    // ── 3. Plane shrinks & vanishes; Box pops in at same spot ──
+    .to(planeIcon, { scale: 0.1, opacity: 0, rotation: 45, duration: 0.22, ease: 'power3.in' })
+    .to(boxIcon, {
+      opacity: 1, scale: 1.2, duration: 0.26, ease: 'back.out(2.2)'
+    }, '-=0.14')
+
+    // ── 4. Box drops onto conveyor with a small bounce ──
+    .to(boxIcon, {
+      y: 0, scale: 1, duration: 0.52, ease: 'bounce.out'
+    })
+
+    // ── 5. Conveyor belt rail fades in under the box ──
+    .to(conveyorEl, {
+      opacity: 1, scaleX: 1, duration: 0.22, ease: 'power2.out'
+    }, '-=0.18')
+
+    // ── 6. Box slides right along conveyor out of view ──
+    .to(boxIcon, {
+      x: half + 40,
+      duration: 0.72,
+      ease: 'power2.inOut'
+    })
+    .to(boxIcon, { opacity: 0, duration: 0.18, ease: 'power1.in' }, '-=0.2')
+
+    // ── 7. Conveyor fades out ──
+    .to(conveyorEl, { opacity: 0, duration: 0.2 }, '-=0.2')
+
+    // ── 8. Shimmer sweep across button then success state ──
+    .to(sweep, {
+      scaleX: 1, duration: 0.45, ease: 'power2.inOut'
     });
   });
 }
@@ -847,20 +922,40 @@ function initUniversalCardModal() {
   const desc = document.getElementById('uc-desc');
   const specsList = document.getElementById('uc-specs-list');
   const ctaBtn = document.getElementById('uc-cta-btn');
+  const ucBody = document.querySelector('.uc-body');
 
   if (!modal) return;
 
+  /* ── FIX: Wire native wheel scroll to modal body so Lenis doesn't block it ── */
+  if (ucBody) {
+    ucBody.addEventListener('wheel', (e) => {
+      if (!modal.classList.contains('open')) return;
+      e.stopPropagation();
+      ucBody.scrollTop += e.deltaY;
+    }, { passive: true });
+  }
+
   document.querySelectorAll('[data-expandable="true"]').forEach(card => {
     card.addEventListener('click', (e) => {
-      // Prevent trigger if clicking on nested link elements inside card body
-      if (e.target.closest('a') && !e.target.closest('.card-expand-btn')) {
-        return;
-      }
+      if (e.target.closest('a') && !e.target.closest('.card-expand-btn')) return;
 
-      const img = card.dataset.modalImage || card.querySelector('.srv-img, .g-card-img, .team-photo')?.style.backgroundImage.replace(/url\(['"]?([^'"]*)['"]?\)/, '$1') || 'assets/hero_chettinad.jpg';
-      const cat = card.dataset.modalCategory || card.querySelector('.proc-step, .g-cat-tag, .team-badge, .srv-n')?.textContent || 'Studio Mastery';
-      const t = card.dataset.modalTitle || card.querySelector('h3, .proc-t, .srv-t, .g-title, .team-name')?.textContent || 'Architectural Detail';
-      const d = card.dataset.modalDesc || card.querySelector('p, .proc-p, .srv-p, .g-desc, .team-quote')?.textContent || '';
+      // Extract data — check data attributes first, then fall back to DOM
+      const imgRaw = card.dataset.modalImage
+        || (() => {
+          const el = card.querySelector('[style*="background-image"]');
+          if (el) return (el.style.backgroundImage.match(/url\(['"]?([^'"]*)['"]?\)/) || [])[1] || '';
+          return '';
+        })();
+      const img = imgRaw || 'assets/hero_chettinad.jpg';
+      const cat = card.dataset.modalCategory
+        || card.querySelector('.proc-step, .g-cat-tag, .team-badge, .srv-n')?.textContent?.trim()
+        || 'Studio Mastery';
+      const t = card.dataset.modalTitle
+        || card.querySelector('h3, .proc-t, .srv-t, .g-title, .team-name')?.textContent?.trim()
+        || 'Architectural Detail';
+      const d = card.dataset.modalDesc
+        || card.querySelector('p, .proc-p, .srv-p, .g-desc, .team-quote')?.textContent?.trim()
+        || '';
       const specsRaw = card.dataset.modalSpecs || '';
 
       heroImg.style.backgroundImage = `url('${img}')`;
@@ -885,6 +980,9 @@ function initUniversalCardModal() {
           specsList.appendChild(pill);
         });
       }
+
+      // Reset scroll to top
+      if (ucBody) ucBody.scrollTop = 0;
 
       modal.classList.add('open');
       if (lenis) lenis.stop();
