@@ -613,17 +613,46 @@ em { font-style: italic; }
 .chrono-disp { flex: 1; }
 .chrono-arr { margin-left: auto; transition: transform .3s; }
 
-/* Premium Studio Envelope Seal Button */
+/* Premium Studio Envelope & Postman Dispatch Button */
 .submit-seal-btn {
-  position: relative; overflow: hidden; min-width: 320px; height: 56px;
+  position: relative; overflow: hidden; min-width: 340px; height: 58px;
   display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  background: linear-gradient(135deg, var(--gold-d), var(--gold));
+  color: var(--void); border: none; font-weight: 600; font-size: 15px;
+  border-radius: 50px; cursor: pointer; transition: background .4s var(--trans), box-shadow .4s;
 }
-.btn-seal-icon { font-size: 16px; color: var(--void); transition: transform .3s var(--spring); }
-.submit-seal-btn:hover .btn-seal-icon { transform: translateX(4px) scale(1.15); }
+.submit-seal-btn:hover {
+  box-shadow: 0 8px 30px rgba(201,169,110,0.4);
+}
+.btn-text { transition: opacity 0.35s ease, transform 0.35s ease; z-index: 2; }
+.btn-plane-icon {
+  font-size: 18px; color: var(--void); transition: all 0.35s var(--trans);
+  display: inline-flex; align-items: center; justify-content: center; z-index: 3;
+}
+.btn-box-icon {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0);
+  font-size: 22px; color: var(--void); opacity: 0; z-index: 3; transition: all 0.35s var(--spring);
+}
+.btn-postman-icon {
+  position: absolute; left: -20%; top: 50%; transform: translateY(-50%) scale(0.9);
+  font-size: 24px; color: var(--void); opacity: 0; z-index: 4; transition: all 0.35s ease;
+}
+.btn-success-text {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 15px; font-weight: 700; color: #FFF5CC; opacity: 0; transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease; z-index: 5;
+}
+.submit-seal-btn.sealed-success {
+  background: linear-gradient(135deg, #1B4D2E 0%, #2A7344 100%) !important;
+  box-shadow: 0 8px 30px rgba(42, 115, 68, 0.4) !important;
+}
+.submit-seal-btn.sealed-success .btn-success-text {
+  opacity: 1; transform: translateY(0);
+}
 .submit-progress-sweep {
   position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  pointer-events: none;
+  pointer-events: none; z-index: 1;
 }
 
 /* FIXED CALENDAR OVERLAY */

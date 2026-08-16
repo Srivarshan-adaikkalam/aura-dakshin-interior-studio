@@ -715,11 +715,14 @@ function initChrono() {
   });
 }
 
-/* ── FORM ENVELOPE SEAL SUBMISSION ENGINE ── */
+/* ── FORM DISPATCH ANIMATION (PLANE -> BOX -> POSTMAN INSIDE BUTTON BAR) ── */
 function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
   const btnText = document.getElementById('submit-btn-text');
+  const planeIcon = document.getElementById('btn-plane-icon');
+  const boxIcon = document.getElementById('btn-box-icon');
+  const postmanIcon = document.getElementById('btn-postman-icon');
   const sweep = document.getElementById('submit-progress-sweep');
 
   if (!form || !submitBtn) return;
@@ -728,18 +731,56 @@ function initFlightForm() {
     e.preventDefault();
 
     const name = document.getElementById('cf-name').value;
-    if (!name) { alert('Please enter your name'); return; }
+    if (!name) {
+      alert('Please enter your name');
+      return;
+    }
 
-    btnText.textContent = 'Sealing Consultation Envelope...';
+    if (submitBtn.disabled) return;
+    submitBtn.disabled = true;
 
-    gsap.to(sweep, {
-      left: '100%', duration: 1.2, ease: 'power2.inOut',
+    // Reset icons initial positioning
+    gsap.set(sweep, { left: '-100%' });
+    gsap.set(planeIcon, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0 });
+    gsap.set(boxIcon, { opacity: 0, scale: 0, x: 0, y: 0 });
+    gsap.set(postmanIcon, { opacity: 0, scale: 0.8, x: 0 });
+
+    const tl = gsap.timeline();
+
+    // 1. Text fades out, paper plane flies to center and folds into box
+    tl.to(btnText, { opacity: 0, x: -20, duration: 0.25 })
+      .to(planeIcon, {
+        x: -120, y: -4, rotation: -25, scale: 1.3, duration: 0.45, ease: 'power2.out'
+      }, '-=0.1')
+      .to(planeIcon, {
+        scale: 0, rotation: 180, opacity: 0, duration: 0.25, ease: 'back.in(2)'
+      })
+
+    // 2. Paper plane folds into courier box in center of button
+    .to(boxIcon, {
+      scale: 1.25, opacity: 1, duration: 0.3, ease: 'back.out(2)'
+    })
+    .to(boxIcon, {
+      scale: 1, duration: 0.15
+    })
+
+    // 3. Postman arrives from left edge of button to center
+    .fromTo(postmanIcon,
+      { x: -140, opacity: 0, scale: 0.8 },
+      { x: -35, opacity: 1, scale: 1, duration: 0.5, ease: 'power1.out' }
+    )
+
+    // 4. Postman picks up courier box and carries it off out the right edge of button bar
+    .to([postmanIcon, boxIcon], {
+      x: 180, opacity: 0, duration: 0.65, ease: 'power2.in'
+    })
+
+    // 5. Sweep highlight and reveal success badge
+    .to(sweep, {
+      left: '100%', duration: 0.4, ease: 'power2.inOut',
       onComplete: () => {
-        btnText.textContent = '✓ Consultation Enquiry Sent!';
-        submitBtn.style.background = 'linear-gradient(135deg, #3A5C40, #7A8C74)';
-        submitBtn.style.color = '#fff';
+        submitBtn.classList.add('sealed-success');
         form.reset();
-        gsap.set(sweep, { left: '-100%' });
       }
     });
   });
