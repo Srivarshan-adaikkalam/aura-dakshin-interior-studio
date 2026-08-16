@@ -1,6 +1,6 @@
 /* ============================================================
-   AURA & DAKSHIN INTERIORS — Main Engine v7.0
-   Parallax Architecture Hero + Flying Bookshelf Engine + Crisp 3D Page Turn
+   AURA & DAKSHIN INTERIORS — Main Engine v8.0
+   Parallax Architecture Hero + Pinning Scrollytelling + 3D Bookshelf Physics
    ============================================================ */
 
 /* ── STATE MANAGEMENT ─────────────────────────────────────── */
@@ -8,8 +8,6 @@ const state = {
   currentYear: '2019',
   modalOpen: false,
   activeModalYear: '2019',
-  audioCtx: null,
-  audioInit: false,
 };
 
 /* Project Data Store for Full-Page Book Spread Modal */
@@ -112,99 +110,7 @@ const projectData = {
   },
 };
 
-/* ────────────────────────────────────────────────────────────
-   ORGANIC WEB AUDIO SYNTHESIZER
-──────────────────────────────────────────────────────────── */
-function initAudio() {
-  if (state.audioInit) return;
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (AudioCtx) {
-      state.audioCtx = new AudioCtx();
-      state.audioInit = true;
-    }
-  } catch (e) {}
-}
-
-function playPageTurn() {
-  if (!state.audioCtx) return;
-  try {
-    const ctx = state.audioCtx;
-    if (ctx.state === 'suspended') ctx.resume();
-
-    const bufLen = ctx.sampleRate * 0.22;
-    const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
-    const data = buf.getChannelData(0);
-    for (let i = 0; i < bufLen; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufLen, 2.2);
-    }
-
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(1400, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.22);
-    filter.Q.value = 1.4;
-
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.09, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
-
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    src.start();
-  } catch (e) {}
-}
-
-function playBookFly() {
-  if (!state.audioCtx) return;
-  try {
-    const ctx = state.audioCtx;
-    if (ctx.state === 'suspended') ctx.resume();
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(220, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.35);
-
-    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.35);
-  } catch (e) {}
-}
-
-function playClick() {
-  if (!state.audioCtx) return;
-  try {
-    const ctx = state.audioCtx;
-    if (ctx.state === 'suspended') ctx.resume();
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(750, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.04);
-
-    gain.gain.setValueAtTime(0.07, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.04);
-  } catch (e) {}
-}
-
-/* ────────────────────────────────────────────────────────────
-   PRELOADER
-──────────────────────────────────────────────────────────── */
+/* ── PRELOADER & PARTICLES ── */
 function initPreloader() {
   const preloader = document.getElementById('preloader');
   const bar = document.getElementById('pre-bar');
@@ -222,14 +128,11 @@ function initPreloader() {
         preloader.classList.add('gone');
         document.body.style.overflow = '';
         triggerHeroAnimations();
-      }, 400);
+      }, 350);
     }
-  }, 40);
+  }, 35);
 }
 
-/* ────────────────────────────────────────────────────────────
-   AMBIENT PARTICLES
-──────────────────────────────────────────────────────────── */
 function initParticles() {
   const cvs = document.getElementById('ambient-canvas');
   if (!cvs) return;
@@ -242,7 +145,7 @@ function initParticles() {
     h = cvs.height = window.innerHeight;
   });
 
-  const parts = Array.from({ length: 28 }, () => ({
+  const parts = Array.from({ length: 24 }, () => ({
     x: Math.random() * w,
     y: Math.random() * h,
     r: Math.random() * 1.8 + 0.6,
@@ -268,13 +171,11 @@ function initParticles() {
   anim();
 }
 
-/* ────────────────────────────────────────────────────────────
-   LENIS SMOOTH SCROLLING
-──────────────────────────────────────────────────────────── */
+/* ── LENIS SMOOTH SCROLL ── */
 let lenis;
 function initLenis() {
   lenis = new Lenis({
-    duration: 1.2,
+    duration: 1.1,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
   });
@@ -284,19 +185,16 @@ function initLenis() {
   gsap.ticker.lagSmoothing(0);
 }
 
-/* ────────────────────────────────────────────────────────────
-   CINEMATIC HERO ANIMATIONS & PARALLAX BACKDROP
-──────────────────────────────────────────────────────────── */
+/* ── HERO SCROLLTRIGGER ── */
 function triggerHeroAnimations() {
   const tl = gsap.timeline();
 
   tl.to('.hero-sec [data-reveal]', {
-    opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
+    opacity: 1, y: 0, duration: 0.85, stagger: 0.12, ease: 'power3.out',
   });
 
-  tl.from('.cinematic-glow', { scale: 0.5, opacity: 0, duration: 1.5, ease: 'power2.out' }, 0.2);
+  tl.from('.cinematic-glow', { scale: 0.5, opacity: 0, duration: 1.4, ease: 'power2.out' }, 0.2);
 
-  // Parallax Scroll for Card A background image
   gsap.to('#hero-bg-parallax', {
     yPercent: 20,
     ease: 'none',
@@ -310,13 +208,10 @@ function triggerHeroAnimations() {
 
   document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.to, 10) || 0;
-    gsap.to(el, { innerText: target, duration: 2.2, ease: 'power2.out', snap: { innerText: 1 } });
+    gsap.to(el, { innerText: target, duration: 2.0, ease: 'power2.out', snap: { innerText: 1 } });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   HERO SHOWCASE TAB SWITCHER
-──────────────────────────────────────────────────────────── */
 function initHeroShowcase() {
   const tabs = document.querySelectorAll('.sc-tab');
   const imgEl = document.getElementById('hero-showcase-img');
@@ -331,28 +226,25 @@ function initHeroShowcase() {
 
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      initAudio(); playClick();
 
       const newImg = tab.dataset.img;
       const newTitle = tab.dataset.title;
       const newStyle = tab.dataset.style;
 
       gsap.to(imgEl, {
-        opacity: 0.3, duration: 0.25, ease: 'power2.in',
+        opacity: 0.3, duration: 0.22, ease: 'power2.in',
         onComplete: () => {
           imgEl.style.backgroundImage = `url('${newImg}')`;
           if (titleEl) titleEl.textContent = newTitle;
           if (subEl) subEl.textContent = newStyle;
-          gsap.to(imgEl, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+          gsap.to(imgEl, { opacity: 1, duration: 0.4, ease: 'power2.out' });
         }
       });
     });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   ROAD SVG + TRANSPORTER + RIGHT BOOKSHELF EXCHANGE ENGINE
-──────────────────────────────────────────────────────────── */
+/* ── ROAD SVG + TRANSPORTER + PINNED SCROLLYTELLING ── */
 let roadPath, roadPathLen;
 const yearThresholds = [
   { yr: '2019', start: 0,    end: 0.28 },
@@ -372,17 +264,35 @@ function initRoad() {
   positionCar(0);
   mountActiveBookOnStage('2019');
 
+  /* FIXED PINNING: pinSpacing set to true so jrnySticky stays pinned while scrubbing 400vh track */
   ScrollTrigger.create({
     trigger: jrnyScroll,
     start: 'top top',
     end: 'bottom bottom',
     pin: jrnySticky,
-    pinSpacing: false,
+    pinSpacing: true,
     onUpdate: (self) => {
       const prog = self.progress;
       positionCar(prog);
       updateActiveYear(prog);
     },
+  });
+
+  // Shelf click navigation triggers
+  document.querySelectorAll('.rack-shelf-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const yr = item.dataset.yr;
+      const targetObj = yearThresholds.find(t => t.yr === yr);
+      if (targetObj && jrnyScroll) {
+        const scrollRange = jrnyScroll.offsetHeight - window.innerHeight;
+        const targetScroll = jrnyScroll.offsetTop + (targetObj.start + 0.1) * scrollRange;
+        if (lenis) {
+          lenis.scrollTo(targetScroll, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        }
+      }
+    });
   });
 }
 
@@ -411,28 +321,42 @@ function updateActiveYear(progress) {
   }
 }
 
-/* Right-Side Bookshelf Flying Exchange Mechanism */
+/* ── 3D BOOKSHELF FLYING EXCHANGE ENGINE ── */
 function executeRightBookshelfExchange(targetYr) {
-  const oldYr = state.currentYear;
   state.currentYear = targetYr;
+  const data = projectData[targetYr];
 
-  initAudio(); playBookFly();
+  // Update telemetry status bar
+  const statusEl = document.getElementById('jtb-status');
+  if (statusEl && data) {
+    const chNum = targetYr === '2019' ? '01' : targetYr === '2021' ? '02' : targetYr === '2023' ? '03' : '04';
+    statusEl.textContent = `CHAPTER ${chNum} / 04 · ${data.title.toUpperCase()}`;
+  }
 
-  document.querySelectorAll('.rack-shelf-item').forEach(item => {
-    if (item.dataset.yr === targetYr) {
-      item.classList.add('active');
+  // Update pedestal header badge
+  const pedYr = document.getElementById('ped-yr-disp');
+  if (pedYr) pedYr.textContent = targetYr;
+
+  // Update SVG map waypoint active dots
+  document.querySelectorAll('.wp-dot').forEach(dot => {
+    if (dot.id === `wp-${targetYr}`) {
+      dot.classList.add('active');
     } else {
-      item.classList.remove('active');
+      dot.classList.remove('active');
     }
   });
 
-  const yrText = document.getElementById('ayr-text');
-  if (yrText) {
-    gsap.to(yrText, { y: -20, opacity: 0, duration: 0.2, onComplete: () => {
-      yrText.textContent = targetYr;
-      gsap.fromTo(yrText, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 });
-    }});
-  }
+  // Update bookshelf shelf status pills
+  document.querySelectorAll('.rack-shelf-item').forEach(item => {
+    const statusTag = item.querySelector('.mbs-status');
+    if (item.dataset.yr === targetYr) {
+      item.classList.add('active');
+      if (statusTag) statusTag.textContent = 'ACTIVE';
+    } else {
+      item.classList.remove('active');
+      if (statusTag) statusTag.textContent = 'SELECT';
+    }
+  });
 
   const stageWrapper = document.getElementById('active-book-wrapper');
   if (!stageWrapper) return;
@@ -440,7 +364,7 @@ function executeRightBookshelfExchange(targetYr) {
   const currentBook = stageWrapper.firstElementChild;
   if (currentBook) {
     gsap.to(currentBook, {
-      x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0, duration: 0.5, ease: 'power2.in',
+      x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0, duration: 0.45, ease: 'power2.in',
       onComplete: () => {
         mountActiveBookOnStage(targetYr);
       }
@@ -505,38 +429,35 @@ function mountActiveBookOnStage(yr) {
 
   gsap.fromTo(newBookScene, 
     { x: 320, y: -40, scale: 0.5, rotateY: 45, opacity: 0 },
-    { x: 0, y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.65, ease: 'power3.out' }
+    { x: 0, y: 0, scale: 1, rotateY: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }
   );
 
   if (cover && book) {
     [cover, btn].filter(Boolean).forEach(el => {
       el.addEventListener('mouseenter', () => {
         if (state.modalOpen) return;
-        playPageTurn();
-        gsap.to(cover, { rotateY: -28, duration: 0.85, ease: 'elastic.out(1, 0.45)' });
-        gsap.to(book, { rotateX: -4, rotateZ: 1.5, scale: 1.08, duration: 0.6, ease: 'power2.out' });
+        gsap.to(cover, { rotateY: -28, duration: 0.75, ease: 'elastic.out(1, 0.5)' });
+        gsap.to(book, { rotateX: -4, rotateZ: 1.5, scale: 1.06, duration: 0.5, ease: 'power2.out' });
       });
       el.addEventListener('mouseleave', () => {
         if (state.modalOpen) return;
-        gsap.to(cover, { rotateY: 0, duration: 0.7, ease: 'power2.inOut' });
-        gsap.to(book, { rotateX: 0, rotateZ: 0, scale: 1, duration: 0.5, ease: 'power2.out' });
+        gsap.to(cover, { rotateY: 0, duration: 0.6, ease: 'power2.inOut' });
+        gsap.to(book, { rotateX: 0, rotateZ: 0, scale: 1, duration: 0.4, ease: 'power2.out' });
       });
     });
 
     if (btn) {
       btn.addEventListener('click', (e) => {
-        e.stopPropagation(); initAudio(); playClick(); openBookModal(yr);
+        e.stopPropagation(); openBookModal(yr);
       });
     }
     cover.addEventListener('click', () => {
-      initAudio(); playClick(); openBookModal(yr);
+      openBookModal(yr);
     });
   }
 }
 
-/* ────────────────────────────────────────────────────────────
-   REALISTIC 3D PAGE TURN & FULL-PAGE MODAL ENGINE
-──────────────────────────────────────────────────────────── */
+/* ── BOOK SPREAD MODAL ── */
 function initBookModalEvents() {
   const closeBtn = document.getElementById('bm-close-btn');
   const backdrop = document.getElementById('bm-backdrop');
@@ -565,21 +486,18 @@ function initBookModalEvents() {
   });
 }
 
-/* Realistic 3D Paper Page Turn Engine */
 function animateRealisticPageFlip(targetYr, isForward) {
   const mesh = document.getElementById('turning-page-mesh');
   if (!mesh) {
     openBookModal(targetYr); return;
   }
 
-  playPageTurn();
-
   gsap.killTweensOf(mesh);
   gsap.fromTo(mesh,
     { opacity: 1, rotateY: isForward ? 0 : -180 },
     {
       rotateY: isForward ? -180 : 0,
-      duration: 0.8,
+      duration: 0.75,
       ease: 'power3.inOut',
       onComplete: () => {
         openBookModal(targetYr);
@@ -620,8 +538,6 @@ function openBookModal(yr) {
   if (!modal) return;
 
   modal.classList.add('open');
-  playPageTurn();
-
   if (lenis) lenis.stop();
 }
 
@@ -631,42 +547,58 @@ function closeBookModal() {
 
   modal.classList.remove('open');
   state.modalOpen = false;
-  playPageTurn();
 
   if (lenis) lenis.start();
 }
 
-/* ────────────────────────────────────────────────────────────
-   DEDICATED TEAM SHOWCASE CARDS
-──────────────────────────────────────────────────────────── */
+/* ── GALLERY FILTER CONTROLLER ── */
+function initGalleryFilters() {
+  const buttons = document.querySelectorAll('.g-filter-btn');
+  const cards = document.querySelectorAll('.gallery-card');
+  if (!buttons.length || !cards.length) return;
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        if (filter === 'all' || category === filter) {
+          gsap.to(card, { display: 'flex', opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
+        } else {
+          gsap.to(card, { opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.in', onComplete: () => {
+            card.style.display = 'none';
+          }});
+        }
+      });
+    });
+  });
+}
+
+/* ── TEAM CARDS & CHIPS ── */
 function initTeamCards() {
   document.querySelectorAll('.team-card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active'));
       card.classList.add('active');
-      initAudio(); playClick();
     });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   CHIP SELECTOR
-──────────────────────────────────────────────────────────── */
 function initChips() {
   document.querySelectorAll('.chip-group').forEach(group => {
     group.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
         group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        initAudio(); playClick();
       });
     });
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   FIXED CHRONO POPOVER DIALOG
-──────────────────────────────────────────────────────────── */
+/* ── CHRONO CALENDAR ── */
 function initChrono() {
   const trig = document.getElementById('chrono-trig');
   const overlay = document.getElementById('chrono-modal-overlay');
@@ -729,7 +661,6 @@ function initChrono() {
         grid.querySelectorAll('.chrono-day').forEach(cd => cd.classList.remove('selected'));
         el.classList.add('selected');
         selDay = d;
-        initAudio(); playClick();
       });
 
       grid.appendChild(el);
@@ -738,7 +669,6 @@ function initChrono() {
 
   trig.addEventListener('click', (e) => {
     e.stopPropagation();
-    initAudio(); playClick();
     overlay.classList.add('open');
     renderCalendar();
   });
@@ -747,7 +677,7 @@ function initChrono() {
     prevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       curDate.setMonth(curDate.getMonth() - 1);
-      renderCalendar(); initAudio(); playClick();
+      renderCalendar();
     });
   }
 
@@ -755,7 +685,7 @@ function initChrono() {
     nextBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       curDate.setMonth(curDate.getMonth() + 1);
-      renderCalendar(); initAudio(); playClick();
+      renderCalendar();
     });
   }
 
@@ -765,7 +695,6 @@ function initChrono() {
       slots.forEach(s => s.classList.remove('active'));
       slot.classList.add('active');
       selSlot = slot.textContent;
-      initAudio(); playClick();
     });
   });
 
@@ -778,7 +707,6 @@ function initChrono() {
         disp.textContent = `Selected slot: ${selSlot}`;
       }
       overlay.classList.remove('open');
-      initAudio(); playClick();
     });
   }
 
@@ -787,9 +715,7 @@ function initChrono() {
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   STUDIO ENVELOPE SEAL SUBMISSION
-──────────────────────────────────────────────────────────── */
+/* ── FORM ENVELOPE SEAL SUBMISSION ENGINE ── */
 function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
@@ -800,7 +726,6 @@ function initFlightForm() {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    initAudio(); playClick();
 
     const name = document.getElementById('cf-name').value;
     if (!name) { alert('Please enter your name'); return; }
@@ -820,9 +745,7 @@ function initFlightForm() {
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   SCROLL REVEAL & PARALLAX
-──────────────────────────────────────────────────────────── */
+/* ── SCROLL REVEAL & MOBILE NAV ── */
 function initScrollReveal() {
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     ScrollTrigger.create({
@@ -840,6 +763,18 @@ function initNavbar() {
   });
 }
 
+function initMobileNav() {
+  const burger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  if (!burger || !navLinks) return;
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  document.querySelectorAll('.nl').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+}
+
 function initScrollProgress() {
   const bar = document.getElementById('scroll-prog');
   window.addEventListener('scroll', () => {
@@ -849,9 +784,76 @@ function initScrollProgress() {
   });
 }
 
-/* ────────────────────────────────────────────────────────────
-   MAIN INIT
-──────────────────────────────────────────────────────────── */
+/* ── UNIVERSAL CARD EXPANSION LIGHTBOX ── */
+function initUniversalCardModal() {
+  const modal = document.getElementById('universal-card-modal');
+  const backdrop = document.getElementById('uc-backdrop');
+  const closeBtn = document.getElementById('uc-close-btn');
+  const heroImg = document.getElementById('uc-hero-img');
+  const catTag = document.getElementById('uc-cat-tag');
+  const title = document.getElementById('uc-title');
+  const desc = document.getElementById('uc-desc');
+  const specsList = document.getElementById('uc-specs-list');
+  const ctaBtn = document.getElementById('uc-cta-btn');
+
+  if (!modal) return;
+
+  document.querySelectorAll('[data-expandable="true"]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Prevent trigger if clicking on nested link elements inside card body
+      if (e.target.closest('a') && !e.target.closest('.card-expand-btn')) {
+        return;
+      }
+
+      const img = card.dataset.modalImage || card.querySelector('.srv-img, .g-card-img, .team-photo')?.style.backgroundImage.replace(/url\(['"]?([^'"]*)['"]?\)/, '$1') || 'assets/hero_chettinad.jpg';
+      const cat = card.dataset.modalCategory || card.querySelector('.proc-step, .g-cat-tag, .team-badge, .srv-n')?.textContent || 'Studio Mastery';
+      const t = card.dataset.modalTitle || card.querySelector('h3, .proc-t, .srv-t, .g-title, .team-name')?.textContent || 'Architectural Detail';
+      const d = card.dataset.modalDesc || card.querySelector('p, .proc-p, .srv-p, .g-desc, .team-quote')?.textContent || '';
+      const specsRaw = card.dataset.modalSpecs || '';
+
+      heroImg.style.backgroundImage = `url('${img}')`;
+      catTag.textContent = cat;
+      title.textContent = t;
+      desc.textContent = d;
+
+      specsList.innerHTML = '';
+      if (specsRaw) {
+        specsRaw.split(',').forEach(s => {
+          const pill = document.createElement('span');
+          pill.className = 'uc-spec-pill';
+          pill.innerHTML = `<i class="fa-solid fa-check"></i> ${s.trim()}`;
+          specsList.appendChild(pill);
+        });
+      } else {
+        const tags = card.querySelectorAll('.srv-features span, .proc-pills span, .team-tags span');
+        tags.forEach(tag => {
+          const pill = document.createElement('span');
+          pill.className = 'uc-spec-pill';
+          pill.innerHTML = tag.innerHTML;
+          specsList.appendChild(pill);
+        });
+      }
+
+      modal.classList.add('open');
+      if (lenis) lenis.stop();
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('open');
+    if (lenis) lenis.start();
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (ctaBtn) ctaBtn.addEventListener('click', closeModal);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+}
+
+/* ── MAIN INITIALIZATION ── */
 document.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -865,9 +867,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroShowcase();
   initTeamCards();
   initBookModalEvents();
+  initGalleryFilters();
+  initUniversalCardModal();
   initNavbar();
+  initMobileNav();
   initScrollProgress();
   initLenis();
   initRoad();
   initScrollReveal();
 });
+

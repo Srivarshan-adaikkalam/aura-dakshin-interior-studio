@@ -14,6 +14,9 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <!-- Lottie Player Component for 60FPS Micro-Animations -->
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -25,9 +28,7 @@
   <!-- Scroll progress telemetry bar -->
   <div class="scroll-prog" id="scroll-prog" role="progressbar" aria-hidden="true"></div>
 
-  <!-- ====================================================
-  PRELOADER
-  ==================================================== -->
+  <!-- PRELOADER -->
   <div id="preloader" class="preloader">
     <div class="pre-content">
       <div class="pre-logo">A</div>
@@ -39,9 +40,7 @@
     </div>
   </div>
 
-  <!-- ====================================================
-  NAVIGATION
-  ==================================================== -->
+  <!-- NAVIGATION -->
   <header class="navbar" id="navbar">
     <nav class="nav-inner">
       <a href="#hero" class="nav-brand">
@@ -50,12 +49,13 @@
       </a>
 
       <ul class="nav-links" id="nav-links">
-        <li><a href="#hero"         class="nl active" data-txt="Studio">Studio</a></li>
-        <li><a href="#journey"      class="nl" data-txt="Journey">Heritage Journey</a></li>
-        <li><a href="#process"      class="nl" data-txt="Process">Process</a></li>
-        <li><a href="#services"     class="nl" data-txt="Expertise">Expertise</a></li>
+        <li><a href="#hero"          class="nl active" data-txt="Studio">Studio</a></li>
+        <li><a href="#journey"       class="nl" data-txt="Journey">Heritage Journey</a></li>
+        <li><a href="#process"       class="nl" data-txt="Process">Process</a></li>
+        <li><a href="#services"      class="nl" data-txt="Expertise">Expertise</a></li>
+        <li><a href="#gallery"       class="nl" data-txt="Gallery">Gallery</a></li>
         <li><a href="#team-showcase" class="nl" data-txt="Team">Team</a></li>
-        <li><a href="#consultation" class="nl" data-txt="Book">Book Consultation</a></li>
+        <li><a href="#consultation"  class="nl" data-txt="Book">Book Consultation</a></li>
       </ul>
 
       <div class="nav-right">
@@ -72,13 +72,11 @@
 
   <main>
 
-    <!-- ====================================================
-    HERO — CINEMATIC BENTO GRID WITH ARCHITECTURAL BACKDROP
-    ==================================================== -->
+    <!-- HERO SECTION -->
     <section id="hero" class="hero-sec">
       <div class="hero-bento">
 
-        <!-- Card A: Cinematic Headline Banner with Architecture Motion Backdrop -->
+        <!-- Card A: Cinematic Headline Banner -->
         <article class="bc card-a cinematic-card" id="hero-card-a" data-reveal>
           <div class="cinematic-bg-img" id="hero-bg-parallax" style="background-image: url('assets/hero_chettinad.jpg')" aria-hidden="true"></div>
           <div class="cinematic-vignette" aria-hidden="true"></div>
@@ -119,7 +117,7 @@
           </div>
         </article>
 
-        <!-- Card B: Interactive Room Showcase Card (Left Column) -->
+        <!-- Card B: Interactive Room Showcase Card -->
         <article class="bc card-b" data-reveal>
           <div class="showcase-tabs">
             <button type="button" class="sc-tab active" data-img="assets/hero_chettinad.jpg" data-title="Chettinad Heritage Villa · Karaikudi" data-style="Athangudi Tiles &amp; Teak Pillars">
@@ -152,7 +150,7 @@
           </div>
         </article>
 
-        <!-- Card C: Dedicated 4-Card Line-Up Stats (Right Column) -->
+        <!-- Card C: Dedicated 4-Card Line-Up Stats -->
         <article class="bc card-c" data-reveal>
           <div class="card-header-tag"><i class="fa-solid fa-chart-line"></i> Studio Recognition &amp; Milestones</div>
           
@@ -180,7 +178,7 @@
           </div>
         </article>
 
-        <!-- Card D: Featured Client Quote Card (Left Column) -->
+        <!-- Card D: Featured Client Quote Card -->
         <article class="bc card-d" data-reveal>
           <div class="award-star">
             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
@@ -197,7 +195,7 @@
           </div>
         </article>
 
-        <!-- Card E: Specialities Tag Cloud (Right Column) -->
+        <!-- Card E: Specialities Tag Cloud -->
         <article class="bc card-e" data-reveal>
           <div class="sp-label">Our Specialities</div>
           <div class="sp-tags">
@@ -220,29 +218,28 @@
       </div>
     </section>
 
-    <!-- ====================================================
-    SCROLLYTELLING JOURNEY — FULL HIGHWAY VIEWPORT & DETAILED 3D BOOKSHELF
-    ==================================================== -->
+    <!-- SCROLLYTELLING JOURNEY -->
     <section id="journey" class="journey-sec">
-
-      <!-- Section intro -->
-      <div class="journey-intro">
-        <span class="sec-tag">Our Scrollytelling Journey</span>
-        <h2 class="sec-h2">A Decade of South Indian<br><em>Architectural Milestones</em></h2>
-        <p class="sec-p">Scroll down the highway. As the studio SUV arrives at each milestone, the corresponding leather diary flies off the mahogany bookshelf onto the reading pedestal!</p>
-      </div>
-
-      <!-- Tall scroll container -->
       <div class="jrny-scroll" id="jrny-scroll">
         <div class="jrny-sticky" id="jrny-sticky">
 
-          <!-- HIGHWAY ROAD SCENE (FULL UNBROKEN VIEWPORT) -->
+          <!-- STAGE HEADER WITH INTEGRATED TELEMETRY -->
+          <div class="jrny-stage-header">
+            <div class="jrny-telemetry-bar">
+              <span class="jtb-tag"><i class="fa-solid fa-compass"></i> SCROLLYTELLING JOURNEY</span>
+              <span class="jtb-dot">·</span>
+              <span class="jtb-status" id="jtb-status">CHAPTER 01 / 04 · CHENNAI ESTATE</span>
+            </div>
+            <h2 class="jrny-stage-title">A Decade of South Indian <em>Architectural Milestones</em></h2>
+          </div>
+
+          <!-- SCROLLYTELLING HIGHWAY CANVAS -->
           <div class="road-scene" id="road-scene">
-            <svg id="road-svg" class="road-svg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
+            <svg id="road-svg" class="road-svg" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="roadFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style="stop-color:#2A2535"/>
-                  <stop offset="100%" style="stop-color:#16121D"/>
+                  <stop offset="0%" style="stop-color:#201A28"/>
+                  <stop offset="100%" style="stop-color:#110E17"/>
                 </linearGradient>
                 <linearGradient id="headlightBeam" x1="0%" y1="50%" x2="100%" y2="50%">
                   <stop offset="0%" style="stop-color:rgba(255,245,210,0.95)"/>
@@ -254,42 +251,39 @@
                 </filter>
               </defs>
 
-              <!-- Highway Kerb & Road Path -->
               <path class="road-kerb"
-                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
-                stroke-width="84" stroke="#251E33" fill="none"/>
+                d="M -40,90 C 120,85 240,95 380,88 S 600,80 760,90 S 960,98 1100,85 S 1200,80 1240,88"
+                stroke-width="72" stroke="#251E33" fill="none"/>
 
               <path id="road-path"
-                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
-                stroke-width="72" stroke="url(#roadFill)" fill="none"/>
+                d="M -40,90 C 120,85 240,95 380,88 S 600,80 760,90 S 960,98 1100,85 S 1200,80 1240,88"
+                stroke-width="60" stroke="url(#roadFill)" fill="none"/>
 
               <path class="road-dash"
-                d="M -20,120 C 100,115 180,125 280,118 S 450,110 560,120 S 720,128 850,115 S 960,110 1030,118"
-                stroke-width="3" stroke="#C9A96E" fill="none" stroke-dasharray="24,30" opacity="0.45"/>
+                d="M -40,90 C 120,85 240,95 380,88 S 600,80 760,90 S 960,98 1100,85 S 1200,80 1240,88"
+                stroke-width="3" stroke="#C9A96E" fill="none" stroke-dasharray="24,30" opacity="0.5"/>
 
-              <!-- High-Contrast Waypoint Markers -->
               <g class="wp-group" data-yr="2019">
-                <circle class="wp-ring" cx="210" cy="118" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
-                <circle class="wp-dot" id="wp-2019" cx="210" cy="118" r="8" fill="#C9A96E"/>
-                <text x="210" y="82" text-anchor="middle" class="wp-yr">2019 · Chennai</text>
+                <circle class="wp-ring" cx="240" cy="90" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot active" id="wp-2019" cx="240" cy="90" r="8" fill="#C9A96E"/>
+                <text x="240" y="52" text-anchor="middle" class="wp-yr">2019 · CHENNAI</text>
               </g>
               <g class="wp-group" data-yr="2021">
-                <circle class="wp-ring" cx="430" cy="115" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
-                <circle class="wp-dot" id="wp-2021" cx="430" cy="115" r="8" fill="#C9A96E"/>
-                <text x="430" y="79" text-anchor="middle" class="wp-yr">2021 · Karaikudi</text>
+                <circle class="wp-ring" cx="520" cy="85" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2021" cx="520" cy="85" r="8" fill="#C9A96E"/>
+                <text x="520" y="47" text-anchor="middle" class="wp-yr">2021 · KARAIKUDI</text>
               </g>
               <g class="wp-group" data-yr="2023">
-                <circle class="wp-ring" cx="660" cy="122" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
-                <circle class="wp-dot" id="wp-2023" cx="660" cy="122" r="8" fill="#C9A96E"/>
-                <text x="660" y="86" text-anchor="middle" class="wp-yr">2023 · Kovai</text>
+                <circle class="wp-ring" cx="800" cy="92" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2023" cx="800" cy="92" r="8" fill="#C9A96E"/>
+                <text x="800" y="54" text-anchor="middle" class="wp-yr">2023 · KOVAI</text>
               </g>
               <g class="wp-group" data-yr="2024">
-                <circle class="wp-ring" cx="870" cy="114" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
-                <circle class="wp-dot" id="wp-2024" cx="870" cy="114" r="8" fill="#C9A96E"/>
-                <text x="870" y="78" text-anchor="middle" class="wp-yr">2024 · Puducherry</text>
+                <circle class="wp-ring" cx="1040" cy="85" r="18" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+                <circle class="wp-dot" id="wp-2024" cx="1040" cy="85" r="8" fill="#C9A96E"/>
+                <text x="1040" y="47" text-anchor="middle" class="wp-yr">2024 · PUDUCHERRY</text>
               </g>
 
-              <!-- HIGH-DETAIL LUXURY TRANSPORTER SUV CAR -->
               <g id="journey-car" class="journey-car" filter="url(#carGlow)">
                 <polygon points="20,-8 75,-24 75,24 20,8" fill="url(#headlightBeam)" opacity="0.8"/>
                 <rect x="-26" y="-14" width="52" height="28" rx="10" fill="rgba(0,0,0,0.7)" filter="url(#carGlow)"/>
@@ -305,24 +299,14 @@
             </svg>
           </div>
 
-          <!-- BOOK DISPLAY STAGE WITH DETAILED MAHOGANY LIBRARY BOOKSHELF RACK -->
+          <!-- SCROLLYTELLING READING STAGE & BOOKSHELF -->
           <div class="book-display" id="book-display">
-
-            <div class="active-yr" id="active-yr">
-              <span class="ayr-text" id="ayr-text">2019</span>
-              <span class="ayr-sub">Active Milestone Diary</span>
-            </div>
-
             <div class="stage-layout">
-              
-              <!-- LEFT / CENTER: Active Reading Stage -->
               <div class="reading-stage" id="reading-stage">
-                <div class="active-book-wrapper" id="active-book-wrapper">
-                  <!-- Active book lands here dynamically via GSAP flight animation -->
-                </div>
+                <div class="pedestal-hd-badge"><i class="fa-solid fa-bookmark"></i> ACTIVE HERITAGE VOLUME — <span id="ped-yr-disp">2019</span></div>
+                <div class="active-book-wrapper" id="active-book-wrapper"></div>
               </div>
 
-              <!-- RIGHT SIDE: Detailed Mahogany 3D Library Bookshelf Rack -->
               <aside class="right-bookshelf-rack" aria-label="Studio Heritage Library Shelf">
                 <div class="rack-top-molding"></div>
                 <div class="rack-header">
@@ -331,49 +315,45 @@
                 </div>
 
                 <div class="rack-shelves">
-                  <div class="rack-shelf-item active" data-yr="2019" id="shelf-item-2019">
+                  <div class="rack-shelf-item active" data-yr="2019" id="shelf-item-2019" role="button" tabindex="0">
                     <div class="mini-book-spine" style="--cbg:#2C1F17">
                       <span class="mbs-yr">2019</span>
                       <span class="mbs-title">Chennai</span>
+                      <span class="mbs-status">ACTIVE</span>
                     </div>
                   </div>
-
-                  <div class="rack-shelf-item" data-yr="2021" id="shelf-item-2021">
+                  <div class="rack-shelf-item" data-yr="2021" id="shelf-item-2021" role="button" tabindex="0">
                     <div class="mini-book-spine" style="--cbg:#1A2B1F">
                       <span class="mbs-yr">2021</span>
                       <span class="mbs-title">Karaikudi</span>
+                      <span class="mbs-status">SELECT</span>
                     </div>
                   </div>
-
-                  <div class="rack-shelf-item" data-yr="2023" id="shelf-item-2023">
+                  <div class="rack-shelf-item" data-yr="2023" id="shelf-item-2023" role="button" tabindex="0">
                     <div class="mini-book-spine" style="--cbg:#1F1A2B">
                       <span class="mbs-yr">2023</span>
                       <span class="mbs-title">Coimbatore</span>
+                      <span class="mbs-status">SELECT</span>
                     </div>
                   </div>
-
-                  <div class="rack-shelf-item" data-yr="2024" id="shelf-item-2024">
+                  <div class="rack-shelf-item" data-yr="2024" id="shelf-item-2024" role="button" tabindex="0">
                     <div class="mini-book-spine" style="--cbg:#1B2320">
                       <span class="mbs-yr">2024</span>
                       <span class="mbs-title">Puducherry</span>
+                      <span class="mbs-status">SELECT</span>
                     </div>
                   </div>
                 </div>
-
                 <div class="rack-wood-base"></div>
               </aside>
+            </div>
+          </div>
 
-            </div><!-- /.stage-layout -->
-
-          </div><!-- /.book-display -->
-
-        </div><!-- /.jrny-sticky -->
-      </div><!-- /.jrny-scroll -->
+        </div>
+      </div>
     </section>
 
-    <!-- ====================================================
-    STUDIO PROCESS — 4-STEP BENTO WORKFLOW
-    ==================================================== -->
+    <!-- PROCESS SECTION -->
     <section id="process" class="process-sec">
       <div class="sec-hd text-center">
         <span class="sec-tag">Our Studio Blueprint</span>
@@ -382,7 +362,14 @@
       </div>
 
       <div class="process-bento">
-        <div class="bc proc-card" data-reveal>
+        <div class="bc proc-card" data-expandable="true"
+             data-modal-image="assets/hero_chettinad.jpg"
+             data-modal-category="Stage 01 · Discovery"
+             data-modal-title="Thinnai Audit &amp; Climate Discovery"
+             data-modal-desc="We audit sunlight angles, coastal breeze corridors, courtyard acoustics, and family daily rituals to design a climate-calibrated blueprint tailored for Tamil Nadu living."
+             data-modal-specs="Climate Ergonomics, Courtyard Audit, Breeze Corridor Mapping"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="proc-step">STAGE 01</div>
           <h3 class="proc-t">Thinnai Audit &amp; Discovery</h3>
           <p class="proc-p">We audit sunlight angles, coastal breeze corridors, courtyard acoustics, and family daily rituals to design a climate-calibrated blueprint.</p>
@@ -391,7 +378,14 @@
           </div>
         </div>
 
-        <div class="bc proc-card" data-reveal>
+        <div class="bc proc-card" data-expandable="true"
+             data-modal-image="assets/about.jpg"
+             data-modal-category="Stage 02 · Renders"
+             data-modal-title="8K Walkthrough &amp; Material Curation"
+             data-modal-desc="Explore photorealistic 3D renders of every room while reviewing physical samples of hand-pressed Athangudi tiles, teakwood, and Erode silks in our design studio."
+             data-modal-specs="8K Renders, Athangudi Swatches, Custom Teak CAD"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="proc-step">STAGE 02</div>
           <h3 class="proc-t">8K Walkthrough &amp; Material Curation</h3>
           <p class="proc-p">Explore photorealistic 3D renders of every room while reviewing physical samples of hand-pressed Athangudi tiles, teakwood, and Erode silks.</p>
@@ -400,7 +394,14 @@
           </div>
         </div>
 
-        <div class="bc proc-card" data-reveal>
+        <div class="bc proc-card" data-expandable="true"
+             data-modal-image="assets/hero.jpg"
+             data-modal-category="Stage 03 · Artisan Craft"
+             data-modal-title="Artisan Craftsmanship &amp; Procurement"
+             data-modal-desc="Chettinad master carpenters, stone carvers, and electrical engineers craft your residence under strict quality supervision and heritage guild protocols."
+             data-modal-specs="Karaikudi Woodwork, Tanjore Hardware, Turnkey Supervision"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="proc-step">STAGE 03</div>
           <h3 class="proc-t">Artisan Craftsmanship &amp; Procurement</h3>
           <p class="proc-p">Chettinad master carpenters, stone carvers, and electrical engineers craft your residence under strict quality supervision.</p>
@@ -409,7 +410,14 @@
           </div>
         </div>
 
-        <div class="bc proc-card proc-highlight" data-reveal>
+        <div class="bc proc-card proc-highlight" data-expandable="true"
+             data-modal-image="assets/hero_lounge.jpg"
+             data-modal-category="Stage 04 · Handover"
+             data-modal-title="White-Glove Handover &amp; Styling"
+             data-modal-desc="Final Tanjore art placement, brassware calibration, and deep curation so you step into a fully realized, pristine sanctuary."
+             data-modal-specs="Art Placement, Brassware Calibration, Pristine Handover"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="proc-step">STAGE 04</div>
           <h3 class="proc-t">White-Glove Handover &amp; Styling</h3>
           <p class="proc-p">Final Tanjore art placement, brassware calibration, and deep curation so you step into a fully realized, pristine sanctuary.</p>
@@ -420,54 +428,223 @@
       </div>
     </section>
 
-    <!-- ====================================================
-    SERVICES BENTO (PERFECTLY PROPORTIONED CARD SIZING)
-    ==================================================== -->
+    <!-- SERVICES BENTO (FULL IMAGE COVERED CARDS WITH TOP-RIGHT EXPAND BUTTON ONLY) -->
     <section id="services" class="services-sec">
       <div class="sec-hd text-center">
         <span class="sec-tag">What We Do</span>
         <h2 class="sec-h2">Our Areas of<br><em>Mastery</em></h2>
+        <p class="sec-p mx-auto">Full-bleed architectural imagery with integrated specs. Use top-right button to expand full details.</p>
       </div>
 
       <div class="srv-bento-sequential">
         <!-- 01: Top Left -->
-        <div class="bc srv-card srv-card-1" data-reveal>
+        <div class="bc srv-card srv-card-1" data-expandable="true"
+             data-modal-image="assets/hero_chettinad.jpg"
+             data-modal-category="01 · Residential Architecture"
+             data-modal-title="Residential Architecture &amp; Estate Villas"
+             data-modal-desc="Full-spectrum spatial planning, custom teak joinery, and biophilic airflow corridors for luxury private estates across Chennai, Coimbatore &amp; Madurai. Designed to withstand South Indian climate variations while delivering zero-energy breeze ventilation and natural skylighting."
+             data-modal-specs="Biophilic Airflow Layouts, Teak Joinery CAD Schematics, High Ceiling Thermal Chimneys, Double Glazed Courtyard Glass"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="srv-n">01</div>
           <h3 class="srv-t">Residential Architecture &amp; Estate Villas</h3>
-          <p class="srv-p">Full-spectrum interior design for luxury villas, penthouses, and private estates in Chennai, Coimbatore &amp; Madurai — spatial planning, teak joinery, and custom lighting.</p>
-          <div class="srv-img srv-img-1"></div>
-          <a href="#consultation" class="srv-cta">Start Your Project <i class="fa-solid fa-arrow-right"></i></a>
+          <p class="srv-p">Full-spectrum spatial planning, custom teak joinery, and biophilic airflow corridors for luxury private estates across Chennai, Coimbatore &amp; Madurai.</p>
+          <div class="srv-features">
+            <span><i class="fa-solid fa-check"></i> Biophilic Airflow Layouts</span>
+            <span><i class="fa-solid fa-check"></i> Teak Joinery CAD Schematics</span>
+          </div>
         </div>
 
         <!-- 02: Top Right -->
-        <div class="bc srv-card srv-card-2" data-reveal>
+        <div class="bc srv-card srv-card-2" data-expandable="true"
+             data-modal-image="assets/about.jpg"
+             data-modal-category="02 · Heritage Restoration"
+             data-modal-title="Chettinad &amp; Heritage Restoration"
+             data-modal-desc="Meticulous restoration of ancestral mansions, courtyard thinnai spaces, and historical estates using authentic Karaikudi woodworkers and Athangudi artisans. Reclaiming century-old teakwood columns, refurbishing brass hardware, and relaying hand-pressed geometric oxide floor slabs."
+             data-modal-specs="Athangudi Floor Tile Crafting, Restored Teak Columns, Karaikudi Woodwork, Antique Tanjore Hardware"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="srv-n">02</div>
           <h3 class="srv-t">Chettinad &amp; Heritage Restoration</h3>
-          <p class="srv-p">Restoration of ancestral mansions, courtyard thinnai spaces, and historical estates using authentic Karaikudi craftsmen.</p>
-          <div class="srv-img srv-img-2"></div>
+          <p class="srv-p">Restoration of ancestral mansions, courtyard thinnai spaces, and historical estates using authentic Karaikudi woodworkers and Athangudi artisans.</p>
+          <div class="srv-features">
+            <span><i class="fa-solid fa-check"></i> Athangudi Floor Tile Crafting</span>
+            <span><i class="fa-solid fa-check"></i> Restored Teak Columns</span>
+          </div>
         </div>
 
         <!-- 03: Bottom Left -->
-        <div class="bc srv-card srv-card-3" data-reveal>
+        <div class="bc srv-card srv-card-3" data-expandable="true"
+             data-modal-image="assets/hero.jpg"
+             data-modal-category="03 · 8K Renders"
+             data-modal-title="Photorealistic 8K 3D Visualization"
+             data-modal-desc="Experience interactive 8K walkthroughs, daylight glare simulations, and material texture studies prior to site groundbreaking. Every shadow, wood grain pattern, and Tanjore brass reflection is rendered with physically-based lighting shaders."
+             data-modal-specs="360° VR Daylight Studies, Real-Time Shader Rendering, PBR Material Science, Spatial Acoustic Mapping"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="srv-n">03</div>
           <h3 class="srv-t">Photorealistic 8K 3D Visualization</h3>
-          <p class="srv-p">Experience interactive 8K walkthroughs and dynamic daylight simulations before construction begins.</p>
-          <div class="srv-img srv-img-3"></div>
+          <p class="srv-p">Experience interactive 8K walkthroughs, daylight glare simulations, and material texture studies prior to site groundbreaking.</p>
+          <div class="srv-features">
+            <span><i class="fa-solid fa-check"></i> 360° VR Daylight Studies</span>
+            <span><i class="fa-solid fa-check"></i> Real-Time Shader Rendering</span>
+          </div>
         </div>
 
         <!-- 04: Bottom Right -->
-        <div class="bc srv-card srv-card-4 srv-dark" data-reveal>
+        <div class="bc srv-card srv-card-4 srv-dark" data-expandable="true"
+             data-modal-image="assets/hero_lounge.jpg"
+             data-modal-category="04 · Turnkey Execution"
+             data-modal-title="Turnkey Project Execution"
+             data-modal-desc="End-to-end project oversight — artisan sourcing, Tanjore brass hardware procurement, contractor management, and white-glove handover on schedule. Guaranteed zero delay milestones backed by daily digital site telemetry updates."
+             data-modal-specs="Site Supervision Protocol, White-Glove Handover, Daily Telemetry Reports, Fixed Price Milestone Contract"
+             data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="srv-n">04</div>
           <h3 class="srv-t">Turnkey Project Execution</h3>
-          <p class="srv-p">End-to-end project management — artisan sourcing, material procurement, contractor coordination, site supervision, and white-glove handover on schedule.</p>
-          <a href="#consultation" class="srv-cta srv-cta-gold">Enquire Now <i class="fa-solid fa-arrow-right"></i></a>
+          <p class="srv-p">End-to-end project oversight — artisan sourcing, Tanjore brass hardware procurement, contractor management, and white-glove handover on schedule.</p>
+          <div class="srv-features">
+            <span><i class="fa-solid fa-check"></i> Site Supervision Protocol</span>
+            <span><i class="fa-solid fa-check"></i> White-Glove Handover</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ====================================================
-    DEDICATED INTERACTIVE TEAM SHOWCASE (BEFORE FORM SECTION)
-    ==================================================== -->
+    <!-- STUDIO GALLERY & AWARDS SHOWCASE -->
+    <section id="gallery" class="gallery-sec">
+      <div class="sec-hd text-center">
+        <span class="sec-tag">Exhibitions &amp; Milestones</span>
+        <h2 class="sec-h2">Studio Gallery &amp;<br><em>Artisan Moments</em></h2>
+        <p class="sec-p mx-auto">Explore key snapshots from our award galas, site execution breakthroughs, and master craftsmanship workshops across South India.</p>
+      </div>
+
+      <div class="gallery-filters" id="gallery-filters">
+        <button type="button" class="g-filter-btn active" data-filter="all">All Snapshots</button>
+        <button type="button" class="g-filter-btn" data-filter="awards">Awards &amp; Press</button>
+        <button type="button" class="g-filter-btn" data-filter="site">Site Execution</button>
+        <button type="button" class="g-filter-btn" data-filter="artisan">Artisan Craft</button>
+        <button type="button" class="g-filter-btn" data-filter="team">Studio Life</button>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <article class="bc gallery-card" data-category="awards" data-expandable="true"
+                 data-modal-image="assets/hero_chettinad.jpg"
+                 data-modal-category="Awards &amp; Press"
+                 data-modal-title="Architectural Digest AD100 Award Ceremony"
+                 data-modal-desc="Aura &amp; Dakshin founders honored in Mumbai for pioneering sustainable heritage restoration across Tamil Nadu, blending international luxury minimalism with local Chettinad craftsmanship."
+                 data-modal-specs="Mumbai AD100 Gala, Nov 2023, National Architectural Honor"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/hero_chettinad.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-trophy"></i> Awards</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Architectural Digest AD100 Award Ceremony</h3>
+            <p class="g-desc">Aura &amp; Dakshin founders honored in Mumbai for pioneering sustainable heritage restoration across Tamil Nadu.</p>
+            <div class="g-meta"><i class="fa-regular fa-calendar"></i> Nov 2023 · Mumbai Gala</div>
+          </div>
+        </article>
+
+        <article class="bc gallery-card" data-category="artisan" data-expandable="true"
+                 data-modal-image="assets/about.jpg"
+                 data-modal-category="Artisan Craft"
+                 data-modal-title="Hand-Pressing Athangudi Geometric Tiles"
+                 data-modal-desc="Master craftsman Anbarasan formulating custom oxide pigments and hand-pressing traditional floral floor slabs in Karaikudi."
+                 data-modal-specs="Chettinad Tile Guild, Natural Mineral Oxides, Handmade Craft"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/about.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-gem"></i> Artisan Craft</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Hand-Pressing Athangudi Geometric Tiles</h3>
+            <p class="g-desc">Master craftsman Anbarasan formulating custom oxide pigments and pressing traditional floral floor slabs in Karaikudi.</p>
+            <div class="g-meta"><i class="fa-solid fa-location-dot"></i> Chettinad Tile Guild</div>
+          </div>
+        </article>
+
+        <article class="bc gallery-card" data-category="site" data-expandable="true"
+                 data-modal-image="assets/hero.jpg"
+                 data-modal-category="Site Execution"
+                 data-modal-title="Teak Column Alignment at Boat Club"
+                 data-modal-desc="Precision structural placement of 100-year-old restored teakwood pillars into the modern open lounge in RA Puram, Chennai."
+                 data-modal-specs="RA Puram Chennai, Antique Teak Restoration, Open Lounge"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/hero.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-compass-drafting"></i> Site Execution</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Teak Column Alignment at Boat Club</h3>
+            <p class="g-desc">Precision structural placement of 100-year-old restored teakwood pillars into the modern open lounge in RA Puram.</p>
+            <div class="g-meta"><i class="fa-solid fa-location-dot"></i> Chennai Estate Site</div>
+          </div>
+        </article>
+
+        <article class="bc gallery-card" data-category="team" data-expandable="true"
+                 data-modal-image="assets/hero_lounge.jpg"
+                 data-modal-category="Studio Life"
+                 data-modal-title="Annual Material Moodboard Review"
+                 data-modal-desc="Our design leads reviewing physical swatches of Erode handloom silk, slate, and brass fittings for 2024 client projects."
+                 data-modal-specs="Kovai Studio Workshop, Erode Silk Swatches, Brass Hardware"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/hero_lounge.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-users"></i> Studio Life</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Annual Material Moodboard Review</h3>
+            <p class="g-desc">Our design leads reviewing physical swatches of Erode handloom silk, slate, and brass fittings for 2024 client projects.</p>
+            <div class="g-meta"><i class="fa-solid fa-building"></i> Kovai Studio Workshop</div>
+          </div>
+        </article>
+
+        <article class="bc gallery-card" data-category="site" data-expandable="true"
+                 data-modal-image="assets/hero_bedroom.jpg"
+                 data-modal-category="Site Execution"
+                 data-modal-title="Verandah Daylighting &amp; Airflow Audit"
+                 data-modal-desc="Testing zero-energy coastal breeze corridors and louvered shade panels on-location at the Puducherry Promenade estate."
+                 data-modal-specs="Puducherry Villa, Coastal Breeze Study, Louvered Panels"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/hero_bedroom.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-compass-drafting"></i> Site Execution</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Verandah Daylighting &amp; Airflow Audit</h3>
+            <p class="g-desc">Testing zero-energy coastal breeze corridors and louvered shade panels on-location at the Puducherry Promenade estate.</p>
+            <div class="g-meta"><i class="fa-solid fa-location-dot"></i> Puducherry Villa</div>
+          </div>
+        </article>
+
+        <article class="bc gallery-card" data-category="awards" data-expandable="true"
+                 data-modal-image="assets/hero_chettinad.jpg"
+                 data-modal-category="Awards &amp; Press"
+                 data-modal-title="Tamil Nadu Heritage Crafts Guild Honor"
+                 data-modal-desc="Recognized for preserving vintage Tamil Nadu vernacular architecture while integrating modern 8K CAD technology."
+                 data-modal-specs="Chennai Expo 2024, Heritage Guild Award, Vernacular CAD"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
+          <div class="g-card-img" style="background-image:url('assets/hero_chettinad.jpg')">
+            <div class="g-card-overlay"></div>
+            <span class="g-cat-tag"><i class="fa-solid fa-trophy"></i> Awards</span>
+          </div>
+          <div class="g-card-body">
+            <h3 class="g-title">Tamil Nadu Heritage Crafts Guild Honor</h3>
+            <p class="g-desc">Recognized for preserving vintage Tamil Nadu vernacular architecture while integrating modern 8K CAD technology.</p>
+            <div class="g-meta"><i class="fa-regular fa-calendar"></i> Mar 2024 · Chennai Expo</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DEDICATED TEAM SHOWCASE -->
     <section id="team-showcase" class="team-showcase-sec">
       <div class="sec-hd text-center">
         <span class="sec-tag">Meet the Visionaries</span>
@@ -476,9 +653,14 @@
       </div>
 
       <div class="team-stage-grid">
-        
-        <!-- Team Member 1 -->
-        <article class="bc team-card active" data-member="meera" data-reveal>
+        <article class="bc team-card active" data-member="meera" data-expandable="true"
+                 data-modal-image="assets/about.jpg"
+                 data-modal-category="Co-Founder &amp; Principal"
+                 data-modal-title="Meera Nair — Principal Interior Designer"
+                 data-modal-desc="Meera Nair leads interior curation at Aura &amp; Dakshin, specializing in biophilic luxury, daylight integration, and handloom silk textiles. Named on Architectural Digest AD100 for 4 consecutive years."
+                 data-modal-specs="14 Years Experience, AD100 List Winner, Biophilic Silk Curation"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="team-photo-frame">
             <div class="team-photo" style="background-image:url('assets/about.jpg')"></div>
             <div class="team-photo-overlay"></div>
@@ -494,8 +676,14 @@
           </div>
         </article>
 
-        <!-- Team Member 2 -->
-        <article class="bc team-card" data-member="sundaram" data-reveal>
+        <article class="bc team-card" data-member="sundaram" data-expandable="true"
+                 data-modal-image="assets/hero_lounge.jpg"
+                 data-modal-category="Co-Founder &amp; Lead Architect"
+                 data-modal-title="K. Sundaram — Lead Architect &amp; Timber Specialist"
+                 data-modal-desc="K. Sundaram brings 18 years of expertise in Chettinad timber architecture, open courtyard acoustics, and structural restoration of ancestral South Indian estates."
+                 data-modal-specs="18 Years Experience, Chettinad Teak Specialist, Courtyard CAD"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="team-photo-frame">
             <div class="team-photo" style="background-image:url('assets/hero_lounge.jpg')"></div>
             <div class="team-photo-overlay"></div>
@@ -511,8 +699,14 @@
           </div>
         </article>
 
-        <!-- Team Member 3 -->
-        <article class="bc team-card" data-member="anbarasan" data-reveal>
+        <article class="bc team-card" data-member="anbarasan" data-expandable="true"
+                 data-modal-image="assets/hero_chettinad.jpg"
+                 data-modal-category="Joinery &amp; Guild Director"
+                 data-modal-title="S. Anbarasan — Master Athangudi Craftsman"
+                 data-modal-desc="Directing Karaikudi woodworkers and master tilemakers, Anbarasan ensures authentic handmade Athangudi tile recipes and hand-carved teak joinery on every project."
+                 data-modal-specs="22 Years Experience, Athangudi Guild Director, Teak Joinery Master"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="team-photo-frame">
             <div class="team-photo" style="background-image:url('assets/hero_chettinad.jpg')"></div>
             <div class="team-photo-overlay"></div>
@@ -528,8 +722,14 @@
           </div>
         </article>
 
-        <!-- Team Member 4 -->
-        <article class="bc team-card" data-member="thenmozhi" data-reveal>
+        <article class="bc team-card" data-member="thenmozhi" data-expandable="true"
+                 data-modal-image="assets/hero.jpg"
+                 data-modal-category="Visualization Lead"
+                 data-modal-title="R. Thenmozhi — 8K Visualization Director"
+                 data-modal-desc="R. Thenmozhi directs our 8K 3D graphics pipeline, creating photorealistic VR walkthroughs with physical lighting shaders and daylight glare simulations."
+                 data-modal-specs="10 Years Experience, 8K VR Shader Lead, Brass Optics Specialist"
+                 data-reveal>
+          <button type="button" class="card-expand-btn" aria-label="Expand card details"><i class="fa-solid fa-expand"></i></button>
           <div class="team-photo-frame">
             <div class="team-photo" style="background-image:url('assets/hero.jpg')"></div>
             <div class="team-photo-overlay"></div>
@@ -544,13 +744,10 @@
             </div>
           </div>
         </article>
-
       </div>
     </section>
 
-    <!-- ====================================================
-    CONSULTATION / BOOKING (WITH PREMIUM ENVELOPE SEAL ANIMATION)
-    ==================================================== -->
+    <!-- CONSULTATION FORM -->
     <section id="consultation" class="consult-sec">
       <div class="consult-inner">
         <div class="consult-hd">
@@ -606,7 +803,6 @@
               </div>
             </div>
 
-            <!-- CHRONO TELEMETRY DATE PICKER -->
             <div class="fr">
               <div class="fg">
                 <label class="fl">Preferred Consultation Date &amp; Time</label>
@@ -626,7 +822,6 @@
             </div>
 
             <div class="fr form-foot">
-              <!-- Premium Studio Envelope Seal Submit Button -->
               <button type="submit" class="pill pill-gold pill-lg submit-seal-btn" id="form-submit">
                 <span class="btn-text" id="submit-btn-text">Send Consultation Enquiry</span>
                 <span class="btn-seal-icon" id="btn-seal-icon"><i class="fa-solid fa-paper-plane"></i></span>
@@ -641,9 +836,7 @@
 
   </main>
 
-  <!-- ====================================================
-  FIXED POPOVER DIALOG FOR CHRONO CALENDAR (NEVER CLIPPED)
-  ==================================================== -->
+  <!-- CHRONO CALENDAR OVERLAY -->
   <div class="chrono-modal-overlay" id="chrono-modal-overlay" aria-hidden="true">
     <div class="chrono-pop-fixed" id="chrono-pop" role="dialog" aria-label="Date and time picker">
       <div class="chrono-hd">
@@ -651,7 +844,7 @@
         <span class="chrono-my" id="chrono-my">Loading...</span>
         <button type="button" class="chrono-nav" id="chrono-next" aria-label="Next month">›</button>
       </div>
-      <div class="chrono-grid" id="chrono-grid"><!-- filled by JS --></div>
+      <div class="chrono-grid" id="chrono-grid"></div>
       <div class="chrono-time">
         <div class="ct-lbl">Preferred Time Slot</div>
         <div class="time-slots" id="time-slots">
@@ -668,9 +861,7 @@
     </div>
   </div>
 
-  <!-- ====================================================
-  FULL-PAGE OPEN BOOK SPREAD MODAL OVERLAY (HIGH-CONTRAST & CRISP 3D FLIP)
-  ==================================================== -->
+  <!-- BOOK MODAL OVERLAY -->
   <div class="book-modal-overlay" id="book-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project Travel Diary Spread">
     <div class="bm-backdrop" id="bm-backdrop"></div>
     <div class="bm-container">
@@ -679,7 +870,6 @@
       </button>
 
       <div class="bm-book-spread" id="bm-spread-stage">
-        <!-- LEFT PAGE OF OPEN SPREAD -->
         <div class="bm-pg bm-pg-left" id="bm-pg-left">
           <div class="bm-orn">❧</div>
           <div class="bm-yr-tag" id="bm-yr-tag">2019 MILESTONE</div>
@@ -710,7 +900,6 @@
             <div class="bm-spec-item"><span class="bm-sk">Execution Time</span><span class="bm-sv" id="bm-spec-duration">14 months</span></div>
           </div>
 
-          <!-- CLEAN HIGH-CONTRAST BOOK NAVIGATION ROW -->
           <div class="bm-nav-row">
             <button type="button" class="pill pill-dark-gold pill-sm" id="bm-prev-btn">
               <i class="fa-solid fa-arrow-left"></i>
@@ -723,7 +912,6 @@
           </div>
         </div>
 
-        <!-- RIGHT PAGE OF OPEN SPREAD -->
         <div class="bm-pg bm-pg-right" id="bm-pg-right">
           <div class="bm-gallery-header">
             <span class="bm-gh-title">Project Gallery Spread</span>
@@ -745,16 +933,48 @@
           </div>
         </div>
 
-        <!-- Dynamic 3D Paper Page Layer for realistic flipping -->
         <div class="turning-page-mesh" id="turning-page-mesh"></div>
+      </div>
+    </div>
+  </div>
 
-      </div><!-- /.bm-book-spread -->
-    </div><!-- /.bm-container -->
-  </div><!-- /.book-modal-overlay -->
+  <!-- UNIVERSAL CARD EXPANSION LIGHTBOX MODAL -->
+  <div class="universal-card-modal" id="universal-card-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded Card Detail View">
+    <div class="uc-backdrop" id="uc-backdrop"></div>
+    <div class="uc-container">
+      <button type="button" class="uc-close-btn" id="uc-close-btn" aria-label="Close card expansion">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
 
-  <!-- ====================================================
-  FOOTER
-  ==================================================== -->
+      <div class="uc-body">
+        <div class="uc-hero-img" id="uc-hero-img">
+          <div class="uc-img-overlay"></div>
+          <span class="uc-cat-tag" id="uc-cat-tag">Mastery Chapter</span>
+        </div>
+
+        <div class="uc-content">
+          <h2 class="uc-title" id="uc-title">Architectural Title</h2>
+          <p class="uc-desc" id="uc-desc">Detailed architectural description and case study notes...</p>
+
+          <div class="uc-specs-box">
+            <div class="uc-specs-title"><i class="fa-solid fa-layer-group"></i> Key Specifications &amp; Craftsmanship</div>
+            <div class="uc-specs-list" id="uc-specs-list">
+              <!-- Dynamic pills populated by JS -->
+            </div>
+          </div>
+
+          <div class="uc-actions">
+            <a href="#consultation" class="pill pill-gold pill-sm uc-cta-btn" id="uc-cta-btn">
+              <span>Book Consultation for This Design</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="ft-inner">
       <div class="ft-brand">
@@ -775,6 +995,8 @@
           <a href="#process">Process</a>
           <a href="#services">Services</a>
           <a href="#journey">Heritage Journey</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#team-showcase">Team</a>
           <a href="#consultation">Contact</a>
         </div>
         <div class="ft-col">
@@ -799,9 +1021,6 @@
     </div>
   </footer>
 
-  <!-- ====================================================
-  SCRIPTS
-  ==================================================== -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
