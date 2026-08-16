@@ -715,7 +715,7 @@ function initChrono() {
   });
 }
 
-/* ── FORM DISPATCH ANIMATION (PLANE -> BOX -> POSTMAN INSIDE BUTTON BAR) ── */
+/* ── FORM DISPATCH ANIMATION (PLANE MORPH -> PACKAGE BOUNCE -> POSTMAN PICKUP & WALK OUT) ── */
 function initFlightForm() {
   const form = document.getElementById('consult-form');
   const submitBtn = document.getElementById('form-submit');
@@ -739,45 +739,56 @@ function initFlightForm() {
     if (submitBtn.disabled) return;
     submitBtn.disabled = true;
 
-    // Reset icons initial positioning
+    // Reset initial positions
     gsap.set(sweep, { left: '-100%' });
+    gsap.set(btnText, { opacity: 1, x: 0 });
     gsap.set(planeIcon, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0 });
-    gsap.set(boxIcon, { opacity: 0, scale: 0, x: 0, y: 0 });
-    gsap.set(postmanIcon, { opacity: 0, scale: 0.8, x: 0 });
+    gsap.set(boxIcon, { opacity: 0, scale: 0, y: -16, x: 0 });
+    gsap.set(postmanIcon, { opacity: 0, scale: 0.9, x: -140, y: 0, rotation: 0 });
 
     const tl = gsap.timeline();
 
-    // 1. Text fades out, paper plane flies to center and folds into box
-    tl.to(btnText, { opacity: 0, x: -20, duration: 0.25 })
+    // 1. Text fades out; Plane flies up & across to center
+    tl.to(btnText, { opacity: 0, x: -15, duration: 0.2 })
       .to(planeIcon, {
-        x: -120, y: -4, rotation: -25, scale: 1.3, duration: 0.45, ease: 'power2.out'
+        x: -125, y: -16, rotation: -28, scale: 1.3, duration: 0.45, ease: 'power2.out'
       }, '-=0.1')
-      .to(planeIcon, {
-        scale: 0, rotation: 180, opacity: 0, duration: 0.25, ease: 'back.in(2)'
-      })
 
-    // 2. Paper plane folds into courier box in center of button
-    .to(boxIcon, {
-      scale: 1.25, opacity: 1, duration: 0.3, ease: 'back.out(2)'
+    // 2. Plane morphs into Courier Box Package at center height
+    .to(planeIcon, {
+      scale: 0, rotation: 180, opacity: 0, duration: 0.22, ease: 'power2.in'
     })
     .to(boxIcon, {
-      scale: 1, duration: 0.15
+      scale: 1.2, opacity: 1, duration: 0.22, ease: 'back.out(1.7)'
+    }, '-=0.18')
+
+    // 3. Courier Box Drops down with Elastic Impact Bounce
+    .to(boxIcon, {
+      y: 8, duration: 0.35, ease: 'bounce.out'
     })
 
-    // 3. Postman arrives from left edge of button to center
+    // 4. Postman walks in from left to the package
     .fromTo(postmanIcon,
-      { x: -140, opacity: 0, scale: 0.8 },
-      { x: -35, opacity: 1, scale: 1, duration: 0.5, ease: 'power1.out' }
+      { x: -140, opacity: 0 },
+      { x: -38, opacity: 1, duration: 0.5, ease: 'power1.out' }
     )
 
-    // 4. Postman picks up courier box and carries it off out the right edge of button bar
+    // 5. Postman stoops & picks up package (box lifts into postman's hands)
+    .to(postmanIcon, {
+      rotation: 8, duration: 0.15, ease: 'power1.in'
+    })
     .to([postmanIcon, boxIcon], {
-      x: 180, opacity: 0, duration: 0.65, ease: 'power2.in'
+      y: -6, rotation: 0, duration: 0.2, ease: 'back.out(2)'
     })
 
-    // 5. Sweep highlight and reveal success badge
+    // 6. Postman carries package walking out off the right edge of button bar
+    .to([postmanIcon, boxIcon], {
+      x: '+=190', opacity: 0, duration: 0.65, ease: 'power2.in'
+    })
+
+    // 7. Progress sweep highlight & reveal sealed success badge
     .to(sweep, {
-      left: '100%', duration: 0.4, ease: 'power2.inOut',
+      left: '100%', duration: 0.35, ease: 'power1.inOut',
       onComplete: () => {
         submitBtn.classList.add('sealed-success');
         form.reset();
