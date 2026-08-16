@@ -274,7 +274,7 @@ function initRoad() {
   mountActiveBookOnStage('2019');
 
   /* FIXED PINNING: pinSpacing set to true so jrnySticky stays pinned while scrubbing 400vh track */
-  ScrollTrigger.create({
+  const jrnyST = ScrollTrigger.create({
     trigger: jrnyScroll,
     start: 'top top',
     end: 'bottom bottom',
@@ -292,9 +292,8 @@ function initRoad() {
     item.addEventListener('click', () => {
       const yr = item.dataset.yr;
       const targetObj = yearThresholds.find(t => t.yr === yr);
-      if (targetObj && jrnyScroll) {
-        const scrollRange = jrnyScroll.offsetHeight - window.innerHeight;
-        const targetScroll = jrnyScroll.offsetTop + (targetObj.start + 0.1) * scrollRange;
+      if (targetObj && jrnyST) {
+        const targetScroll = jrnyST.start + (targetObj.start + 0.1) * (jrnyST.end - jrnyST.start);
         if (lenis) {
           lenis.scrollTo(targetScroll, { duration: 1.2 });
         } else {
@@ -409,7 +408,7 @@ function mountActiveBookOnStage(yr) {
                 <div class="pol-img" style="background-image:url('${data.img2}')"></div>
                 <div class="pol-cap" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600">${data.tag2}</div>
               </div>
-              <div class="pol" style="--r:-3deg;--tx:32%;--ty:50%">
+              <div class="pol" style="--r:-3deg;--tx:32%;--ty:38%">
                 <div class="pol-img" style="background-image:url('${data.img3}')"></div>
                 <div class="pol-cap" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600">${data.tag3}</div>
               </div>
@@ -628,20 +627,18 @@ function initGalleryFilters() {
       btn.classList.add('active');
       const filter = btn.dataset.filter;
 
-      // Hide non-matching instantly to close gaps
+      // Handle grid filtering without moving already visible elements
       cards.forEach(card => {
         const category = card.dataset.category;
-        if (filter !== 'all' && category !== filter) {
-          card.style.display = 'none';
-          gsap.set(card, { opacity: 0, scale: 0.9 });
-        }
-      });
-      // Show matching smoothly
-      cards.forEach(card => {
-        const category = card.dataset.category;
-        if (filter === 'all' || category === filter) {
+        const matches = (filter === 'all' || category === filter);
+        const isVisible = card.style.display !== 'none';
+
+        if (matches && !isVisible) {
           card.style.display = 'flex';
           gsap.fromTo(card, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
+        } else if (!matches && isVisible) {
+          card.style.display = 'none';
+          gsap.set(card, { opacity: 0, scale: 0.9 });
         }
       });
     });
