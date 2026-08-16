@@ -208,7 +208,16 @@ function triggerHeroAnimations() {
 
   document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.to, 10) || 0;
-    gsap.to(el, { innerText: target, duration: 2.0, ease: 'power2.out', snap: { innerText: 1 } });
+    gsap.to(el, { 
+      innerText: target, 
+      duration: 2.0, 
+      ease: 'power2.out', 
+      snap: { innerText: 1 },
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%'
+      }
+    });
   });
 }
 
@@ -394,19 +403,19 @@ function mountActiveBookOnStage(yr) {
             <div class="polaroids">
               <div class="pol" style="--r:-8deg;--tx:12%;--ty:16%">
                 <div class="pol-img" style="background-image:url('${data.img1}')"></div>
-                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag1}</div>
+                <div class="pol-cap" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600">${data.tag1}</div>
               </div>
               <div class="pol" style="--r:7deg;--tx:54%;--ty:8%">
                 <div class="pol-img" style="background-image:url('${data.img2}')"></div>
-                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag2}</div>
+                <div class="pol-cap" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600">${data.tag2}</div>
               </div>
               <div class="pol" style="--r:-3deg;--tx:32%;--ty:50%">
                 <div class="pol-img" style="background-image:url('${data.img3}')"></div>
-                <div class="pol-cap" style="font-family:'Reenie Beanie',cursive">${data.tag3}</div>
+                <div class="pol-cap" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600">${data.tag3}</div>
               </div>
             </div>
             <div class="cov-foot">
-              <span class="cov-tagline" style="font-family:'Reenie Beanie',cursive;font-size:16px">${data.tagline}</span>
+              <span class="cov-tagline" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:16px">${data.tagline}</span>
             </div>
             <button class="view-btn open-modal-btn" data-yr="${yr}">
               <span>Explore Book Spread</span>
@@ -619,14 +628,20 @@ function initGalleryFilters() {
       btn.classList.add('active');
       const filter = btn.dataset.filter;
 
+      // Hide non-matching instantly to close gaps
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        if (filter !== 'all' && category !== filter) {
+          card.style.display = 'none';
+          gsap.set(card, { opacity: 0, scale: 0.9 });
+        }
+      });
+      // Show matching smoothly
       cards.forEach(card => {
         const category = card.dataset.category;
         if (filter === 'all' || category === filter) {
-          gsap.to(card, { display: 'flex', opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
-        } else {
-          gsap.to(card, { opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.in', onComplete: () => {
-            card.style.display = 'none';
-          }});
+          card.style.display = 'flex';
+          gsap.fromTo(card, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
         }
       });
     });

@@ -371,7 +371,7 @@ em { font-style: italic; }
 .cov-foot { padding: 12px 24px 12px; border-top: 1px solid rgba(201,169,110,.12); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
 .cov-tagline { font-size: 15px; color: rgba(201,169,110,.55); }
 
-.view-btn { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 10px; padding: 9px 22px; border-radius: 50px; background: rgba(201,169,110,.12); border: 1px solid rgba(201,169,110,.35); color: var(--gold); font-size: 12.5px; font-weight: 500; white-space: nowrap; z-index: 10; cursor: pointer; transition: background .25s, border-color .25s, gap .2s; }
+.view-btn { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 10px; padding: 9px 22px; border-radius: 50px; background: rgba(201,169,110,.12); border: 1px solid rgba(201,169,110,.35); color: var(--gold); font-size: 12.5px; font-weight: 500; white-space: nowrap; z-index: 50; cursor: pointer; transition: background .25s, border-color .25s, gap .2s; }
 .view-btn:hover { background: rgba(201,169,110,.22); border-color: var(--gold); gap: 16px; }
 
 .cov-back { transform: rotateY(180deg); background: #F5EFE4; border-radius: 16px 4px 4px 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -470,7 +470,7 @@ em { font-style: italic; }
 /* ─────────────────────────────────────────────────────────
    SERVICES & PROCESS SECTION — COMPACT CARD SIZING
 ───────────────────────────────────────────────────────── */
-.process-sec { padding: 100px 32px; position: relative; z-index: 1; background: linear-gradient(180deg, var(--ink) 0%, var(--surface) 50%, var(--ink) 100%); }
+.process-sec { padding: 100px 32px 40px; position: relative; z-index: 1; background: linear-gradient(180deg, var(--ink) 0%, var(--surface) 50%, var(--ink) 100%); }
 .text-center { text-align: center; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 
@@ -483,7 +483,7 @@ em { font-style: italic; }
 .proc-pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .proc-pills span { padding: 4px 12px; border-radius: 50px; background: rgba(255,255,255,.04); border: 1px solid var(--border); font-size: 10.5px; color: var(--text-m); }
 
-.services-sec { padding: 100px 32px; position: relative; z-index: 1; }
+.services-sec { padding: 40px 32px 100px; position: relative; z-index: 1; }
 .services-sec .sec-hd { text-align: center; margin-bottom: 60px; }
 
 /* Full Image Covered Mastery Cards & Expandable Card Badges */
